@@ -1,0 +1,2477 @@
+{
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/codex_native_app_server.py": {
+    "mtime": 1781591726.1393664,
+    "ast_hash": "0d2cb02e770006a0e9d8cf1b5b253ad6",
+    "semantic_hash": "0d2cb02e770006a0e9d8cf1b5b253ad6"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/chat.py": {
+    "mtime": 1781591726.1343663,
+    "ast_hash": "84ee100d660d91cc3826daefd9ae1953",
+    "semantic_hash": "84ee100d660d91cc3826daefd9ae1953"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/reasoning_effort.py": {
+    "mtime": 1781591726.1653674,
+    "ast_hash": "f16d5fc503d5a2845d987c51a2e9caf1",
+    "semantic_hash": "f16d5fc503d5a2845d987c51a2e9caf1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/cli_auth.py": {
+    "mtime": 1781591726.1383665,
+    "ast_hash": "97f4ef25a20b73b35649dde163e92009",
+    "semantic_hash": "97f4ef25a20b73b35649dde163e92009"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/pi_native_bridge.py": {
+    "mtime": 1781591726.1633673,
+    "ast_hash": "1c526f0936a641414e6976204a8cd27b",
+    "semantic_hash": "1c526f0936a641414e6976204a8cd27b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/codex_native_bridge.py": {
+    "mtime": 1781591726.1393664,
+    "ast_hash": "3632668dc4372bd3f6d5daecc3a1f4c9",
+    "semantic_hash": "3632668dc4372bd3f6d5daecc3a1f4c9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/pi_native.py": {
+    "mtime": 1781591726.1633673,
+    "ast_hash": "1f172fea1255b0cd1016612ab847ac9b",
+    "semantic_hash": "1f172fea1255b0cd1016612ab847ac9b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/claude_native_bridge.py": {
+    "mtime": 1781591726.1353662,
+    "ast_hash": "395b2f5681f05f6635b3cc4cbbfbaecf",
+    "semantic_hash": "395b2f5681f05f6635b3cc4cbbfbaecf"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/native_cost_popup.py": {
+    "mtime": 1781591726.155367,
+    "ast_hash": "b8393c3ce972b30b92e9b77ad1138e03",
+    "semantic_hash": "b8393c3ce972b30b92e9b77ad1138e03"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/_terminal_picker_theme.py": {
+    "mtime": 1781591726.1333773,
+    "ast_hash": "3ac3ace93c697bc5d886cd25f919e873",
+    "semantic_hash": "3ac3ace93c697bc5d886cd25f919e873"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/model_override.py": {
+    "mtime": 1781591726.155367,
+    "ast_hash": "e8ca7efbdba3cb1b7d82452369948a8a",
+    "semantic_hash": "e8ca7efbdba3cb1b7d82452369948a8a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/codex_native.py": {
+    "mtime": 1781591726.1393664,
+    "ast_hash": "82df7f8e0bfc629fd4ef447d4676e091",
+    "semantic_hash": "82df7f8e0bfc629fd4ef447d4676e091"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resume_dispatch.py": {
+    "mtime": 1781591726.1699064,
+    "ast_hash": "a67bcb52518c0c681e3b2b72a08d1ac9",
+    "semantic_hash": "a67bcb52518c0c681e3b2b72a08d1ac9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/cli.py": {
+    "mtime": 1781591726.1383665,
+    "ast_hash": "59280d28a25af275f8a89faa29cd50a9",
+    "semantic_hash": "59280d28a25af275f8a89faa29cd50a9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/codex_native_forwarder.py": {
+    "mtime": 1781591726.1403666,
+    "ast_hash": "13ffa875f825d466fad5274cc2615848",
+    "semantic_hash": "13ffa875f825d466fad5274cc2615848"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/model_catalog.py": {
+    "mtime": 1781591726.155367,
+    "ast_hash": "dd2c710b743b38cd9081945e3ebf5aab",
+    "semantic_hash": "dd2c710b743b38cd9081945e3ebf5aab"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/native_terminal.py": {
+    "mtime": 1781591726.155367,
+    "ast_hash": "169642aeb703f9e79366f40448f61353",
+    "semantic_hash": "169642aeb703f9e79366f40448f61353"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/claude_native.py": {
+    "mtime": 1781591726.1343663,
+    "ast_hash": "14d7f95532841200ed9d29b1bd723413",
+    "semantic_hash": "14d7f95532841200ed9d29b1bd723413"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/errors.py": {
+    "mtime": 1781591726.1443665,
+    "ast_hash": "0ff4e9100d5d45dd9232a3458799af4c",
+    "semantic_hash": "0ff4e9100d5d45dd9232a3458799af4c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/claude_native_forwarder.py": {
+    "mtime": 1781591726.1363664,
+    "ast_hash": "abc9808612d1ac85d4ac52e2c2ece0f2",
+    "semantic_hash": "abc9808612d1ac85d4ac52e2c2ece0f2"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/conversation_browser.py": {
+    "mtime": 1781591726.1403666,
+    "ast_hash": "7b13a5efafed7f17cc9ae49401abfb41",
+    "semantic_hash": "7b13a5efafed7f17cc9ae49401abfb41"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/claude_native_message_display_hook.py": {
+    "mtime": 1781591726.1363664,
+    "ast_hash": "b980de6a7fac1df6f123e3c1c51bb01f",
+    "semantic_hash": "b980de6a7fac1df6f123e3c1c51bb01f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/_wrapper_labels.py": {
+    "mtime": 1781591726.1333773,
+    "ast_hash": "e7ebde6f4c5158dabebc58e199757ec9",
+    "semantic_hash": "e7ebde6f4c5158dabebc58e199757ec9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/cli_diagnostics.py": {
+    "mtime": 1781591726.1383665,
+    "ast_hash": "fc87a329e86b81f4dde63a619718a346",
+    "semantic_hash": "fc87a329e86b81f4dde63a619718a346"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/session_lifecycle.py": {
+    "mtime": 1781591726.1893682,
+    "ast_hash": "725d78043e7a4a7f015f8d50692a243e",
+    "semantic_hash": "725d78043e7a4a7f015f8d50692a243e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/harness_aliases.py": {
+    "mtime": 1781591726.1443665,
+    "ast_hash": "1ea3ed290a408aa8f44abf6a9606bf4f",
+    "semantic_hash": "1ea3ed290a408aa8f44abf6a9606bf4f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/_e2e_policy_callables.py": {
+    "mtime": 1781591726.1333773,
+    "ast_hash": "668275a8716f2f3b7d69c791435a6ce5",
+    "semantic_hash": "668275a8716f2f3b7d69c791435a6ce5"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/update_check.py": {
+    "mtime": 1781591726.2023687,
+    "ast_hash": "292e8eff92f285af4ad55c7c02394154",
+    "semantic_hash": "292e8eff92f285af4ad55c7c02394154"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/__main__.py": {
+    "mtime": 1781591726.1333773,
+    "ast_hash": "6ee808e2eba22c59de0200961a2fe718",
+    "semantic_hash": "6ee808e2eba22c59de0200961a2fe718"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/codex_native_hook.py": {
+    "mtime": 1781591726.1403666,
+    "ast_hash": "632fba4978ed4016aee6caf326a30846",
+    "semantic_hash": "632fba4978ed4016aee6caf326a30846"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/_env_compat.py": {
+    "mtime": 1781591726.1333773,
+    "ast_hash": "f5ea2b2eb670e6b32ffc13d90dbdbd0b",
+    "semantic_hash": "f5ea2b2eb670e6b32ffc13d90dbdbd0b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/__init__.py": {
+    "mtime": 1781591726.1330624,
+    "ast_hash": "85d37e5ce645e2d314e5c0d68c021958",
+    "semantic_hash": "85d37e5ce645e2d314e5c0d68c021958"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/_native_resume_hint.py": {
+    "mtime": 1781591726.1333773,
+    "ast_hash": "1e6c91e1ec414f04761343735dab4e3e",
+    "semantic_hash": "1e6c91e1ec414f04761343735dab4e3e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/claude_native_status.py": {
+    "mtime": 1781591726.1363664,
+    "ast_hash": "d7983cac34f12d7352f728d3909abd37",
+    "semantic_hash": "d7983cac34f12d7352f728d3909abd37"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/cost_plan.py": {
+    "mtime": 1781591726.1403666,
+    "ast_hash": "0d78054d42262f2250cd1efaff3905bc",
+    "semantic_hash": "0d78054d42262f2250cd1efaff3905bc"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/_runner_startup.py": {
+    "mtime": 1781591726.1333773,
+    "ast_hash": "8a8917db1782fcb7065933c9344c4ed1",
+    "semantic_hash": "8a8917db1782fcb7065933c9344c4ed1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/_startup_profile.py": {
+    "mtime": 1781591726.1333773,
+    "ast_hash": "48cf0610f49a88069d25d7142aca269e",
+    "semantic_hash": "48cf0610f49a88069d25d7142aca269e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/codex_native_state.py": {
+    "mtime": 1781591726.1403666,
+    "ast_hash": "eb022e3efb13805b4e68953a65ea8aa2",
+    "semantic_hash": "eb022e3efb13805b4e68953a65ea8aa2"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/native_policy_hook.py": {
+    "mtime": 1781591726.155367,
+    "ast_hash": "fe872ddbec94e4245ff13ed188a0c663",
+    "semantic_hash": "fe872ddbec94e4245ff13ed188a0c663"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/_native_post_delivery.py": {
+    "mtime": 1781591726.1333773,
+    "ast_hash": "abd559d2e87766eafdc69f4de18769c9",
+    "semantic_hash": "abd559d2e87766eafdc69f4de18769c9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/native_coding_agents.py": {
+    "mtime": 1781591726.155367,
+    "ast_hash": "2d6bdf0bb309e8f6a838edf9ea6431b9",
+    "semantic_hash": "2d6bdf0bb309e8f6a838edf9ea6431b9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/codex_native_elicitation.py": {
+    "mtime": 1781591726.1393664,
+    "ast_hash": "ca8593da2a48fbfbc0ef162acde05275",
+    "semantic_hash": "ca8593da2a48fbfbc0ef162acde05275"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/claude_native_state.py": {
+    "mtime": 1781591726.1363664,
+    "ast_hash": "6346d4a99eb0360068521a9543ad15e4",
+    "semantic_hash": "6346d4a99eb0360068521a9543ad15e4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/claude_native_hook.py": {
+    "mtime": 1781591726.1363664,
+    "ast_hash": "9b0278e856752daaa372745f50dac492",
+    "semantic_hash": "9b0278e856752daaa372745f50dac492"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/cli_sandbox.py": {
+    "mtime": 1781591726.1383665,
+    "ast_hash": "acab389ba54cf033a321b54fcf8903fc",
+    "semantic_hash": "acab389ba54cf033a321b54fcf8903fc"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/__init__.py": {
+    "mtime": 1781591726.1683674,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/pi_native/omnigent_pi_native_extension.js": {
+    "mtime": 1781591726.1699064,
+    "ast_hash": "5f60e1352a2c1341d815461c6b4961ca",
+    "semantic_hash": "5f60e1352a2c1341d815461c6b4961ca"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/pi_native/__init__.py": {
+    "mtime": 1781591726.1696076,
+    "ast_hash": "e5ac21b4dafffc1cf946cb6623f0f65a",
+    "semantic_hash": "e5ac21b4dafffc1cf946cb6623f0f65a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/__init__.py": {
+    "mtime": 1781591726.168731,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/base.py": {
+    "mtime": 1781591726.1644423,
+    "ast_hash": "9d06dc421f79ac7a3f82f46e3a0ba0cf",
+    "semantic_hash": "9d06dc421f79ac7a3f82f46e3a0ba0cf"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/function.py": {
+    "mtime": 1781591726.1653674,
+    "ast_hash": "d8beb823c4b9c3e57172aed817c3504c",
+    "semantic_hash": "d8beb823c4b9c3e57172aed817c3504c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/__init__.py": {
+    "mtime": 1781591726.1633673,
+    "ast_hash": "4948147415963f621f34b3c1ceb517b7",
+    "semantic_hash": "4948147415963f621f34b3c1ceb517b7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/types.py": {
+    "mtime": 1781591726.1653674,
+    "ast_hash": "b283c05ae56ebf44f5c5c32df0e48556",
+    "semantic_hash": "b283c05ae56ebf44f5c5c32df0e48556"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/registry.py": {
+    "mtime": 1781591726.1653674,
+    "ast_hash": "8629f8b2b34484b354f3cfe137147db0",
+    "semantic_hash": "8629f8b2b34484b354f3cfe137147db0"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/schema.py": {
+    "mtime": 1781591726.1653674,
+    "ast_hash": "ad184b47bae77da0bb1b714ea8683d34",
+    "semantic_hash": "ad184b47bae77da0bb1b714ea8683d34"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/builtins/risk_score.py": {
+    "mtime": 1781591726.1645813,
+    "ast_hash": "e01de547ff86a761e64df31553e7a861",
+    "semantic_hash": "e01de547ff86a761e64df31553e7a861"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/builtins/github.py": {
+    "mtime": 1781591726.1645813,
+    "ast_hash": "2c89a39c261ebe00e78641e2c14891fd",
+    "semantic_hash": "2c89a39c261ebe00e78641e2c14891fd"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/builtins/cost.py": {
+    "mtime": 1781591726.1645813,
+    "ast_hash": "f82ee6dc20d9e5f7261fe82b7c59a55d",
+    "semantic_hash": "f82ee6dc20d9e5f7261fe82b7c59a55d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/builtins/safety.py": {
+    "mtime": 1781591726.1653674,
+    "ast_hash": "e6e468f43ce1e813c71b131015fa6210",
+    "semantic_hash": "e6e468f43ce1e813c71b131015fa6210"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/builtins/google.py": {
+    "mtime": 1781591726.1645813,
+    "ast_hash": "b04cce3676b8706eb91de29d8e5c3888",
+    "semantic_hash": "b04cce3676b8706eb91de29d8e5c3888"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/builtins/prompt.py": {
+    "mtime": 1781591726.1645813,
+    "ast_hash": "e68b04bdd157763a63be4fb3538e11b7",
+    "semantic_hash": "e68b04bdd157763a63be4fb3538e11b7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/builtins/cel.py": {
+    "mtime": 1781591726.1645813,
+    "ast_hash": "7b3d3f071e5dc7546a0e6c1cf90d843c",
+    "semantic_hash": "7b3d3f071e5dc7546a0e6c1cf90d843c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/builtins/routing.py": {
+    "mtime": 1781591726.1653674,
+    "ast_hash": "1ec9d42d42b6f711b8a0c12a35d2db07",
+    "semantic_hash": "1ec9d42d42b6f711b8a0c12a35d2db07"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/builtins/__init__.py": {
+    "mtime": 1781591726.1644423,
+    "ast_hash": "f9a8799e136affaea01fc71ce3b2f168",
+    "semantic_hash": "f9a8799e136affaea01fc71ce3b2f168"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/builtins/working_dir.py": {
+    "mtime": 1781591726.1653674,
+    "ast_hash": "643ef2b52e97a2456ac9363863f58127",
+    "semantic_hash": "643ef2b52e97a2456ac9363863f58127"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/policies/builtins/_shell.py": {
+    "mtime": 1781591726.1645813,
+    "ast_hash": "df7ff4239ee43a9060a5fe19f18f03a2",
+    "semantic_hash": "df7ff4239ee43a9060a5fe19f18f03a2"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/entities/environment_filesystem.py": {
+    "mtime": 1781591726.1441195,
+    "ast_hash": "de77c2e20a5a96ba0ff6cf91b432c5c1",
+    "semantic_hash": "de77c2e20a5a96ba0ff6cf91b432c5c1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/entities/policy.py": {
+    "mtime": 1781591726.1443665,
+    "ast_hash": "6279297438ebfc341e6acd0982ac140a",
+    "semantic_hash": "6279297438ebfc341e6acd0982ac140a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/entities/session_resources.py": {
+    "mtime": 1781591726.1443665,
+    "ast_hash": "bb336644f9d84c6ef31b8cc2ce4c349f",
+    "semantic_hash": "bb336644f9d84c6ef31b8cc2ce4c349f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/entities/file.py": {
+    "mtime": 1781591726.1443665,
+    "ast_hash": "5411d31fb620a1565b6ec9f1a58164f7",
+    "semantic_hash": "5411d31fb620a1565b6ec9f1a58164f7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/entities/pagination.py": {
+    "mtime": 1781591726.1443665,
+    "ast_hash": "61059ca9c2262025366ca4cfd02ba96d",
+    "semantic_hash": "61059ca9c2262025366ca4cfd02ba96d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/entities/comment.py": {
+    "mtime": 1781591726.1441195,
+    "ast_hash": "b9417995478fa978a17c034ca3683e28",
+    "semantic_hash": "b9417995478fa978a17c034ca3683e28"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/entities/permission.py": {
+    "mtime": 1781591726.1443665,
+    "ast_hash": "e45e7818964bd44521c4b759c8d6dd90",
+    "semantic_hash": "e45e7818964bd44521c4b759c8d6dd90"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/entities/__init__.py": {
+    "mtime": 1781591726.1433666,
+    "ast_hash": "be095dfa832597e9dfdcf098df8d2d17",
+    "semantic_hash": "be095dfa832597e9dfdcf098df8d2d17"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/entities/agent.py": {
+    "mtime": 1781591726.1441195,
+    "ast_hash": "7323a0d2769453b950252d7b2d24c349",
+    "semantic_hash": "7323a0d2769453b950252d7b2d24c349"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/entities/account.py": {
+    "mtime": 1781591726.1441195,
+    "ast_hash": "bd4eb5ef64dbb01710a974b6f5967992",
+    "semantic_hash": "bd4eb5ef64dbb01710a974b6f5967992"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/entities/conversation.py": {
+    "mtime": 1781591726.1441195,
+    "ast_hash": "467b08659ce137944cd5c8bcf334ac5f",
+    "semantic_hash": "467b08659ce137944cd5c8bcf334ac5f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/utils.py": {
+    "mtime": 1781591726.1433666,
+    "ast_hash": "1be66820666edd20efb7b344f8e3fd92",
+    "semantic_hash": "1be66820666edd20efb7b344f8e3fd92"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/converters.py": {
+    "mtime": 1781591726.1415548,
+    "ast_hash": "246437ccd3e7d789bf9d6412cb08bb95",
+    "semantic_hash": "246437ccd3e7d789bf9d6412cb08bb95"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/db_models.py": {
+    "mtime": 1781591726.1415548,
+    "ast_hash": "393f75040af1963edcdeb16654caea7c",
+    "semantic_hash": "393f75040af1963edcdeb16654caea7c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/__init__.py": {
+    "mtime": 1781591726.1413665,
+    "ast_hash": "7cc61f2cadbb443046c0714b209ed239",
+    "semantic_hash": "7cc61f2cadbb443046c0714b209ed239"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/env.py": {
+    "mtime": 1781591726.1415548,
+    "ast_hash": "d4ede3d61a34407775b9cfce17739062",
+    "semantic_hash": "d4ede3d61a34407775b9cfce17739062"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/caf81af91d9e_add_git_branch_to_conversations.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "552423e89b0ee2999b436955d33398eb",
+    "semantic_hash": "552423e89b0ee2999b436955d33398eb"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/8a4f1e9c2b07_add_policies_table.py": {
+    "mtime": 1781591726.1420772,
+    "ast_hash": "bc414e7a92f5e086779e35c64256568e",
+    "semantic_hash": "bc414e7a92f5e086779e35c64256568e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/b5e8d2f1a7c3_add_session_id_to_files.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "75bc19fa88f5732001c8754c15cb8461",
+    "semantic_hash": "75bc19fa88f5732001c8754c15cb8461"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/d4f1a9c2b8e3_add_ask_approved_to_user_daily_cost.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "ee0a02c7606ff522fc75caa834affb48",
+    "semantic_hash": "ee0a02c7606ff522fc75caa834affb48"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/c1d2e3f4a5b6_add_model_override_to_conversations.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "1bb9aa181df86b14ab7dde075a6e20d3",
+    "semantic_hash": "1bb9aa181df86b14ab7dde075a6e20d3"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/a7b3c9d1e5f2_add_hosts_table_and_host_id.py": {
+    "mtime": 1781591726.1420772,
+    "ast_hash": "34a757b2672ef11cae08d3dbb965184d",
+    "semantic_hash": "34a757b2672ef11cae08d3dbb965184d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/b8c4f2e7a9d1_add_workspace_to_conversations.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "a2ba03ebd5431d55f4a13b4d2e757b02",
+    "semantic_hash": "a2ba03ebd5431d55f4a13b4d2e757b02"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/j1a2b3c4d5e6_add_idx_conversations_parent.py": {
+    "mtime": 1781591726.1433666,
+    "ast_hash": "d6d8e385d7299c36f7868a7ae9edafbd",
+    "semantic_hash": "d6d8e385d7299c36f7868a7ae9edafbd"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/d7e8f9a0b1c2_add_cost_control_mode_override_to_conversations.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "bbb7fbd20a84bd14ed82c063c5e85743",
+    "semantic_hash": "bbb7fbd20a84bd14ed82c063c5e85743"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/b9c1d2e3f4a5_drop_tasks_table.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "dec1a261f1578af98402559ded4807fa",
+    "semantic_hash": "dec1a261f1578af98402559ded4807fa"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/43fb65b29464_initial_schema_agents_files_.py": {
+    "mtime": 1781591726.1420772,
+    "ast_hash": "b4c60e4c148b4d7fed5ccf5f1cfb23de",
+    "semantic_hash": "b4c60e4c148b4d7fed5ccf5f1cfb23de"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/2a4e0380be0c_add_created_by_to_comments.py": {
+    "mtime": 1781591726.141898,
+    "ast_hash": "5023495d1b8167864691d7495f186492",
+    "semantic_hash": "5023495d1b8167864691d7495f186492"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/d8e2f3b4c910_add_root_conversation_id.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "6d17f82f3601144545050c8a12cbc244",
+    "semantic_hash": "6d17f82f3601144545050c8a12cbc244"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/c7f2a1d83e49_add_anchor_content_to_comments.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "dcc52b2214707636cf482acbef50c5a3",
+    "semantic_hash": "dcc52b2214707636cf482acbef50c5a3"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/d7a6b3c91f48_add_session_id_to_agents.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "be40088027b0a6df134cf814cade25c8",
+    "semantic_hash": "be40088027b0a6df134cf814cade25c8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/a2c7e8f19b34_agentic_conversations_schema.py": {
+    "mtime": 1781591726.1420772,
+    "ast_hash": "1f9df8812170383c9264de1a8bc0f029",
+    "semantic_hash": "1f9df8812170383c9264de1a8bc0f029"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/a7f3c2d18e94_add_terminal_launch_args_to_conversations.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "49cc814bccdd1c2b143560dae1d87ec4",
+    "semantic_hash": "49cc814bccdd1c2b143560dae1d87ec4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/f8e1a23d6c47_add_external_session_id_to_conversations.py": {
+    "mtime": 1781591726.1433666,
+    "ast_hash": "308f122024bd5296fb0f963346cc2e39",
+    "semantic_hash": "308f122024bd5296fb0f963346cc2e39"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/e3b1f2a4c9d7_drop_pending_tool_calls_table.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "a2641e5b8c36fb87d620c7e9f42baab1",
+    "semantic_hash": "a2641e5b8c36fb87d620c7e9f42baab1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/f1a2b3c4d5e6_add_sub_agent_name_to_conversations.py": {
+    "mtime": 1781591726.1433666,
+    "ast_hash": "a7021344b67d9b12f3b397cda692d90d",
+    "semantic_hash": "a7021344b67d9b12f3b397cda692d90d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/d4e5f6a7b8c9_add_session_permissions.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "34a70083b5c8d69ebfc6d60fbcdeea02",
+    "semantic_hash": "34a70083b5c8d69ebfc6d60fbcdeea02"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/93c04fcdff56_add_comments_table.py": {
+    "mtime": 1781591726.1420772,
+    "ast_hash": "3d5275e7c4eda408d0c70b3790493d0b",
+    "semantic_hash": "3d5275e7c4eda408d0c70b3790493d0b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/k1a2b3c4d5e6_add_managed_sandbox_columns_to_hosts.py": {
+    "mtime": 1781591726.1433666,
+    "ast_hash": "a910a50e1a5019e69ca193c52c272456",
+    "semantic_hash": "a910a50e1a5019e69ca193c52c272456"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/cad9b3e1f7a2_add_user_daily_cost_table.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "b2a371e929e795015d7acd7a8a6b434a",
+    "semantic_hash": "b2a371e929e795015d7acd7a8a6b434a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/b3d5e7f91a23_add_session_fields_to_conversations.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "823e9570c13967e0abd7d8feb644c97a",
+    "semantic_hash": "823e9570c13967e0abd7d8feb644c97a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/f2a3b4c5d6e7_add_session_state_to_conversations.py": {
+    "mtime": 1781591726.1433666,
+    "ast_hash": "aab16df7659d4eb8e38c707d30df5db7",
+    "semantic_hash": "aab16df7659d4eb8e38c707d30df5db7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/a3b4c5d6e7f8_add_session_policy_columns.py": {
+    "mtime": 1781591726.1420772,
+    "ast_hash": "60ab98e88c2dc08d057d9a2be83d5314",
+    "semantic_hash": "60ab98e88c2dc08d057d9a2be83d5314"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/e9f2a7c4d1b8_backfill_unbound_runner_id.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "aee232648eb7451eb63de6532f5c6feb",
+    "semantic_hash": "aee232648eb7451eb63de6532f5c6feb"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/m1a2b3c4d5e6_add_harness_override_to_conversations.py": {
+    "mtime": 1781591726.1433666,
+    "ast_hash": "df5fdcfa3586b617d8107cc9d203fa27",
+    "semantic_hash": "df5fdcfa3586b617d8107cc9d203fa27"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/h1a2b3c4d5e6_policies_nullable_session_id.py": {
+    "mtime": 1781591726.1433666,
+    "ast_hash": "69925455ec3052093fca6231c640abc8",
+    "semantic_hash": "69925455ec3052093fca6231c640abc8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/l1a2b3c4d5e6_add_configured_harnesses_to_hosts.py": {
+    "mtime": 1781591726.1433666,
+    "ast_hash": "8936d08d2da97b00feda95efbe79f6cf",
+    "semantic_hash": "8936d08d2da97b00feda95efbe79f6cf"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/ecc0e25727b0_add_updated_at_to_comments.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "95c1041844ee14284f1a07c57688fd9c",
+    "semantic_hash": "95c1041844ee14284f1a07c57688fd9c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/3b9be5d67c90_add_archived_to_conversations.py": {
+    "mtime": 1781591726.1420772,
+    "ast_hash": "015b08b2fe018c769a30b24a36e0fe36",
+    "semantic_hash": "015b08b2fe018c769a30b24a36e0fe36"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/b9c0d1e2f3a4_drop_created_by_from_conversation_items.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "0b70873ed1146bf9b61a76c12ea875a7",
+    "semantic_hash": "0b70873ed1146bf9b61a76c12ea875a7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/a1b2c3d4e5f6_drop_inbox_closed_from_tasks.py": {
+    "mtime": 1781591726.1420772,
+    "ast_hash": "0982e14cbe953c64457f2485a0b3c153",
+    "semantic_hash": "0982e14cbe953c64457f2485a0b3c153"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/b2c3d4e5f6a7_add_session_usage_to_conversations.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "0bfb326f4c4bdeec9655fc2961a5d666",
+    "semantic_hash": "0bfb326f4c4bdeec9655fc2961a5d666"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/e1c4a7b2f309_add_created_by_to_conversation_items.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "dbf3e5ff6bd5533441d55c2850995043",
+    "semantic_hash": "dbf3e5ff6bd5533441d55c2850995043"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/5db033a3d4b7_replace_line_anchor_with_range.py": {
+    "mtime": 1781591726.1420772,
+    "ast_hash": "fe138c5292cab78e796d1410292f9aa8",
+    "semantic_hash": "fe138c5292cab78e796d1410292f9aa8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/b7f29e3a1c84_replace_line_col_with_content_offsets.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "c7a563f754a0bf927b83f39827707e43",
+    "semantic_hash": "c7a563f754a0bf927b83f39827707e43"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/i1a2b3c4d5e6_readd_created_by_to_conversation_items.py": {
+    "mtime": 1781591726.1433666,
+    "ast_hash": "aca9e437030188c0c1a93e38167d1698",
+    "semantic_hash": "aca9e437030188c0c1a93e38167d1698"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/db/migrations/versions/c9d3a1f2e4b5_add_runner_id_to_conversations.py": {
+    "mtime": 1781591726.1423664,
+    "ast_hash": "05b4d1265067dde0f4053a277e3705c6",
+    "semantic_hash": "05b4d1265067dde0f4053a277e3705c6"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/terminals/ws_bridge.py": {
+    "mtime": 1781591726.1967163,
+    "ast_hash": "76bddee314c38830545cc81c0f2e112c",
+    "semantic_hash": "76bddee314c38830545cc81c0f2e112c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/terminals/__init__.py": {
+    "mtime": 1781591726.196471,
+    "ast_hash": "244bd39d33e571cb8d2523d5f4e489f1",
+    "semantic_hash": "244bd39d33e571cb8d2523d5f4e489f1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/terminals/registry.py": {
+    "mtime": 1781591726.1967163,
+    "ast_hash": "25b6f46dea8b40de62ad365685fdce3b",
+    "semantic_hash": "25b6f46dea8b40de62ad365685fdce3b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/cursor_harness.py": {
+    "mtime": 1781591726.1483667,
+    "ast_hash": "c6ae5a10c2cc980a44e8ed4cb62d2645",
+    "semantic_hash": "c6ae5a10c2cc980a44e8ed4cb62d2645"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/policies.py": {
+    "mtime": 1781591726.1523669,
+    "ast_hash": "3dd4fbb8c689861bbb197ff25691c227",
+    "semantic_hash": "3dd4fbb8c689861bbb197ff25691c227"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/databricks_supervisor_gateway.py": {
+    "mtime": 1781591726.1483667,
+    "ast_hash": "6e96e39ae856247ec2c5df92f53f06e5",
+    "semantic_hash": "6e96e39ae856247ec2c5df92f53f06e5"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/banner.py": {
+    "mtime": 1781591726.1463666,
+    "ast_hash": "f22215f006dbddba8f0e66b02aa76f5e",
+    "semantic_hash": "f22215f006dbddba8f0e66b02aa76f5e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/codex_native_harness.py": {
+    "mtime": 1781591726.1473668,
+    "ast_hash": "35bc44d84cf472192168c706f58aa6e5",
+    "semantic_hash": "35bc44d84cf472192168c706f58aa6e5"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/open_responses_sdk.py": {
+    "mtime": 1781591726.1509254,
+    "ast_hash": "8683050429b7846bb9ab9aba2995a4d0",
+    "semantic_hash": "8683050429b7846bb9ab9aba2995a4d0"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/antigravity_executor.py": {
+    "mtime": 1781591726.1463666,
+    "ast_hash": "54b76826c965e2483e886ac8d545edae",
+    "semantic_hash": "54b76826c965e2483e886ac8d545edae"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/datamodel.py": {
+    "mtime": 1781591726.1493669,
+    "ast_hash": "a9488566d8339f2c79eb31c1f3321cf9",
+    "semantic_hash": "a9488566d8339f2c79eb31c1f3321cf9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/claude_sdk_executor.py": {
+    "mtime": 1781591726.1473668,
+    "ast_hash": "fe550d6878388bcd255f84632fe74c27",
+    "semantic_hash": "fe550d6878388bcd255f84632fe74c27"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/terminal.py": {
+    "mtime": 1781591726.153367,
+    "ast_hash": "0e4e92bf63c2c980020d6bc338615d2b",
+    "semantic_hash": "0e4e92bf63c2c980020d6bc338615d2b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/_cwd_scan.py": {
+    "mtime": 1781591726.146047,
+    "ast_hash": "e92d61d7fa370247308d197b66413500",
+    "semantic_hash": "e92d61d7fa370247308d197b66413500"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/claude_sdk_harness.py": {
+    "mtime": 1781591726.1473668,
+    "ast_hash": "5bca824abd3512663b5042da7773018c",
+    "semantic_hash": "5bca824abd3512663b5042da7773018c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/seatbelt_sandbox.py": {
+    "mtime": 1781591726.1523669,
+    "ast_hash": "3c9695e18ee829c9366fbc2b47d47e92",
+    "semantic_hash": "3c9695e18ee829c9366fbc2b47d47e92"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/native_attachments.py": {
+    "mtime": 1781591726.1503668,
+    "ast_hash": "eb5ada981c4f2b61bfc4c2eab731fa96",
+    "semantic_hash": "eb5ada981c4f2b61bfc4c2eab731fa96"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/codex_harness.py": {
+    "mtime": 1781591726.1473668,
+    "ast_hash": "365dcb997c8db03ba80f1d82acb5d96f",
+    "semantic_hash": "365dcb997c8db03ba80f1d82acb5d96f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/codex_native_executor.py": {
+    "mtime": 1781591726.1473668,
+    "ast_hash": "2d700293ae146f886b6c8b05fe0c0140",
+    "semantic_hash": "2d700293ae146f886b6c8b05fe0c0140"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/databricks_supervisor_harness.py": {
+    "mtime": 1781591726.1483667,
+    "ast_hash": "141b8fcd156c2557d7abf6f5a96d5c0f",
+    "semantic_hash": "141b8fcd156c2557d7abf6f5a96d5c0f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/os_env.py": {
+    "mtime": 1781591726.151367,
+    "ast_hash": "2837fa600f0bae5f4ff78f7b5f21e807",
+    "semantic_hash": "2837fa600f0bae5f4ff78f7b5f21e807"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/bwrap_sandbox.py": {
+    "mtime": 1781591726.1463666,
+    "ast_hash": "8be693c00ca267b579cd1e49430e4fc3",
+    "semantic_hash": "8be693c00ca267b579cd1e49430e4fc3"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/_seccomp.py": {
+    "mtime": 1781591726.146047,
+    "ast_hash": "b7cab5bdcbc34848654855e5fb6cb55d",
+    "semantic_hash": "b7cab5bdcbc34848654855e5fb6cb55d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/pi_native_executor.py": {
+    "mtime": 1781591726.1523669,
+    "ast_hash": "5375ac18cd8434a186e74e83884c14e1",
+    "semantic_hash": "5375ac18cd8434a186e74e83884c14e1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/openai_agents_sdk_harness.py": {
+    "mtime": 1781591726.151367,
+    "ast_hash": "f945b5a83c1eba9434f724db73def8f4",
+    "semantic_hash": "f945b5a83c1eba9434f724db73def8f4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/antigravity_harness.py": {
+    "mtime": 1781591726.1463666,
+    "ast_hash": "91fdf31788c69c9a76a79fe40571bf48",
+    "semantic_hash": "91fdf31788c69c9a76a79fe40571bf48"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/_subprocess_lifecycle.py": {
+    "mtime": 1781591726.146047,
+    "ast_hash": "f283ac11eb7354ea454157091ea69866",
+    "semantic_hash": "f283ac11eb7354ea454157091ea69866"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/claude_gateway_shim.py": {
+    "mtime": 1781591726.1463666,
+    "ast_hash": "dc1b972820b52f4d38c59da51c496d76",
+    "semantic_hash": "dc1b972820b52f4d38c59da51c496d76"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/databricks_executor.py": {
+    "mtime": 1781591726.1483667,
+    "ast_hash": "54e82c8e49c9febccba065eb36073d53",
+    "semantic_hash": "54e82c8e49c9febccba065eb36073d53"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/executor.py": {
+    "mtime": 1781591726.1503668,
+    "ast_hash": "73edf4a489e330057d28f51abe1fae45",
+    "semantic_hash": "73edf4a489e330057d28f51abe1fae45"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/cursor_executor.py": {
+    "mtime": 1781591726.1483667,
+    "ast_hash": "0bac621d88f8b94465c47c5a69d509b0",
+    "semantic_hash": "0bac621d88f8b94465c47c5a69d509b0"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/pi_executor.py": {
+    "mtime": 1781591726.151367,
+    "ast_hash": "603961eea243f3103a3bd5dd9ea014e9",
+    "semantic_hash": "603961eea243f3103a3bd5dd9ea014e9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/claude_native_harness.py": {
+    "mtime": 1781591726.1463666,
+    "ast_hash": "68ed0c230485d7e7de999f9965084f64",
+    "semantic_hash": "68ed0c230485d7e7de999f9965084f64"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/bundle_skills.py": {
+    "mtime": 1781591726.1463666,
+    "ast_hash": "7d3a6a6810be89c9cf4b0d4bada2c102",
+    "semantic_hash": "7d3a6a6810be89c9cf4b0d4bada2c102"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/codex_executor.py": {
+    "mtime": 1781591726.1473668,
+    "ast_hash": "12862ed307d1a11da0969cffef40cb8d",
+    "semantic_hash": "12862ed307d1a11da0969cffef40cb8d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/async_utils.py": {
+    "mtime": 1781591726.1463666,
+    "ast_hash": "8c513d76748d9ec96479a339c2578580",
+    "semantic_hash": "8c513d76748d9ec96479a339c2578580"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/__init__.py": {
+    "mtime": 1781591726.1453667,
+    "ast_hash": "a5811a4b1546c869d7de27f8347f92b6",
+    "semantic_hash": "a5811a4b1546c869d7de27f8347f92b6"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/sandbox.py": {
+    "mtime": 1781591726.1523669,
+    "ast_hash": "bb3f7895e00e8b587fc90c2002588970",
+    "semantic_hash": "bb3f7895e00e8b587fc90c2002588970"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/databricks_supervisor_executor.py": {
+    "mtime": 1781591726.1483667,
+    "ast_hash": "400d8c63a918ec5b79556c1c61b9104b",
+    "semantic_hash": "400d8c63a918ec5b79556c1c61b9104b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/tools.py": {
+    "mtime": 1781591726.153367,
+    "ast_hash": "a627832aa45351e6bed9436ad6f761d5",
+    "semantic_hash": "a627832aa45351e6bed9436ad6f761d5"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/openai_agents_sdk_executor.py": {
+    "mtime": 1781591726.151367,
+    "ast_hash": "9dab037cdec9e8169872698e9f8b633b",
+    "semantic_hash": "9dab037cdec9e8169872698e9f8b633b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/mascots.py": {
+    "mtime": 1781591726.1503668,
+    "ast_hash": "9cfb1464a9e8d00b1c45355c03ea58a4",
+    "semantic_hash": "9cfb1464a9e8d00b1c45355c03ea58a4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/claude_native_executor.py": {
+    "mtime": 1781591726.1463666,
+    "ast_hash": "cc535201aeb835f07be47b0db0fee294",
+    "semantic_hash": "cc535201aeb835f07be47b0db0fee294"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/pi_native_harness.py": {
+    "mtime": 1781591726.1523669,
+    "ast_hash": "a82c92210317f766bede19f2cc5e3ef7",
+    "semantic_hash": "a82c92210317f766bede19f2cc5e3ef7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/pi_harness.py": {
+    "mtime": 1781591726.151367,
+    "ast_hash": "16254c92142a8e7e2ac5b783d1112b2d",
+    "semantic_hash": "16254c92142a8e7e2ac5b783d1112b2d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/loader.py": {
+    "mtime": 1781591726.1503668,
+    "ast_hash": "34694aff48e7e97ce68ccf53da84d39e",
+    "semantic_hash": "34694aff48e7e97ce68ccf53da84d39e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/tracing.py": {
+    "mtime": 1781591726.153367,
+    "ast_hash": "80979b284337134aace627519a81498c",
+    "semantic_hash": "80979b284337134aace627519a81498c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/nessie/policies.py": {
+    "mtime": 1781591726.1509254,
+    "ast_hash": "d4222618c889481d19078f75f8fff401",
+    "semantic_hash": "d4222618c889481d19078f75f8fff401"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/nessie/__init__.py": {
+    "mtime": 1781591726.1503668,
+    "ast_hash": "d0246569fcc4407180dc810eb0d7756b",
+    "semantic_hash": "d0246569fcc4407180dc810eb0d7756b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/egress/proxy.py": {
+    "mtime": 1781591726.149693,
+    "ast_hash": "79766700a293d30d079cce3b92d91805",
+    "semantic_hash": "79766700a293d30d079cce3b92d91805"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/egress/certs.py": {
+    "mtime": 1781591726.149693,
+    "ast_hash": "b358605ff7e6ee22bee0c47097e87ad8",
+    "semantic_hash": "b358605ff7e6ee22bee0c47097e87ad8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/egress/controller.py": {
+    "mtime": 1781591726.149693,
+    "ast_hash": "3391e392be6a93811a2bdb4a95a5969b",
+    "semantic_hash": "3391e392be6a93811a2bdb4a95a5969b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/egress/relay.py": {
+    "mtime": 1781591726.149693,
+    "ast_hash": "bb1950d20de3ac4017de6054e835a126",
+    "semantic_hash": "bb1950d20de3ac4017de6054e835a126"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/egress/ca.py": {
+    "mtime": 1781591726.149693,
+    "ast_hash": "c2542bd1aa67e2ecddc3e752d952467e",
+    "semantic_hash": "c2542bd1aa67e2ecddc3e752d952467e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/egress/__init__.py": {
+    "mtime": 1781591726.1493669,
+    "ast_hash": "9c7260e83ce88359112b52a984b33c15",
+    "semantic_hash": "9c7260e83ce88359112b52a984b33c15"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/egress/rules.py": {
+    "mtime": 1781591726.149693,
+    "ast_hash": "7a183c001cacc26a1096109a7886b61a",
+    "semantic_hash": "7a183c001cacc26a1096109a7886b61a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/_usage_observer.py": {
+    "mtime": 1781591726.1542778,
+    "ast_hash": "97e3b4abf000cd6ac314200be39bd1d6",
+    "semantic_hash": "97e3b4abf000cd6ac314200be39bd1d6"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/_responses_to_chat.py": {
+    "mtime": 1781591726.1542778,
+    "ast_hash": "bf8b5626b97dc58132cf9d7dda24a67e",
+    "semantic_hash": "bf8b5626b97dc58132cf9d7dda24a67e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/summarize.py": {
+    "mtime": 1781591726.155367,
+    "ast_hash": "4e552f0bccc730579fddc06d9c6ab8ca",
+    "semantic_hash": "4e552f0bccc730579fddc06d9c6ab8ca"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/errors.py": {
+    "mtime": 1781591726.155367,
+    "ast_hash": "0d348354216b5acd0251c09590f1ec14",
+    "semantic_hash": "0d348354216b5acd0251c09590f1ec14"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/routing.py": {
+    "mtime": 1781591726.155367,
+    "ast_hash": "bb260c1d0600c766eca671d3206dbf28",
+    "semantic_hash": "bb260c1d0600c766eca671d3206dbf28"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/__init__.py": {
+    "mtime": 1781591726.1542778,
+    "ast_hash": "9aba9c49f72b6c32f13becd78591ec77",
+    "semantic_hash": "9aba9c49f72b6c32f13becd78591ec77"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/types.py": {
+    "mtime": 1781591726.155367,
+    "ast_hash": "ddd5d1a70089efabdc4e8178d9f2ed6a",
+    "semantic_hash": "ddd5d1a70089efabdc4e8178d9f2ed6a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/context_window.py": {
+    "mtime": 1781591726.1545856,
+    "ast_hash": "b29ee1f2dca1c3e9c2bfabe65ec3dd60",
+    "semantic_hash": "b29ee1f2dca1c3e9c2bfabe65ec3dd60"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/client.py": {
+    "mtime": 1781591726.1545856,
+    "ast_hash": "85814d75965080bdd54ccc50decbc531",
+    "semantic_hash": "85814d75965080bdd54ccc50decbc531"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/adapters/anthropic.py": {
+    "mtime": 1781591726.1545856,
+    "ast_hash": "be78425234b3ee0f6ab5aaf2a9b57a00",
+    "semantic_hash": "be78425234b3ee0f6ab5aaf2a9b57a00"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/adapters/_content.py": {
+    "mtime": 1781591726.1545856,
+    "ast_hash": "389c91aa380c44acb383494b100ce5d9",
+    "semantic_hash": "389c91aa380c44acb383494b100ce5d9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/adapters/bedrock.py": {
+    "mtime": 1781591726.1545856,
+    "ast_hash": "5b104131feff0e6f6fcd15b7ed78a7b9",
+    "semantic_hash": "5b104131feff0e6f6fcd15b7ed78a7b9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/adapters/base.py": {
+    "mtime": 1781591726.1545856,
+    "ast_hash": "cce63a75d526b44504199d2cd8673119",
+    "semantic_hash": "cce63a75d526b44504199d2cd8673119"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/adapters/gemini.py": {
+    "mtime": 1781591726.1545856,
+    "ast_hash": "0674b609069d04c6c416b591c5b0af0a",
+    "semantic_hash": "0674b609069d04c6c416b591c5b0af0a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/adapters/__init__.py": {
+    "mtime": 1781591726.154367,
+    "ast_hash": "8fb0c6cbf95513cc82af30c68b41e12b",
+    "semantic_hash": "8fb0c6cbf95513cc82af30c68b41e12b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/adapters/vertex.py": {
+    "mtime": 1781591726.1545856,
+    "ast_hash": "d7be72439f66c2456c107060567bad9f",
+    "semantic_hash": "d7be72439f66c2456c107060567bad9f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/adapters/openai.py": {
+    "mtime": 1781591726.1545856,
+    "ast_hash": "c8b898cec3b21e1a381ed7eff6d8f803",
+    "semantic_hash": "c8b898cec3b21e1a381ed7eff6d8f803"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/adapters/databricks.py": {
+    "mtime": 1781591726.1545856,
+    "ast_hash": "279592b70f52c1cda82b66fa272bb65a",
+    "semantic_hash": "279592b70f52c1cda82b66fa272bb65a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/subagent_block_notifier.py": {
+    "mtime": 1781591726.1783934,
+    "ast_hash": "540591f3d203aa67d655bb721d9cc21c",
+    "semantic_hash": "540591f3d203aa67d655bb721d9cc21c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/caps.py": {
+    "mtime": 1781591726.1756384,
+    "ast_hash": "f4fd85d3ef598f14488b8d72d07e699b",
+    "semantic_hash": "f4fd85d3ef598f14488b8d72d07e699b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/pending_inputs.py": {
+    "mtime": 1781591726.1773677,
+    "ast_hash": "97a212ee0cd6d8fc6bff7362f1906f72",
+    "semantic_hash": "97a212ee0cd6d8fc6bff7362f1906f72"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/inflight_text.py": {
+    "mtime": 1781591726.1773677,
+    "ast_hash": "cbbb6d576de3a38ed0bc3f596b997028",
+    "semantic_hash": "cbbb6d576de3a38ed0bc3f596b997028"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/agent_cache.py": {
+    "mtime": 1781591726.1756384,
+    "ast_hash": "cf32ad59c779ee0dedf021180d44c33d",
+    "semantic_hash": "cf32ad59c779ee0dedf021180d44c33d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/telemetry.py": {
+    "mtime": 1781591726.1783934,
+    "ast_hash": "d7da544a10b564354afa10134cf2eaf1",
+    "semantic_hash": "d7da544a10b564354afa10134cf2eaf1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/tool_output.py": {
+    "mtime": 1781591726.1783934,
+    "ast_hash": "a05745334b543d33dcf534cb42889a5e",
+    "semantic_hash": "a05745334b543d33dcf534cb42889a5e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/compaction.py": {
+    "mtime": 1781591726.1756384,
+    "ast_hash": "6b21a885081c067ca7359f84b6cdba28",
+    "semantic_hash": "6b21a885081c067ca7359f84b6cdba28"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/tool_retry.py": {
+    "mtime": 1781591726.1783934,
+    "ast_hash": "66f83178be2f19d0abeca412b66c6dae",
+    "semantic_hash": "66f83178be2f19d0abeca412b66c6dae"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/session_stream.py": {
+    "mtime": 1781591726.1783934,
+    "ast_hash": "41d6a7242ed1679e001622948ae7a341",
+    "semantic_hash": "41d6a7242ed1679e001622948ae7a341"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/prompt.py": {
+    "mtime": 1781591726.1783934,
+    "ast_hash": "867a4fc2d505d6d5c62a5a3aade0e528",
+    "semantic_hash": "867a4fc2d505d6d5c62a5a3aade0e528"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/llm_retry.py": {
+    "mtime": 1781591726.1773677,
+    "ast_hash": "a3227fdc255be349df341f4c9db234d7",
+    "semantic_hash": "a3227fdc255be349df341f4c9db234d7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/__init__.py": {
+    "mtime": 1781591726.1756384,
+    "ast_hash": "704029745ee911d135f6e1315f6a735e",
+    "semantic_hash": "704029745ee911d135f6e1315f6a735e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/content_resolver.py": {
+    "mtime": 1781591726.1756384,
+    "ast_hash": "2d5df2dac6cb1f36b7290321f0c7d259",
+    "semantic_hash": "2d5df2dac6cb1f36b7290321f0c7d259"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/pending_elicitations.py": {
+    "mtime": 1781591726.1773677,
+    "ast_hash": "fb078c9d84abe6441d880e2de324280a",
+    "semantic_hash": "fb078c9d84abe6441d880e2de324280a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/filesystem_registry.py": {
+    "mtime": 1781591726.176445,
+    "ast_hash": "2336f79666ee7519a0c81d33cab0d55a",
+    "semantic_hash": "2336f79666ee7519a0c81d33cab0d55a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/workflow.py": {
+    "mtime": 1781591726.1793678,
+    "ast_hash": "0b31f109485508593ceef00c8a6a2307",
+    "semantic_hash": "0b31f109485508593ceef00c8a6a2307"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/user_session_stream.py": {
+    "mtime": 1781591726.1793678,
+    "ast_hash": "15a5dac2a9d58e6a1fcd2060cac3e6a9",
+    "semantic_hash": "15a5dac2a9d58e6a1fcd2060cac3e6a9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/_globals.py": {
+    "mtime": 1781591726.1756384,
+    "ast_hash": "2646d1a2775bff74915624da9852eb9c",
+    "semantic_hash": "2646d1a2775bff74915624da9852eb9c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/executors/base.py": {
+    "mtime": 1781591726.176445,
+    "ast_hash": "89deb8f50de2e9fe61f545dd1c42e721",
+    "semantic_hash": "89deb8f50de2e9fe61f545dd1c42e721"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/executors/__init__.py": {
+    "mtime": 1781591726.1762583,
+    "ast_hash": "5c20e17463ba340b15262e6ff88a7b49",
+    "semantic_hash": "5c20e17463ba340b15262e6ff88a7b49"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/policies/builder.py": {
+    "mtime": 1781591726.1783934,
+    "ast_hash": "829b1a840e60c3d5def56baf202ae261",
+    "semantic_hash": "829b1a840e60c3d5def56baf202ae261"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/policies/engine.py": {
+    "mtime": 1781591726.1783934,
+    "ast_hash": "a0bf918b4205d77412bfba86e3afb3c4",
+    "semantic_hash": "a0bf918b4205d77412bfba86e3afb3c4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/policies/__init__.py": {
+    "mtime": 1781591726.1773677,
+    "ast_hash": "27196058dc936da8771ba91711aab531",
+    "semantic_hash": "27196058dc936da8771ba91711aab531"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/policies/approval.py": {
+    "mtime": 1781591726.1783934,
+    "ast_hash": "0daef47e415929ab1d886ee1cbfc8135",
+    "semantic_hash": "0daef47e415929ab1d886ee1cbfc8135"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/policies/enforcement.py": {
+    "mtime": 1781591726.1783934,
+    "ast_hash": "3ce521b6947e49e054ce0857f9cee334",
+    "semantic_hash": "3ce521b6947e49e054ce0857f9cee334"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/harnesses/_runner.py": {
+    "mtime": 1781591726.1768749,
+    "ast_hash": "3cef2694461cb6b2553e0ea3c49a9d1e",
+    "semantic_hash": "3cef2694461cb6b2553e0ea3c49a9d1e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/harnesses/_executor_adapter.py": {
+    "mtime": 1781591726.1768749,
+    "ast_hash": "9ee2e0ced235c0ba4acfab42cad13c1c",
+    "semantic_hash": "9ee2e0ced235c0ba4acfab42cad13c1c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/harnesses/__init__.py": {
+    "mtime": 1781591726.176445,
+    "ast_hash": "b2e670f674ef6d0b40e91cf857deee1b",
+    "semantic_hash": "b2e670f674ef6d0b40e91cf857deee1b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/harnesses/_scaffold.py": {
+    "mtime": 1781591726.1773677,
+    "ast_hash": "9867d4c7e4dcf10cfc06087face6038d",
+    "semantic_hash": "9867d4c7e4dcf10cfc06087face6038d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/harnesses/process_manager.py": {
+    "mtime": 1781591726.1773677,
+    "ast_hash": "c82807d2fa8708624d502b7bb4db7087",
+    "semantic_hash": "c82807d2fa8708624d502b7bb4db7087"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/client_tools/coding.py": {
+    "mtime": 1781591726.1389759,
+    "ast_hash": "f7dfd229a6c4c01aa4afdc3ed6063b0b",
+    "semantic_hash": "f7dfd229a6c4c01aa4afdc3ed6063b0b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/client_tools/async_demo.py": {
+    "mtime": 1781591726.1389759,
+    "ast_hash": "1f42511fb0ddd476a0d25991ae48b1cc",
+    "semantic_hash": "1f42511fb0ddd476a0d25991ae48b1cc"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/client_tools/__init__.py": {
+    "mtime": 1781591726.1383665,
+    "ast_hash": "2d141e471552b6c34847a646b3db274f",
+    "semantic_hash": "2d141e471552b6c34847a646b3db274f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/environments/__init__.py": {
+    "mtime": 1781591726.1443665,
+    "ast_hash": "2dec7823c05086b6f57f604908a93e66",
+    "semantic_hash": "2dec7823c05086b6f57f604908a93e66"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/detected.py": {
+    "mtime": 1781591726.157367,
+    "ast_hash": "2685d1877355994b3035c9d6268c7c73",
+    "semantic_hash": "2685d1877355994b3035c9d6268c7c73"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/provider_config.py": {
+    "mtime": 1781591726.157367,
+    "ast_hash": "03325c6ca98082c5f3b66d79c84353e4",
+    "semantic_hash": "03325c6ca98082c5f3b66d79c84353e4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/ucode_cleanup.py": {
+    "mtime": 1781591726.1623673,
+    "ast_hash": "c82e5171f433b16502acbe7c3dff2550",
+    "semantic_hash": "c82e5171f433b16502acbe7c3dff2550"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/databricks_config.py": {
+    "mtime": 1781591726.1569219,
+    "ast_hash": "074730a11ca5cdd0b4985a674c667794",
+    "semantic_hash": "074730a11ca5cdd0b4985a674c667794"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/provider_selection.py": {
+    "mtime": 1781591726.157367,
+    "ast_hash": "89d5f739ee9506bebf2f16551f9cad91",
+    "semantic_hash": "89d5f739ee9506bebf2f16551f9cad91"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/configure_models.py": {
+    "mtime": 1781591726.1569219,
+    "ast_hash": "c7e5fd92d2b23c447eb2ef8397f6b4b8",
+    "semantic_hash": "c7e5fd92d2b23c447eb2ef8397f6b4b8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/interactive.py": {
+    "mtime": 1781591726.157367,
+    "ast_hash": "db7f5becab2eb6b2f84eab7c96b3f664",
+    "semantic_hash": "db7f5becab2eb6b2f84eab7c96b3f664"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/cursor_auth.py": {
+    "mtime": 1781591726.1569219,
+    "ast_hash": "9ecf21e05119dc2679b65be4273918e5",
+    "semantic_hash": "9ecf21e05119dc2679b65be4273918e5"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/setup.py": {
+    "mtime": 1781591726.1623673,
+    "ast_hash": "88b6dab81a08f7d6a1366e6b759db609",
+    "semantic_hash": "88b6dab81a08f7d6a1366e6b759db609"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/harness_readiness.py": {
+    "mtime": 1781591726.157367,
+    "ast_hash": "92d5b4d47dea8f5ad74b0748769d5bec",
+    "semantic_hash": "92d5b4d47dea8f5ad74b0748769d5bec"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/ambient.py": {
+    "mtime": 1781591726.1569219,
+    "ast_hash": "96841794a8ef4cc3453108abe39b2570",
+    "semantic_hash": "96841794a8ef4cc3453108abe39b2570"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/__init__.py": {
+    "mtime": 1781591726.155367,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/antigravity_auth.py": {
+    "mtime": 1781591726.1569219,
+    "ast_hash": "d2c0493c709578143c9b34a6e615d2fe",
+    "semantic_hash": "d2c0493c709578143c9b34a6e615d2fe"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/wizard.py": {
+    "mtime": 1781591726.1633673,
+    "ast_hash": "02096a560298f28c905333d5fc17a2ed",
+    "semantic_hash": "02096a560298f28c905333d5fc17a2ed"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/ucode_state.py": {
+    "mtime": 1781591726.1633673,
+    "ast_hash": "58ae8fcfda674837e09d432aa6df1970",
+    "semantic_hash": "58ae8fcfda674837e09d432aa6df1970"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/ucode_setup.py": {
+    "mtime": 1781591726.1623673,
+    "ast_hash": "e2894ae003f989d13c160dfd80d9ba40",
+    "semantic_hash": "e2894ae003f989d13c160dfd80d9ba40"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/harness_install.py": {
+    "mtime": 1781591726.157367,
+    "ast_hash": "c77989bd060afb928924c2afb088228e",
+    "semantic_hash": "c77989bd060afb928924c2afb088228e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/agent/tools/python/validate_agent.py": {
+    "mtime": 1781591726.1569219,
+    "ast_hash": "08692cb191680acfdf31da9cf65afb09",
+    "semantic_hash": "08692cb191680acfdf31da9cf65afb09"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/agent/tools/python/list_builtin_tools.py": {
+    "mtime": 1781591726.1568546,
+    "ast_hash": "6862dc9461cec34786f7ea9a8da31695",
+    "semantic_hash": "6862dc9461cec34786f7ea9a8da31695"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/__init__.py": {
+    "mtime": 1781591726.157367,
+    "ast_hash": "fe01ab8ebfd5e5f85f006bc8b1d5c6ae",
+    "semantic_hash": "fe01ab8ebfd5e5f85f006bc8b1d5c6ae"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/llamagate.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "81082be54448e51bd03b2b2e9ca211c4",
+    "semantic_hash": "81082be54448e51bd03b2b2e9ca211c4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/groq.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "51f689fba558f2011c598cc2328e4912",
+    "semantic_hash": "51f689fba558f2011c598cc2328e4912"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/nscale.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "bd132ff0d2aac9c200e7cf0db9464634",
+    "semantic_hash": "bd132ff0d2aac9c200e7cf0db9464634"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/gradient_ai.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "06b2601dec5f068dff26213fba422cdb",
+    "semantic_hash": "06b2601dec5f068dff26213fba422cdb"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/wandb.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "a08e69077ae29d2a51a792dcb04e9557",
+    "semantic_hash": "a08e69077ae29d2a51a792dcb04e9557"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/perplexity.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "ad51f570591ecc3facd16ac35f0a9c69",
+    "semantic_hash": "ad51f570591ecc3facd16ac35f0a9c69"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/cloudflare.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "55c07ac8b5cd90adddc363dfe132941f",
+    "semantic_hash": "55c07ac8b5cd90adddc363dfe132941f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/amazon_nova.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "afe1c1557bf593e7479e4762bd26aad1",
+    "semantic_hash": "afe1c1557bf593e7479e4762bd26aad1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/databricks.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "f3ea37a7e9cd39d77a81231b99233547",
+    "semantic_hash": "f3ea37a7e9cd39d77a81231b99233547"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/fireworks_ai.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "4a9441bd812d88ac3744822ccead184f",
+    "semantic_hash": "4a9441bd812d88ac3744822ccead184f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/sagemaker.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "db7d5b73d19388ac0aebf9801b453d74",
+    "semantic_hash": "db7d5b73d19388ac0aebf9801b453d74"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/vertex_ai.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "e9e7cf304ddd5b7f67c94548a0793c25",
+    "semantic_hash": "e9e7cf304ddd5b7f67c94548a0793c25"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/together_ai.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "84a347174fafbb57458bb1718eac423c",
+    "semantic_hash": "84a347174fafbb57458bb1718eac423c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/deepinfra.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "f3fa2145d728fd260ff9e7026767e936",
+    "semantic_hash": "f3fa2145d728fd260ff9e7026767e936"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/bedrock_mantle.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "9e6d02509c7f6cbcbd926624a6e251f7",
+    "semantic_hash": "9e6d02509c7f6cbcbd926624a6e251f7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/publicai.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "a75c81ce375ebc1c291ca658965412fa",
+    "semantic_hash": "a75c81ce375ebc1c291ca658965412fa"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/cerebras.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "f580e85a8077edff48a707e95fcf92b5",
+    "semantic_hash": "f580e85a8077edff48a707e95fcf92b5"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/azure_ai.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "83c9722cfd3b410bd3736556b5511f65",
+    "semantic_hash": "83c9722cfd3b410bd3736556b5511f65"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/aleph_alpha.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "0aec886a7428b58eae8756c63572a471",
+    "semantic_hash": "0aec886a7428b58eae8756c63572a471"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/openai.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "bbb1cebd25be17e2a0e8c75047f5eefc",
+    "semantic_hash": "bbb1cebd25be17e2a0e8c75047f5eefc"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/volcengine.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "9c48ecba59cda637dd58590e42bb9e44",
+    "semantic_hash": "9c48ecba59cda637dd58590e42bb9e44"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/lambda_ai.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "64ba2c4381c64e412ea654f98354e79e",
+    "semantic_hash": "64ba2c4381c64e412ea654f98354e79e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/zai.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "8b352e11f95c0191f7c1c76be962ef08",
+    "semantic_hash": "8b352e11f95c0191f7c1c76be962ef08"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/oci.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "a0e3bf4817bd8e4e40e56343c1b7db9e",
+    "semantic_hash": "a0e3bf4817bd8e4e40e56343c1b7db9e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/voyage.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "151cbb7025ba75c321abbd8c114ec453",
+    "semantic_hash": "151cbb7025ba75c321abbd8c114ec453"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/watsonx.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "68d3f72a3d48e94214dc10a380adeed2",
+    "semantic_hash": "68d3f72a3d48e94214dc10a380adeed2"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/nlp_cloud.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "dfdb64437a9aee860a6308b15863247f",
+    "semantic_hash": "dfdb64437a9aee860a6308b15863247f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/v0.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "b292b7cf2ad36c587ea3ff5f022560e2",
+    "semantic_hash": "b292b7cf2ad36c587ea3ff5f022560e2"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/palm.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "405a07d99aa6a4b9db55a5fe1741fe4b",
+    "semantic_hash": "405a07d99aa6a4b9db55a5fe1741fe4b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/mistral.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "e8e726241c82db35973cf03023333b78",
+    "semantic_hash": "e8e726241c82db35973cf03023333b78"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/text-completion-openai.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "b1a3ffbe51415549ff996fca6d446582",
+    "semantic_hash": "b1a3ffbe51415549ff996fca6d446582"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/hyperbolic.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "ef4e199e7e4f372feb269946416e3967",
+    "semantic_hash": "ef4e199e7e4f372feb269946416e3967"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/anthropic.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "f7a5c9508582d9a9b23aa277e7a258e1",
+    "semantic_hash": "f7a5c9508582d9a9b23aa277e7a258e1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/gigachat.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "a99e3216844baa4d46e9aaf68681aa0e",
+    "semantic_hash": "a99e3216844baa4d46e9aaf68681aa0e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/fireworks_ai-embedding-models.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "37086c7bf7283bcf58ea0b094b40bb8f",
+    "semantic_hash": "37086c7bf7283bcf58ea0b094b40bb8f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/friendliai.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "e9644791b95b5abab7b3e0b4985b761f",
+    "semantic_hash": "e9644791b95b5abab7b3e0b4985b761f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/nebius.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "1872b5ecd3e9de31a6a7b65df84d0d72",
+    "semantic_hash": "1872b5ecd3e9de31a6a7b65df84d0d72"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/ai21.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "a76facac35caebc4ffc681b7289c6add",
+    "semantic_hash": "a76facac35caebc4ffc681b7289c6add"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/azure_text.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "eeb88d20dc8b64725a4dddd9b49fa202",
+    "semantic_hash": "eeb88d20dc8b64725a4dddd9b49fa202"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/ovhcloud.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "b72e10284646845336a28b943dcafaeb",
+    "semantic_hash": "b72e10284646845336a28b943dcafaeb"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/heroku.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "3287fde49f61838c52f5ed2683181727",
+    "semantic_hash": "3287fde49f61838c52f5ed2683181727"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/novita.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "7e42766bfbcb9aa70b46c217377e29b3",
+    "semantic_hash": "7e42766bfbcb9aa70b46c217377e29b3"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/cohere.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "53367e28f704065c2960998b1e92635b",
+    "semantic_hash": "53367e28f704065c2960998b1e92635b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/sarvam.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "ac7c43392746b5b6ae1aed2a443320d9",
+    "semantic_hash": "ac7c43392746b5b6ae1aed2a443320d9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/deepseek.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "d5d89747379438b36eea3177e1a3a51e",
+    "semantic_hash": "d5d89747379438b36eea3177e1a3a51e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/gemini.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "e3242791640042a0e0b2781e7fffad8d",
+    "semantic_hash": "e3242791640042a0e0b2781e7fffad8d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/snowflake.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "083c7753d9ad88374eadad1a6aa91b9d",
+    "semantic_hash": "083c7753d9ad88374eadad1a6aa91b9d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/xai.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "c4ef6bf1e4fc327ae09f06762a84a986",
+    "semantic_hash": "c4ef6bf1e4fc327ae09f06762a84a986"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/dashscope.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "4507801821c2f8dcdbe5fb2016e58c10",
+    "semantic_hash": "4507801821c2f8dcdbe5fb2016e58c10"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/anyscale.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "43dbe659f8d92412661a343787942f37",
+    "semantic_hash": "43dbe659f8d92412661a343787942f37"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/featherless_ai.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "630c5aaf81a683731800cbf88b727b95",
+    "semantic_hash": "630c5aaf81a683731800cbf88b727b95"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/lemonade.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "2700f091e7ee39b3ea6658863a0d8d4a",
+    "semantic_hash": "2700f091e7ee39b3ea6658863a0d8d4a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/ollama.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "0cc94d733983051bbfad1d3b4a990d38",
+    "semantic_hash": "0cc94d733983051bbfad1d3b4a990d38"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/__init__.py": {
+    "mtime": 1781591726.15837,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/minimax.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "63ce8a7409f37db9baf799d71331bdb8",
+    "semantic_hash": "63ce8a7409f37db9baf799d71331bdb8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/meta_llama.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "25696669f232744488397309d76f9f75",
+    "semantic_hash": "25696669f232744488397309d76f9f75"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/moonshot.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "56198d346410e95f7889a9f34798034a",
+    "semantic_hash": "56198d346410e95f7889a9f34798034a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/azure.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "a36e7c15a1f90bfdce2d1a189052fc1d",
+    "semantic_hash": "a36e7c15a1f90bfdce2d1a189052fc1d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/github_copilot.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "faeb1da947319d2f69a6bb30fe71226e",
+    "semantic_hash": "faeb1da947319d2f69a6bb30fe71226e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/vercel_ai_gateway.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "eca7b09c6aea8b55088da4183eb68bf8",
+    "semantic_hash": "eca7b09c6aea8b55088da4183eb68bf8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/cohere_chat.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "a27add8bf1a5035d1a27599e400d65e4",
+    "semantic_hash": "a27add8bf1a5035d1a27599e400d65e4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/morph.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "00550ce563f5e43201d1950104e30ebd",
+    "semantic_hash": "00550ce563f5e43201d1950104e30ebd"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/openrouter.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "c7119edb0a531d896421b81e73889255",
+    "semantic_hash": "c7119edb0a531d896421b81e73889255"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/sambanova.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "8f2ad3b7dafe03a731fbb26baceed5bc",
+    "semantic_hash": "8f2ad3b7dafe03a731fbb26baceed5bc"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/codestral.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "3d5bc7680ea3d57b8e158e33756d3312",
+    "semantic_hash": "3d5bc7680ea3d57b8e158e33756d3312"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/bedrock.json": {
+    "mtime": 1781591726.158412,
+    "ast_hash": "92e22ea72c5e8e78bce70ea99aaf123e",
+    "semantic_hash": "92e22ea72c5e8e78bce70ea99aaf123e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/text-completion-codestral.json": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "cad436650cef0a64ddb805e418c69ee9",
+    "semantic_hash": "cad436650cef0a64ddb805e418c69ee9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/gmi.json": {
+    "mtime": 1781591726.159367,
+    "ast_hash": "304a2f5c946cdcf3f95933fc9d503996",
+    "semantic_hash": "304a2f5c946cdcf3f95933fc9d503996"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/providers/model_catalog/replicate.json": {
+    "mtime": 1781591726.1603673,
+    "ast_hash": "63ea4481b700dc02741cc8ab61470df7",
+    "semantic_hash": "63ea4481b700dc02741cc8ab61470df7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/sandboxes/daytona.py": {
+    "mtime": 1781591726.1623673,
+    "ast_hash": "1ae13f0636c62548b835adb3f5ed7a22",
+    "semantic_hash": "1ae13f0636c62548b835adb3f5ed7a22"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/sandboxes/base.py": {
+    "mtime": 1781591726.162248,
+    "ast_hash": "23fa3377dc8688cf2cca1e88784ab51f",
+    "semantic_hash": "23fa3377dc8688cf2cca1e88784ab51f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/sandboxes/modal.py": {
+    "mtime": 1781591726.1623673,
+    "ast_hash": "59926d57e698b4268909b9f209a69ddd",
+    "semantic_hash": "59926d57e698b4268909b9f209a69ddd"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/sandboxes/islo.py": {
+    "mtime": 1781591726.1623673,
+    "ast_hash": "24bb78e326fead1af931e0c8939b88df",
+    "semantic_hash": "24bb78e326fead1af931e0c8939b88df"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/sandboxes/cwsandbox.py": {
+    "mtime": 1781591726.1623673,
+    "ast_hash": "988319ec64cbbca05493a223ee6df19c",
+    "semantic_hash": "988319ec64cbbca05493a223ee6df19c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/sandboxes/__init__.py": {
+    "mtime": 1781591726.1613672,
+    "ast_hash": "fda0fede2fa5f5e18c506d0112cfc486",
+    "semantic_hash": "fda0fede2fa5f5e18c506d0112cfc486"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/sandboxes/bootstrap.py": {
+    "mtime": 1781591726.1623673,
+    "ast_hash": "4b2db5ad35fefe8aaa0cec95750651ba",
+    "semantic_hash": "4b2db5ad35fefe8aaa0cec95750651ba"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/environment_filesystem.py": {
+    "mtime": 1781591726.1723676,
+    "ast_hash": "74e88d41b5cfc136245fc325246cac0a",
+    "semantic_hash": "74e88d41b5cfc136245fc325246cac0a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/policy.py": {
+    "mtime": 1781591726.1723676,
+    "ast_hash": "98b4e2ef865d73f92188e2cacda62a76",
+    "semantic_hash": "98b4e2ef865d73f92188e2cacda62a76"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/resource_registry.py": {
+    "mtime": 1781591726.1733677,
+    "ast_hash": "27a3c2a91e11478a485b698a071151a0",
+    "semantic_hash": "27a3c2a91e11478a485b698a071151a0"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/_entry.py": {
+    "mtime": 1781591726.1701639,
+    "ast_hash": "9cc7ef20bbcc8296967fdf2ec71dfc64",
+    "semantic_hash": "9cc7ef20bbcc8296967fdf2ec71dfc64"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/cost_advisor.py": {
+    "mtime": 1781591726.1723676,
+    "ast_hash": "b9f159f5672282581d3923336e223001",
+    "semantic_hash": "b9f159f5672282581d3923336e223001"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/cost_judge.py": {
+    "mtime": 1781591726.1723676,
+    "ast_hash": "5dc7cddc7d819d4e2229ba12ef442047",
+    "semantic_hash": "5dc7cddc7d819d4e2229ba12ef442047"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/identity.py": {
+    "mtime": 1781591726.1723676,
+    "ast_hash": "57d7e1a91399567f9c60ad80336560d2",
+    "semantic_hash": "57d7e1a91399567f9c60ad80336560d2"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/mcp_manager.py": {
+    "mtime": 1781591726.1723676,
+    "ast_hash": "5b66aada3339cae91f498f5e4a4ed3a6",
+    "semantic_hash": "5b66aada3339cae91f498f5e4a4ed3a6"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/routing.py": {
+    "mtime": 1781591726.1733677,
+    "ast_hash": "20be58942fa515694f32becabd7fe1a1",
+    "semantic_hash": "20be58942fa515694f32becabd7fe1a1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/app.py": {
+    "mtime": 1781591726.1723676,
+    "ast_hash": "8c4c36c4d1e01fa7d3c4b7ae9185535a",
+    "semantic_hash": "8c4c36c4d1e01fa7d3c4b7ae9185535a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/proxy_mcp_manager.py": {
+    "mtime": 1781591726.1733677,
+    "ast_hash": "40d2435737b455d40c79976df32d56bf",
+    "semantic_hash": "40d2435737b455d40c79976df32d56bf"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/pending_approvals.py": {
+    "mtime": 1781591726.1723676,
+    "ast_hash": "0b3d01902c92bf2787b613362428de3d",
+    "semantic_hash": "0b3d01902c92bf2787b613362428de3d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/__init__.py": {
+    "mtime": 1781591726.1699064,
+    "ast_hash": "c542850312e947bbc797546e792355f8",
+    "semantic_hash": "c542850312e947bbc797546e792355f8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/uc_function.py": {
+    "mtime": 1781591726.1753678,
+    "ast_hash": "ec8147cf4a9ca4a1d0de18c41b77fa5b",
+    "semantic_hash": "ec8147cf4a9ca4a1d0de18c41b77fa5b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/tool_dispatch.py": {
+    "mtime": 1781591726.1743677,
+    "ast_hash": "6933223b2f37f702d6ffbd18d3efbc8d",
+    "semantic_hash": "6933223b2f37f702d6ffbd18d3efbc8d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/transports/uds.py": {
+    "mtime": 1781591726.174715,
+    "ast_hash": "339ab2dcca580607818376e55743c032",
+    "semantic_hash": "339ab2dcca580607818376e55743c032"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/transports/__init__.py": {
+    "mtime": 1781591726.1743677,
+    "ast_hash": "41c25fd3e6558e650af6a05e02a41bb5",
+    "semantic_hash": "41c25fd3e6558e650af6a05e02a41bb5"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/transports/tcp.py": {
+    "mtime": 1781591726.174715,
+    "ast_hash": "e6f9036f7fbf48dee7c49bf00538df9e",
+    "semantic_hash": "e6f9036f7fbf48dee7c49bf00538df9e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/transports/ws_tunnel/frames.py": {
+    "mtime": 1781591726.1749227,
+    "ast_hash": "79a0301c3f53ab81d7410c6bccb63b63",
+    "semantic_hash": "79a0301c3f53ab81d7410c6bccb63b63"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/transports/ws_tunnel/limits.py": {
+    "mtime": 1781591726.1749227,
+    "ast_hash": "dd0db32d1adfbe084d8341c83c409c5a",
+    "semantic_hash": "dd0db32d1adfbe084d8341c83c409c5a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/transports/ws_tunnel/serve.py": {
+    "mtime": 1781591726.1749227,
+    "ast_hash": "cb30f0ea77488f972c9598f791b4b010",
+    "semantic_hash": "cb30f0ea77488f972c9598f791b4b010"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/transports/ws_tunnel/__init__.py": {
+    "mtime": 1781591726.174715,
+    "ast_hash": "50663631d8455fdae1a3ffd0b90e69f5",
+    "semantic_hash": "50663631d8455fdae1a3ffd0b90e69f5"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/transports/ws_tunnel/transport.py": {
+    "mtime": 1781591726.1749227,
+    "ast_hash": "3b0bd18c9f342c6a2852e3acfe99da54",
+    "semantic_hash": "3b0bd18c9f342c6a2852e3acfe99da54"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runner/transports/ws_tunnel/registry.py": {
+    "mtime": 1781591726.1749227,
+    "ast_hash": "029825ccb2cc9b55bb1e249a5ecc95fa",
+    "semantic_hash": "029825ccb2cc9b55bb1e249a5ecc95fa"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/sandbox/seatbelt.py": {
+    "mtime": 1781591726.1800272,
+    "ast_hash": "ed7221dfe051dfecdb143e22b2b840ca",
+    "semantic_hash": "ed7221dfe051dfecdb143e22b2b840ca"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/sandbox/bwrap.py": {
+    "mtime": 1781591726.1800272,
+    "ast_hash": "7bed71f81167184b0d1e05fb40b1b7e4",
+    "semantic_hash": "7bed71f81167184b0d1e05fb40b1b7e4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/sandbox/__init__.py": {
+    "mtime": 1781591726.1793678,
+    "ast_hash": "041fadd70a050d5f96ee7b80369cd926",
+    "semantic_hash": "041fadd70a050d5f96ee7b80369cd926"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/__init__.py": {
+    "mtime": 1781591726.1923683,
+    "ast_hash": "ebc4d6388eeff2cf796cc6d5d9518128",
+    "semantic_hash": "ebc4d6388eeff2cf796cc6d5d9518128"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/host_store.py": {
+    "mtime": 1781591726.1956806,
+    "ast_hash": "1649f1815885fcfdc43585213a74e35d",
+    "semantic_hash": "1649f1815885fcfdc43585213a74e35d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/agent_store/sqlalchemy_store.py": {
+    "mtime": 1781591726.1935372,
+    "ast_hash": "7e6f6ecc3b1d5b4429af1624ecd94838",
+    "semantic_hash": "7e6f6ecc3b1d5b4429af1624ecd94838"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/agent_store/__init__.py": {
+    "mtime": 1781591726.1934068,
+    "ast_hash": "7104bc707038a8b53048ff2d45165f96",
+    "semantic_hash": "7104bc707038a8b53048ff2d45165f96"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/file_store/sqlalchemy_store.py": {
+    "mtime": 1781591726.1956806,
+    "ast_hash": "18d4252290fe290fbe222b4f0e35d4ce",
+    "semantic_hash": "18d4252290fe290fbe222b4f0e35d4ce"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/file_store/__init__.py": {
+    "mtime": 1781591726.1953685,
+    "ast_hash": "dbd02e50b53fb8404d6baaa219e0f6aa",
+    "semantic_hash": "dbd02e50b53fb8404d6baaa219e0f6aa"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/comment_store/sqlalchemy_store.py": {
+    "mtime": 1781591726.1946194,
+    "ast_hash": "5f53c6c0e4132e8ff5c5816ced488ce8",
+    "semantic_hash": "5f53c6c0e4132e8ff5c5816ced488ce8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/comment_store/__init__.py": {
+    "mtime": 1781591726.1943684,
+    "ast_hash": "832cff6b9a2aed7259aebbc332fe182a",
+    "semantic_hash": "832cff6b9a2aed7259aebbc332fe182a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/conversation_store/sqlalchemy_store.py": {
+    "mtime": 1781591726.1952531,
+    "ast_hash": "6540841f7c5f940046810b53467e83ba",
+    "semantic_hash": "6540841f7c5f940046810b53467e83ba"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/conversation_store/__init__.py": {
+    "mtime": 1781591726.1946194,
+    "ast_hash": "78f460deeb35f53485d5a5b02f0fa589",
+    "semantic_hash": "78f460deeb35f53485d5a5b02f0fa589"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/artifact_store/databricks_volumes.py": {
+    "mtime": 1781591726.1942832,
+    "ast_hash": "339a41de2cd7c62fd1ccc64994f97722",
+    "semantic_hash": "339a41de2cd7c62fd1ccc64994f97722"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/artifact_store/local.py": {
+    "mtime": 1781591726.1942832,
+    "ast_hash": "7ccefc12c60e388aaa680ca2b7ef04b8",
+    "semantic_hash": "7ccefc12c60e388aaa680ca2b7ef04b8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/artifact_store/__init__.py": {
+    "mtime": 1781591726.1935372,
+    "ast_hash": "939d6239b8c518183cae96dd7a97e6a8",
+    "semantic_hash": "939d6239b8c518183cae96dd7a97e6a8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/permission_store/sqlalchemy_store.py": {
+    "mtime": 1781591726.196212,
+    "ast_hash": "c39bd6adcf770a43448494743ba1ac03",
+    "semantic_hash": "c39bd6adcf770a43448494743ba1ac03"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/permission_store/__init__.py": {
+    "mtime": 1781591726.1956806,
+    "ast_hash": "9bb740c9fe8f998a97dd1f7eb4e51978",
+    "semantic_hash": "9bb740c9fe8f998a97dd1f7eb4e51978"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/policy_store/sqlalchemy_store.py": {
+    "mtime": 1781591726.196471,
+    "ast_hash": "06373cac472f2ae0cb524e43cd7f32a0",
+    "semantic_hash": "06373cac472f2ae0cb524e43cd7f32a0"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/stores/policy_store/__init__.py": {
+    "mtime": 1781591726.196212,
+    "ast_hash": "f19cee81a359b496335b115897b02954",
+    "semantic_hash": "f19cee81a359b496335b115897b02954"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/bundles.py": {
+    "mtime": 1781591726.1813679,
+    "ast_hash": "c5ae725d9cb27b2372748e109e8dd320",
+    "semantic_hash": "c5ae725d9cb27b2372748e109e8dd320"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/performance_metrics.py": {
+    "mtime": 1781591726.182368,
+    "ast_hash": "223002ef91448f7f199415d54ff8dd4a",
+    "semantic_hash": "223002ef91448f7f199415d54ff8dd4a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/mcp_pool.py": {
+    "mtime": 1781591726.1813679,
+    "ast_hash": "9d8ccf88cc62c59dd96d16271390a627",
+    "semantic_hash": "9d8ccf88cc62c59dd96d16271390a627"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/_runner_ws_tunnel.py": {
+    "mtime": 1781591726.1803906,
+    "ast_hash": "1e44889d82ce9f197e1235284394bc32",
+    "semantic_hash": "1e44889d82ce9f197e1235284394bc32"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/presence.py": {
+    "mtime": 1781591726.182368,
+    "ast_hash": "3cc2fa742f7305fd2f473c3dc0e8b086",
+    "semantic_hash": "3cc2fa742f7305fd2f473c3dc0e8b086"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/ws_origin.py": {
+    "mtime": 1781591726.1893682,
+    "ast_hash": "3f9c88c4b1d49b72798e89a3ab2348ab",
+    "semantic_hash": "3f9c88c4b1d49b72798e89a3ab2348ab"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/admin_list.py": {
+    "mtime": 1781591726.1803906,
+    "ast_hash": "fa0fd0731917c93d8f600bdb2127371e",
+    "semantic_hash": "fa0fd0731917c93d8f600bdb2127371e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/permissions.py": {
+    "mtime": 1781591726.182368,
+    "ast_hash": "0eca2b7ef33d4e8213f140d68aac72e0",
+    "semantic_hash": "0eca2b7ef33d4e8213f140d68aac72e0"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/accounts_bootstrap.py": {
+    "mtime": 1781591726.1803906,
+    "ast_hash": "e8484cf95a40a7247a66c78f634105af",
+    "semantic_hash": "e8484cf95a40a7247a66c78f634105af"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/server_config.py": {
+    "mtime": 1781591726.1893682,
+    "ast_hash": "a5930a9395ea8144ecaf62d6dedb23fc",
+    "semantic_hash": "a5930a9395ea8144ecaf62d6dedb23fc"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/oidc_access.py": {
+    "mtime": 1781591726.1813679,
+    "ast_hash": "97b3ca475caaec8031ba886a641cbdb2",
+    "semantic_hash": "97b3ca475caaec8031ba886a641cbdb2"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/auth.py": {
+    "mtime": 1781591726.1813679,
+    "ast_hash": "a8a3a41d12d648981fc62085a5a9ab34",
+    "semantic_hash": "a8a3a41d12d648981fc62085a5a9ab34"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/_runner_transport.py": {
+    "mtime": 1781591726.1803906,
+    "ast_hash": "bbf8bad758966cb174f963ce2c177f1e",
+    "semantic_hash": "bbf8bad758966cb174f963ce2c177f1e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/_elicitation_registry.py": {
+    "mtime": 1781591726.1803906,
+    "ast_hash": "6fbbf315a536a9bb6eae7e9e9ab242df",
+    "semantic_hash": "6fbbf315a536a9bb6eae7e9e9ab242df"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/app.py": {
+    "mtime": 1781591726.1803906,
+    "ast_hash": "8bc3c5f01d51493416c08ae45f4f0f82",
+    "semantic_hash": "8bc3c5f01d51493416c08ae45f4f0f82"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/oidc.py": {
+    "mtime": 1781591726.1813679,
+    "ast_hash": "e0dce5aee6c4a65e988ca08cf7ca2e37",
+    "semantic_hash": "e0dce5aee6c4a65e988ca08cf7ca2e37"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/__init__.py": {
+    "mtime": 1781591726.1803906,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/identity_migration.py": {
+    "mtime": 1781591726.1813679,
+    "ast_hash": "61e1801f3b310d8142222e8d4cc741f8",
+    "semantic_hash": "61e1801f3b310d8142222e8d4cc741f8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/paas_env.py": {
+    "mtime": 1781591726.1813679,
+    "ast_hash": "842189d8da6f7e1621375756a20e7407",
+    "semantic_hash": "842189d8da6f7e1621375756a20e7407"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/host_registry.py": {
+    "mtime": 1781591726.1813679,
+    "ast_hash": "b7010a1dbf3f26630a7f0336b365e126",
+    "semantic_hash": "b7010a1dbf3f26630a7f0336b365e126"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/schemas.py": {
+    "mtime": 1781591726.1893682,
+    "ast_hash": "f65561532b91f64126b54def9be1dc06",
+    "semantic_hash": "f65561532b91f64126b54def9be1dc06"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/accounts_config.py": {
+    "mtime": 1781591726.1803906,
+    "ast_hash": "c920cc202834b56379accb7186927528",
+    "semantic_hash": "c920cc202834b56379accb7186927528"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/accounts_store.py": {
+    "mtime": 1781591726.1803906,
+    "ast_hash": "e2d67caf1a6695b09565e3a7d1ecc4b0",
+    "semantic_hash": "e2d67caf1a6695b09565e3a7d1ecc4b0"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/managed_hosts.py": {
+    "mtime": 1781591726.1813679,
+    "ast_hash": "5a82c13442e8d8087f2f0978dadc55b6",
+    "semantic_hash": "5a82c13442e8d8087f2f0978dadc55b6"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/sessions.py": {
+    "mtime": 1781591726.1873682,
+    "ast_hash": "912b6384d518d4c004f0e42a9c34dcd5",
+    "semantic_hash": "912b6384d518d4c004f0e42a9c34dcd5"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/session_policies.py": {
+    "mtime": 1781591726.1843681,
+    "ast_hash": "f8384b476b1df66dc483cf35412127c4",
+    "semantic_hash": "f8384b476b1df66dc483cf35412127c4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/policy_registry.py": {
+    "mtime": 1781591726.183368,
+    "ast_hash": "def2fb96ba0bc1b617715a78ab48a439",
+    "semantic_hash": "def2fb96ba0bc1b617715a78ab48a439"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/_codex_elicitation.py": {
+    "mtime": 1781591726.1829302,
+    "ast_hash": "dda884b9328660b770c2179f06ab7ef3",
+    "semantic_hash": "dda884b9328660b770c2179f06ab7ef3"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/host_tunnel.py": {
+    "mtime": 1781591726.183368,
+    "ast_hash": "289f07e444a1c69ec58776a2f2bf6172",
+    "semantic_hash": "289f07e444a1c69ec58776a2f2bf6172"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/hosts.py": {
+    "mtime": 1781591726.183368,
+    "ast_hash": "1d5d900a5e2045818e5b47dfa498dfb4",
+    "semantic_hash": "1d5d900a5e2045818e5b47dfa498dfb4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/accounts_auth.py": {
+    "mtime": 1781591726.183368,
+    "ast_hash": "9ed175f3aac2bed03afdbcc26cdabcde",
+    "semantic_hash": "9ed175f3aac2bed03afdbcc26cdabcde"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/auth.py": {
+    "mtime": 1781591726.183368,
+    "ast_hash": "4ec6401bc8b21641d7262adcf6ae47ba",
+    "semantic_hash": "4ec6401bc8b21641d7262adcf6ae47ba"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/builtin_agents.py": {
+    "mtime": 1781591726.183368,
+    "ast_hash": "2e0f85f34743f884780f882a0cc20442",
+    "semantic_hash": "2e0f85f34743f884780f882a0cc20442"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/comments.py": {
+    "mtime": 1781591726.183368,
+    "ast_hash": "78dd562eb57906021b71c9f61bc8984a",
+    "semantic_hash": "78dd562eb57906021b71c9f61bc8984a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/runner_tunnel.py": {
+    "mtime": 1781591726.183368,
+    "ast_hash": "7651649b6c79951919a3d15846f49e58",
+    "semantic_hash": "7651649b6c79951919a3d15846f49e58"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/terminal_attach.py": {
+    "mtime": 1781591726.1883683,
+    "ast_hash": "eb7328324f160e00e174f58b920f3c26",
+    "semantic_hash": "eb7328324f160e00e174f58b920f3c26"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/default_policies.py": {
+    "mtime": 1781591726.183368,
+    "ast_hash": "798aeb4d4ebdc3a8205d12fe6e8a8d82",
+    "semantic_hash": "798aeb4d4ebdc3a8205d12fe6e8a8d82"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/__init__.py": {
+    "mtime": 1781591726.182368,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/_host_worktree.py": {
+    "mtime": 1781591726.1829302,
+    "ast_hash": "f4cc3ea8cdd831e2588d208f4d5cb94d",
+    "semantic_hash": "f4cc3ea8cdd831e2588d208f4d5cb94d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/_auth_helpers.py": {
+    "mtime": 1781591726.1829302,
+    "ast_hash": "55bd8a862bc7cfc78150999bb9422818",
+    "semantic_hash": "55bd8a862bc7cfc78150999bb9422818"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/_host_launch.py": {
+    "mtime": 1781591726.1829302,
+    "ast_hash": "1edfa6e9c6b85313189247f1454afd54",
+    "semantic_hash": "1edfa6e9c6b85313189247f1454afd54"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/_workspace_validation.py": {
+    "mtime": 1781591726.1829302,
+    "ast_hash": "042c5f642a5483ae54daaab334373574",
+    "semantic_hash": "042c5f642a5483ae54daaab334373574"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/routes/_content_type.py": {
+    "mtime": 1781591726.1829302,
+    "ast_hash": "6981842cee90e85acb35ea0501a92d0b",
+    "semantic_hash": "6981842cee90e85acb35ea0501a92d0b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/repl/_repl.py": {
+    "mtime": 1781591726.1673675,
+    "ast_hash": "ede73990e50f1b76d6276e9f09e3a843",
+    "semantic_hash": "ede73990e50f1b76d6276e9f09e3a843"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/repl/_resume_picker.py": {
+    "mtime": 1781591726.1673675,
+    "ast_hash": "bcc27ce129f5339f7edec13a9553d57f",
+    "semantic_hash": "bcc27ce129f5339f7edec13a9553d57f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/repl/_event_tape.py": {
+    "mtime": 1781591726.1663673,
+    "ast_hash": "8865496b0168de6657c2227ab36e4a95",
+    "semantic_hash": "8865496b0168de6657c2227ab36e4a95"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/repl/_tmux_pane.py": {
+    "mtime": 1781591726.1683674,
+    "ast_hash": "1fdc37dcd3a206e48d328dbeafc09781",
+    "semantic_hash": "1fdc37dcd3a206e48d328dbeafc09781"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/repl/_session_log.py": {
+    "mtime": 1781591726.1673675,
+    "ast_hash": "546234f1b853b6fe5d18738180d02ebe",
+    "semantic_hash": "546234f1b853b6fe5d18738180d02ebe"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/repl/_theme_picker.py": {
+    "mtime": 1781591726.1673675,
+    "ast_hash": "7ffbb7dd7ece627a529daf5244f27bdf",
+    "semantic_hash": "7ffbb7dd7ece627a529daf5244f27bdf"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/repl/__init__.py": {
+    "mtime": 1781591726.1653674,
+    "ast_hash": "3eb5cd05f33321c12b8e713323ed8214",
+    "semantic_hash": "3eb5cd05f33321c12b8e713323ed8214"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/_runner.py": {
+    "mtime": 1781591726.1973686,
+    "ast_hash": "e64c3d43273b9416903ca82b376472db",
+    "semantic_hash": "e64c3d43273b9416903ca82b376472db"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/mcp.py": {
+    "mtime": 1781591726.2013686,
+    "ast_hash": "421ce553f77eb4df208c6dce7d8b5a40",
+    "semantic_hash": "421ce553f77eb4df208c6dce7d8b5a40"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/local.py": {
+    "mtime": 1781591726.2003686,
+    "ast_hash": "26a7e55007769783d527ca54d9638939",
+    "semantic_hash": "26a7e55007769783d527ca54d9638939"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/local_callable.py": {
+    "mtime": 1781591726.2003686,
+    "ast_hash": "c1881c900f2cc8fdcd4e7d29dafa02a9",
+    "semantic_hash": "c1881c900f2cc8fdcd4e7d29dafa02a9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/base.py": {
+    "mtime": 1781591726.1973686,
+    "ast_hash": "ad8fce41ab2855fcc70372eaf97dcf0f",
+    "semantic_hash": "ad8fce41ab2855fcc70372eaf97dcf0f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/_pep723.py": {
+    "mtime": 1781591726.1973686,
+    "ast_hash": "c74ab617dc65003445bfd2d166cca68b",
+    "semantic_hash": "c74ab617dc65003445bfd2d166cca68b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/__init__.py": {
+    "mtime": 1781591726.1967163,
+    "ast_hash": "79175e6c28629be6c04d3a62ebd074b1",
+    "semantic_hash": "79175e6c28629be6c04d3a62ebd074b1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/_srt.py": {
+    "mtime": 1781591726.1973686,
+    "ast_hash": "ab444d6d2cd534b5124dfedbcb0f6749",
+    "semantic_hash": "ab444d6d2cd534b5124dfedbcb0f6749"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/manager.py": {
+    "mtime": 1781591726.2013686,
+    "ast_hash": "14dc5eb69b97444a9e3595cea21489fa",
+    "semantic_hash": "14dc5eb69b97444a9e3595cea21489fa"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/_elicitation_schema.py": {
+    "mtime": 1781591726.1973686,
+    "ast_hash": "ba275128d9eaf14f715809d8ac620e28",
+    "semantic_hash": "ba275128d9eaf14f715809d8ac620e28"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/policy.py": {
+    "mtime": 1781591726.1983685,
+    "ast_hash": "e6f6391ef69c26f40958f0694441934e",
+    "semantic_hash": "e6f6391ef69c26f40958f0694441934e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/list_files.py": {
+    "mtime": 1781591726.1983685,
+    "ast_hash": "ccdc56af3b9506eb97967b0c48681d58",
+    "semantic_hash": "ccdc56af3b9506eb97967b0c48681d58"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/web_search.py": {
+    "mtime": 1781591726.2003686,
+    "ast_hash": "6f3243ab6c828f870ec342fddf7855a4",
+    "semantic_hash": "6f3243ab6c828f870ec342fddf7855a4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/agents.py": {
+    "mtime": 1781591726.1982477,
+    "ast_hash": "0083ded5aa74eeea39b3867dedc0c0d4",
+    "semantic_hash": "0083ded5aa74eeea39b3867dedc0c0d4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/sys_terminal.py": {
+    "mtime": 1781591726.1993687,
+    "ast_hash": "e9e0e26a05e7b201483df7393368a1a0",
+    "semantic_hash": "e9e0e26a05e7b201483df7393368a1a0"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/search_conversations.py": {
+    "mtime": 1781591726.1983685,
+    "ast_hash": "68bc12d8ed013d799080590fbdc6537c",
+    "semantic_hash": "68bc12d8ed013d799080590fbdc6537c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/web_fetch.py": {
+    "mtime": 1781591726.2003686,
+    "ast_hash": "0a129b4bad4f5e815670dca6ac3587ef",
+    "semantic_hash": "0a129b4bad4f5e815670dca6ac3587ef"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/list_models.py": {
+    "mtime": 1781591726.1983685,
+    "ast_hash": "0e4e211bee8ec738c4a99d24732fe691",
+    "semantic_hash": "0e4e211bee8ec738c4a99d24732fe691"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/web_search_google.py": {
+    "mtime": 1781591726.2003686,
+    "ast_hash": "128060bf525501a4a207edb2191d9c94",
+    "semantic_hash": "128060bf525501a4a207edb2191d9c94"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/timer.py": {
+    "mtime": 1781591726.1993687,
+    "ast_hash": "449894b6d6ca9d94bc55527194f369c5",
+    "semantic_hash": "449894b6d6ca9d94bc55527194f369c5"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/async_inbox.py": {
+    "mtime": 1781591726.1982477,
+    "ast_hash": "a14dd88145a1dda9b13610fa7b77f265",
+    "semantic_hash": "a14dd88145a1dda9b13610fa7b77f265"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/os_env.py": {
+    "mtime": 1781591726.1983685,
+    "ast_hash": "1a462aedcb09fb6ac4c034f8277720a2",
+    "semantic_hash": "1a462aedcb09fb6ac4c034f8277720a2"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/list_comments.py": {
+    "mtime": 1781591726.1983685,
+    "ast_hash": "68e86c14afafa10ea34d94ba71c8ceb2",
+    "semantic_hash": "68e86c14afafa10ea34d94ba71c8ceb2"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/export_agent.py": {
+    "mtime": 1781591726.1983685,
+    "ast_hash": "006cea0c27037bef54fd972441a4418d",
+    "semantic_hash": "006cea0c27037bef54fd972441a4418d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/web_search_perplexity.py": {
+    "mtime": 1781591726.2003686,
+    "ast_hash": "4b51dc6f706bca50485dad9a9c53ae6c",
+    "semantic_hash": "4b51dc6f706bca50485dad9a9c53ae6c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/read_skill_file.py": {
+    "mtime": 1781591726.1983685,
+    "ast_hash": "6ad5010baaa36ae6ad3be7ccb3f3ef4b",
+    "semantic_hash": "6ad5010baaa36ae6ad3be7ccb3f3ef4b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/spawn.py": {
+    "mtime": 1781591726.1993687,
+    "ast_hash": "a3309a4847cc5090b06f3446e45a8faa",
+    "semantic_hash": "a3309a4847cc5090b06f3446e45a8faa"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/update_comment.py": {
+    "mtime": 1781591726.1993687,
+    "ast_hash": "b99daf19710d2c8995c13d716955c50c",
+    "semantic_hash": "b99daf19710d2c8995c13d716955c50c"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/__init__.py": {
+    "mtime": 1781591726.1973686,
+    "ast_hash": "a7d8231da16eb56a9ccb83fe07f2ddd8",
+    "semantic_hash": "a7d8231da16eb56a9ccb83fe07f2ddd8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/download_file.py": {
+    "mtime": 1781591726.1983685,
+    "ast_hash": "4ca460c27dcd349737ba243adb11d949",
+    "semantic_hash": "4ca460c27dcd349737ba243adb11d949"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/upload_file.py": {
+    "mtime": 1781591726.1993687,
+    "ast_hash": "97f25826e9614ee56d5cd33a00b24b69",
+    "semantic_hash": "97f25826e9614ee56d5cd33a00b24b69"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/builtins/load_skill.py": {
+    "mtime": 1781591726.1983685,
+    "ast_hash": "8be13bf50e755c4b4249da9f170ad879",
+    "semantic_hash": "8be13bf50e755c4b4249da9f170ad879"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/tools/client_specified/__init__.py": {
+    "mtime": 1781591726.2003686,
+    "ast_hash": "c896f4f8d6ec1d0a1cd4ccbccebb123a",
+    "semantic_hash": "c896f4f8d6ec1d0a1cd4ccbccebb123a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/host/frames.py": {
+    "mtime": 1781591726.1453667,
+    "ast_hash": "b31f596e1cbee00377938e16ccae767a",
+    "semantic_hash": "b31f596e1cbee00377938e16ccae767a"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/host/connect.py": {
+    "mtime": 1781591726.1450307,
+    "ast_hash": "b49ff6a44d87be15ca39ccf27695577d",
+    "semantic_hash": "b49ff6a44d87be15ca39ccf27695577d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/host/git_worktree.py": {
+    "mtime": 1781591726.1453667,
+    "ast_hash": "87bae814e26de4e84b98c2d5bf042fdc",
+    "semantic_hash": "87bae814e26de4e84b98c2d5bf042fdc"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/host/identity.py": {
+    "mtime": 1781591726.1453667,
+    "ast_hash": "ada4d4a5f715b1ca9e7c4c6c96cd4d41",
+    "semantic_hash": "ada4d4a5f715b1ca9e7c4c6c96cd4d41"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/host/local_server.py": {
+    "mtime": 1781591726.1453667,
+    "ast_hash": "6b797df84bef873de34ee5cf45e82afe",
+    "semantic_hash": "6b797df84bef873de34ee5cf45e82afe"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/host/daemon_launch.py": {
+    "mtime": 1781591726.1450307,
+    "ast_hash": "d0434aaa3fa15ecef73e894b092ec4c2",
+    "semantic_hash": "d0434aaa3fa15ecef73e894b092ec4c2"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/host/_daemon_entry.py": {
+    "mtime": 1781591726.1450307,
+    "ast_hash": "cd8774d23500c70db2d82c1d32264ce7",
+    "semantic_hash": "cd8774d23500c70db2d82c1d32264ce7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/host/__init__.py": {
+    "mtime": 1781591726.1443665,
+    "ast_hash": "3d013b47e6b94d27f42e27e52cb2b6de",
+    "semantic_hash": "3d013b47e6b94d27f42e27e52cb2b6de"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/spec/tar_utils.py": {
+    "mtime": 1781591726.1923683,
+    "ast_hash": "473251078102c24387f7f4a4cb608666",
+    "semantic_hash": "473251078102c24387f7f4a4cb608666"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/spec/omnigent.py": {
+    "mtime": 1781591726.1903682,
+    "ast_hash": "f393a3572ae657eaab76049cdb7c7742",
+    "semantic_hash": "f393a3572ae657eaab76049cdb7c7742"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/spec/_omnigent_legacy_shim.py": {
+    "mtime": 1781591726.1903682,
+    "ast_hash": "64753a7d959b241469d440c3b8d99ec8",
+    "semantic_hash": "64753a7d959b241469d440c3b8d99ec8"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/spec/parser.py": {
+    "mtime": 1781591726.1913683,
+    "ast_hash": "a3c35cf69f3bc7810af85e14687ba70e",
+    "semantic_hash": "a3c35cf69f3bc7810af85e14687ba70e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/spec/__init__.py": {
+    "mtime": 1781591726.190208,
+    "ast_hash": "0c13b877bb21a4894de2e0ce75e68aaa",
+    "semantic_hash": "0c13b877bb21a4894de2e0ce75e68aaa"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/spec/types.py": {
+    "mtime": 1781591726.1923683,
+    "ast_hash": "8c49d98bc00b12277371e9d967650fab",
+    "semantic_hash": "8c49d98bc00b12277371e9d967650fab"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/spec/_omnigent_compat.py": {
+    "mtime": 1781591726.1903682,
+    "ast_hash": "694bc12c01c9eeecfb0fdaa8db5d61da",
+    "semantic_hash": "694bc12c01c9eeecfb0fdaa8db5d61da"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/spec/validator.py": {
+    "mtime": 1781591726.1923683,
+    "ast_hash": "20d050af02e2c89f47a9156fb8262fa9",
+    "semantic_hash": "20d050af02e2c89f47a9156fb8262fa9"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/polly/config.yaml": {
+    "mtime": 1781591726.1693676,
+    "ast_hash": "d7564305900b35c7af902837ba69e5e6",
+    "semantic_hash": "d7564305900b35c7af902837ba69e5e6"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/polly/agents/claude_code/config.yaml": {
+    "mtime": 1781591726.169169,
+    "ast_hash": "3dfd8b52b6950e4ab4beec0c42e96aa3",
+    "semantic_hash": "3dfd8b52b6950e4ab4beec0c42e96aa3"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/polly/agents/pi/config.yaml": {
+    "mtime": 1781591726.169169,
+    "ast_hash": "4be98209b42a432e7a865fd96648aa4e",
+    "semantic_hash": "4be98209b42a432e7a865fd96648aa4e"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/polly/agents/codex/config.yaml": {
+    "mtime": 1781591726.169169,
+    "ast_hash": "37fe4897f32a177dd0930babc7e4e2a1",
+    "semantic_hash": "37fe4897f32a177dd0930babc7e4e2a1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/polly/skills/investigate/SKILL.md": {
+    "mtime": 1781591726.1696076,
+    "ast_hash": "0ba395cb43378a943ee73fd052bf95db",
+    "semantic_hash": "0ba395cb43378a943ee73fd052bf95db"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/polly/skills/fanout/SKILL.md": {
+    "mtime": 1781591726.1696076,
+    "ast_hash": "9b78107b54c0518fc2efc4bbe0ea06d5",
+    "semantic_hash": "9b78107b54c0518fc2efc4bbe0ea06d5"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/polly/skills/cross-review/SKILL.md": {
+    "mtime": 1781591726.1696076,
+    "ast_hash": "2ba5ece2ba157d4f0718e04ab7c59376",
+    "semantic_hash": "2ba5ece2ba157d4f0718e04ab7c59376"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/debby/config.yaml": {
+    "mtime": 1781591726.1688292,
+    "ast_hash": "7d4e2a590e4675df01bdfd174b6b469f",
+    "semantic_hash": "7d4e2a590e4675df01bdfd174b6b469f"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/debby/agents/gpt/config.yaml": {
+    "mtime": 1781591726.1688292,
+    "ast_hash": "6c45b044b24a2e4fb34f98c8f10eae6d",
+    "semantic_hash": "6c45b044b24a2e4fb34f98c8f10eae6d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/debby/agents/claude/config.yaml": {
+    "mtime": 1781591726.1688292,
+    "ast_hash": "9ae3ee3fbe50a040ddff67bb0bbcac19",
+    "semantic_hash": "9ae3ee3fbe50a040ddff67bb0bbcac19"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/resources/examples/debby/skills/debate/SKILL.md": {
+    "mtime": 1781591726.1690588,
+    "ast_hash": "1b50a60c7748dccee12028f21529eb45",
+    "semantic_hash": "1b50a60c7748dccee12028f21529eb45"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/inner/static/chat.html": {
+    "mtime": 1781591726.153367,
+    "ast_hash": "c31d5196aa214af88b639ab607270c7b",
+    "semantic_hash": "c31d5196aa214af88b639ab607270c7b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/llms/LLMCLIENT.md": {
+    "mtime": 1781591726.153367,
+    "ast_hash": "13815e76041f88856f922d00741988b7",
+    "semantic_hash": "13815e76041f88856f922d00741988b7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/runtime/README.md": {
+    "mtime": 1781591726.1753678,
+    "ast_hash": "98db6ece10cb31c7bcf75dbc7201dfd7",
+    "semantic_hash": "98db6ece10cb31c7bcf75dbc7201dfd7"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/agent/AGENTS.md": {
+    "mtime": 1781591726.1563342,
+    "ast_hash": "d56c006cd7a9433de1122d9d245fd88b",
+    "semantic_hash": "d56c006cd7a9433de1122d9d245fd88b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/agent/config.yaml": {
+    "mtime": 1781591726.1564262,
+    "ast_hash": "5be1515d1a3e28f023550aab840e450b",
+    "semantic_hash": "5be1515d1a3e28f023550aab840e450b"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/agent/skills/build-omnigent/SKILL.md": {
+    "mtime": 1781591726.1565068,
+    "ast_hash": "dc5f6d5f172ea22895f25a800eeceabf",
+    "semantic_hash": "dc5f6d5f172ea22895f25a800eeceabf"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/agent/skills/omnigent-knowledge/SKILL.md": {
+    "mtime": 1781591726.1565068,
+    "ast_hash": "3e534b2c279cb6f47db50c1836c90ad2",
+    "semantic_hash": "3e534b2c279cb6f47db50c1836c90ad2"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/onboarding/agent/skills/detect-framework/SKILL.md": {
+    "mtime": 1781591726.1565068,
+    "ast_hash": "58f3f9a3d40f806e934b46bbf031ceb4",
+    "semantic_hash": "58f3f9a3d40f806e934b46bbf031ceb4"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/API.md": {
+    "mtime": 1781591726.1800272,
+    "ast_hash": "7526d4e4beb31eb7f390cf20fdebcd0d",
+    "semantic_hash": "7526d4e4beb31eb7f390cf20fdebcd0d"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/DBSPEC.md": {
+    "mtime": 1781591726.1803906,
+    "ast_hash": "dc7ce11d2a6c624703ddb5b994244f45",
+    "semantic_hash": "dc7ce11d2a6c624703ddb5b994244f45"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/server/README.md": {
+    "mtime": 1781591726.1803906,
+    "ast_hash": "2ef303db37f309b2ed1305714b5cec45",
+    "semantic_hash": "2ef303db37f309b2ed1305714b5cec45"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/spec/AGENTSPEC.md": {
+    "mtime": 1781591726.1893682,
+    "ast_hash": "cefe6eb2be3baa41639110bddba30bc1",
+    "semantic_hash": "cefe6eb2be3baa41639110bddba30bc1"
+  },
+  "/home/limcheekin/dev/ws/py/omnigent/omnigent/spec/README.md": {
+    "mtime": 1781591726.190208,
+    "ast_hash": "2353c3aa1b75023eb3b6c1f4ab37bf0f",
+    "semantic_hash": "2353c3aa1b75023eb3b6c1f4ab37bf0f"
+  }
+}
