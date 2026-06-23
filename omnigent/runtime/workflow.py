@@ -43,6 +43,7 @@ from omnigent.onboarding.detected import (
 )
 from omnigent.onboarding.provider_config import (
     ANTHROPIC_FAMILY,
+    BEDROCK_KIND,
     CLI_CONFIG_KIND,
     DATABRICKS_KIND,
     OPENAI_FAMILY,
@@ -512,6 +513,9 @@ def configure_agent_harness_with_provider(
     - ``databricks`` — delegate to the existing ucode path keyed on the
       provider's profile, reusing :func:`configure_agent_harness_with_ucode`
       so the ``polly`` / Databricks coding-agent flow is unchanged.
+    - ``bedrock`` — rejected (raises): AWS Bedrock mode is wired only into
+      the native ``omnigent claude`` launch, not the in-process / gateway
+      harnesses.
 
     :param env: Mutable spawn-env dict, modified in place.
     :param entry: The resolved provider entry to apply.
@@ -532,6 +536,22 @@ def configure_agent_harness_with_provider(
             "or Vertex AI) and does not support generic providers or gateway "
             "routing. Set executor.auth to an api_key, or executor.config "
             "vertex/project/location, instead of a 'providers:' entry.",
+            code=ErrorCode.INVALID_INPUT,
+        )
+    if entry.kind == BEDROCK_KIND:
+        # Bedrock mode is wired only into the native ``omnigent claude`` launch
+        # (:func:`omnigent.claude_native._bedrock_config_for_native_claude`),
+        # which sets CLAUDE_CODE_USE_BEDROCK + AWS_BEARER_TOKEN_BEDROCK directly.
+        # The in-process / gateway harnesses have no Bedrock path, so emitting
+        # the generic ``HARNESS_*_GATEWAY_*`` vars would silently point the
+        # harness at the Bedrock endpoint as if it spoke the Anthropic Messages
+        # API and fail at request time. Fail loud instead.
+        raise OmnigentError(
+            f"provider {entry.name!r} (kind 'bedrock') is only supported by the "
+            f"native 'omnigent claude' terminal, not the {harness_type!r} harness. "
+            "For agents / 'omnigent run', use a 'gateway' provider "
+            "(OpenAI/Anthropic-compatible endpoint), or a 'databricks' / 'key' "
+            "provider.",
             code=ErrorCode.INVALID_INPUT,
         )
     if entry.kind == SUBSCRIPTION_KIND:
@@ -1024,25 +1044,35 @@ def _build_claude_sdk_spawn_env(
             # _extra_env so it reaches settings.apiKeyHelper at turn time.
             # shlex.quote ensures the key is shell-safe even when it contains
             # special characters.
-            env["HARNESS_CLAUDE_SDK_API_KEY_HELPER"] = (
-                f"printf %s {shlex.quote(auth_from_spec.api_key)}"
-            )
+            _key_cmd = f"printf %s {shlex.quote(auth_from_spec.api_key)}"
+            env["HARNESS_CLAUDE_SDK_API_KEY_HELPER"] = _key_cmd
+            if auth_from_spec.base_url:
+                env["HARNESS_CLAUDE_SDK_GATEWAY_BASE_URL"] = auth_from_spec.base_url
+                # The gateway auth command is required by
+                # _resolve_gateway_env when no Databricks profile is
+                # present.  Reuse the same printf command so the
+                # executor resolves ANTHROPIC_BASE_URL correctly.
+                env["HARNESS_CLAUDE_SDK_GATEWAY_AUTH_COMMAND"] = _key_cmd
             profile = None
         else:
             # Legacy path: executor.config["profile"] or executor.profile.
             # DEPRECATED: use executor.auth: {type: databricks, profile: …} instead.
             profile = spec.executor.config.get("profile") or spec.executor.profile or None
 
-        # Enable Databricks routing when an explicit profile is set OR
-        # the model starts with ``databricks-``
-        # (mirrors the legacy :func:`should_use_databricks_for_claude` heuristic).
-        # Without the model-prefix check, ``databricks-*`` models run with no
-        # profile configured hit ``api.anthropic.com`` and get a confusing
-        # "model not found" error.
-        use_databricks = bool(profile) or (
-            model is not None and model.startswith(("databricks-", "databricks/"))
+        # Enable gateway routing when:
+        # 1. An explicit Databricks profile is set, OR
+        # 2. The model starts with ``databricks-``, OR
+        # 3. An ApiKeyAuth with a custom ``base_url`` is declared (e.g.
+        #    pointing at a mock LLM server).
+        # Without the gateway flag the executor ignores
+        # ``HARNESS_CLAUDE_SDK_GATEWAY_BASE_URL`` and falls through to
+        # ``api.anthropic.com``.
+        use_gateway = (
+            bool(profile)
+            or (model is not None and model.startswith(("databricks-", "databricks/")))
+            or (isinstance(auth_from_spec, ApiKeyAuth) and bool(auth_from_spec.base_url))
         )
-        if use_databricks:
+        if use_gateway:
             env["HARNESS_CLAUDE_SDK_GATEWAY"] = "true"
             if profile:
                 env["HARNESS_CLAUDE_SDK_DATABRICKS_PROFILE"] = str(profile)
@@ -1466,10 +1496,12 @@ def _build_cursor_spawn_env(
         from omnigent.onboarding.cursor_auth import resolve_cursor_api_key
 
         stored_key = resolve_cursor_api_key()
-        if stored_key is not None:
+        if stored_key:
             env["HARNESS_CURSOR_API_KEY"] = stored_key
-        elif os.environ.get("CURSOR_API_KEY"):
-            env["HARNESS_CURSOR_API_KEY"] = os.environ["CURSOR_API_KEY"]
+        else:
+            ambient_key = os.environ.get("CURSOR_API_KEY")
+            if ambient_key and ambient_key.strip():
+                env["HARNESS_CURSOR_API_KEY"] = ambient_key.strip()
     # Always set so the wrap doesn't fall back to ``"all"`` and override an
     # explicit ``skills: none`` from the spec (parity with the peer builders).
     env["HARNESS_CURSOR_SKILLS_FILTER"] = json.dumps(spec.skills_filter)
@@ -1491,11 +1523,15 @@ def _build_antigravity_spawn_env(spec: AgentSpec) -> dict[str, str]:
     Antigravity is Gemini-native with no OpenAI-compatible ``base_url``, so there
     is no gateway / ucode / Databricks path — only a direct API key or Vertex AI.
     API-key resolution (first wins): (1) spec ``executor.auth`` api_key; (2) the
-    ``antigravity:`` config block from ``omnigent setup``; (3) the legacy global
-    ``auth:`` api key; (4) an ambient ``GEMINI_API_KEY`` / ``ANTIGRAVITY_API_KEY``.
-    Any ``base_url`` is dropped (the SDK has no such field). Vertex AI is opt-in
-    via ``executor.config`` vertex/project/location, independent of the key path.
-    A ``DatabricksAuth`` is unsupported — warned and ignored.
+    dedicated ``antigravity:`` config block from ``omnigent setup``; (3) an
+    ambient ``GEMINI_API_KEY`` / ``ANTIGRAVITY_API_KEY``. The legacy global
+    ``auth:`` block is deliberately NOT consulted: it carries the OpenAI/gateway
+    key the other SDK harnesses inherit (an ``sk-…`` key), which the Gemini-native
+    SDK can't use — adopting it would guarantee an auth failure / mis-billing and
+    shadow the user's ambient ``GEMINI_API_KEY``. Any ``base_url`` is dropped (the
+    SDK has no such field). Vertex AI is opt-in via ``executor.config``
+    vertex/project/location, independent of the key path. A ``DatabricksAuth`` is
+    unsupported — warned and ignored.
 
     :param spec: The agent spec.
     :returns: Env-var overrides; may be empty (the wrap then uses the SDK's
@@ -1518,8 +1554,10 @@ def _build_antigravity_spawn_env(spec: AgentSpec) -> dict[str, str]:
             type(spec_auth).__name__,
         )
 
-    # Spec api-key wins; with no spec auth, fall back to the configured /
-    # ambient key (see docstring). A non-api-key auth never adopts a key.
+    # Spec api-key wins; with no spec auth, fall back to the dedicated
+    # ``antigravity:`` block, then an ambient Gemini key (see docstring). The
+    # global ``auth:`` block is intentionally NOT consulted — it holds the
+    # OpenAI/gateway key the SDK can't use. A non-api-key auth never adopts a key.
     if isinstance(spec_auth, ApiKeyAuth):
         # base_url intentionally dropped — the SDK has no such field.
         env["HARNESS_ANTIGRAVITY_API_KEY"] = spec_auth.api_key
@@ -1531,11 +1569,8 @@ def _build_antigravity_spawn_env(spec: AgentSpec) -> dict[str, str]:
         )
 
         stored_key = resolve_antigravity_api_key()
-        loaded = _load_global_auth()
         if stored_key is not None:
             env["HARNESS_ANTIGRAVITY_API_KEY"] = stored_key
-        elif isinstance(loaded, ApiKeyAuth):
-            env["HARNESS_ANTIGRAVITY_API_KEY"] = loaded.api_key
         else:
             for _env_var in ANTIGRAVITY_ENV_VARS:
                 if os.environ.get(_env_var):

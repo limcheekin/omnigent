@@ -51,6 +51,7 @@ from dataclasses import dataclass, field
 from types import ModuleType
 from typing import Any, TypeAlias
 
+from omnigent.llms._usage_observer import notify_from_dict as _notify_usage_from_dict
 from omnigent.spec.types import RetryPolicy
 
 from .executor import (
@@ -182,6 +183,63 @@ def _content_to_text(content: Any) -> str:  # type: ignore[explicit-any]
     return json.dumps(content)
 
 
+def _render_prior_history(prior: list[Message]) -> str:
+    """Render prior conversation turns as a plain-text transcript prefix.
+
+    Used to seed a FRESH SDK conversation (a new ``session_key`` or a
+    rebuilt agent) with the history it would otherwise lose. The SDK's
+    ``Conversation`` accumulates history only from steps it streams — it
+    exposes no API to inject prior turns, and ``send()`` triggers a model
+    turn — so the prior turns ride into the single ``send()`` of the next
+    turn as a context prefix rather than as native step history.
+
+    .. note::
+       Only ``user`` / ``assistant`` text is replayed. Tool calls and tool
+       results are not reconstructed into the SDK's native tool-call history
+       (the SDK has no surface to inject them); they appear, if at all, only
+       as whatever text the assistant turns carried. This is a deliberate,
+       documented limitation of the no-history-API fallback.
+
+    :param prior: The conversation messages preceding the latest user turn
+        (``messages[:-1]``), as Omnigent role/content dicts.
+    :returns: A transcript prefix like ``"Conversation so far:\\nuser: …\\n
+        assistant: …"``, or ``""`` when no prior user/assistant text exists.
+    """
+    lines: list[str] = []
+    for message in prior:
+        role = str(message.get("role", "")).strip()
+        # Only user/assistant turns carry replayable conversational text;
+        # tool/system bookkeeping rows are skipped (see the note above).
+        if role not in ("user", "assistant"):
+            continue
+        text = _content_to_text(message.get("content"))
+        if not text:
+            continue
+        lines.append(f"{role}: {text}")
+    if not lines:
+        return ""
+    return "Conversation so far:\n" + "\n".join(lines)
+
+
+def _seed_prompt(prior: list[Message], latest_user_text: str) -> str:
+    """Combine a prior-history prefix with the latest user text for one ``send``.
+
+    On a fresh SDK conversation the prior turns and the latest user input are
+    delivered together in the single ``send()`` the turn already makes, so the
+    fresh backend sees the history as context for the turn it is about to run.
+
+    :param prior: Messages preceding the latest user turn (``messages[:-1]``).
+    :param latest_user_text: The newest user input for this turn (may be ``""``).
+    :returns: ``latest_user_text`` unchanged when there is no replayable prior
+        history; otherwise the transcript prefix followed by the latest input
+        under a ``user:`` label so the model can tell them apart.
+    """
+    prefix = _render_prior_history(prior)
+    if not prefix:
+        return latest_user_text
+    return f"{prefix}\n\nRespond to the latest user message:\nuser: {latest_user_text}"
+
+
 def _tool_name(raw_name: Any) -> str:  # type: ignore[explicit-any]
     """Normalize an SDK tool name to a plain string.
 
@@ -238,6 +296,8 @@ class _AntigravitySessionState:
     :param agent_signature: ``(model, system_prompt, tool_signature)`` key; a
         change forces an agent rebuild. A model change thus resets the SDK
         conversation — fine since mid-session model switches are rare.
+        :meth:`interrupt_session` clears this to ``None`` so the next turn
+        rebuilds rather than reusing the cancelled conversation.
     :param pending_tools: Open tool calls keyed by call id, populated on
         :class:`ToolCallRequest` and drained by the ``PostToolCallHook``.
     :param active_queue: The current turn's event queue (the
@@ -369,6 +429,25 @@ class AntigravityExecutor(Executor):
         then raises ``AntigravityCancelledError`` or yields a ``CANCELED``
         step, which the consumer surfaces as :class:`TurnCancelled`.
 
+        A cancelled SDK conversation carries aborted state, so reusing it for
+        the next turn would resume from that broken state. Invalidating the
+        cached agent signature forces the next :meth:`run_turn` through
+        :meth:`_ensure_agent`'s rebuild path — the same teardown the
+        error / signature-change path uses — which closes the stale agent and
+        opens a fresh agent + conversation (re-seeding prior history) before it
+        sends. The close is deferred to that path rather than awaited here so
+        it cannot race the still-running producer task and turn a clean cancel
+        into an :class:`ExecutorError`.
+
+        This deliberately departs from the peer executors, which call
+        ``close_session()`` eagerly on interrupt (see
+        :meth:`CursorExecutor.interrupt_session` and
+        :meth:`ClaudeSDKExecutor.interrupt_session`). Antigravity cannot do the
+        same: an eager close would race the still-live turn's producer task and
+        convert a clean :class:`TurnCancelled` into an :class:`ExecutorError`,
+        so we only invalidate the signature here and defer the rebuild (and
+        close) to the next turn.
+
         :param session_key: The Omnigent session id to interrupt.
         :returns: ``True`` if a live conversation was asked to cancel,
             ``False`` when the session has no open conversation.
@@ -379,6 +458,9 @@ class AntigravityExecutor(Executor):
         state.interrupt_requested = True
         with contextlib.suppress(Exception):
             await state.conversation.cancel()
+        # Drop the cached signature (not the agent itself — _ensure_agent needs
+        # the live agent reference to close it) so the next turn rebuilds.
+        state.agent_signature = None
         return True
 
     async def run_turn(
@@ -415,7 +497,7 @@ class AntigravityExecutor(Executor):
         prompt = _latest_user_text(messages)
 
         try:
-            state = await self._ensure_agent(
+            state, created = await self._ensure_agent(
                 session_key,
                 model=model,
                 system_prompt=system_prompt,
@@ -428,6 +510,18 @@ class AntigravityExecutor(Executor):
             logger.exception("Antigravity agent construction failed")
             yield ExecutorError(message=f"Antigravity agent setup failed: {exc}", retryable=False)
             return
+
+        # A FRESH agent (new session, or a model/system-prompt/tools rebuild —
+        # e.g. after a server restart) starts with an empty SDK conversation, so
+        # it would otherwise lose all prior turns. Seed the prior history
+        # (``messages[:-1]``) into this turn's single ``send()`` as a context
+        # prefix — the SDK exposes no history-injection API and ``send()``
+        # triggers a turn, so riding the prefix into the next prompt is the only
+        # way to replay it without spawning extra model turns. A REUSED agent
+        # already holds this history in its live conversation; re-seeding would
+        # duplicate it, so we leave its prompt as the latest user text alone.
+        if created:
+            prompt = _seed_prompt(messages[:-1], prompt)
 
         event_queue: _EventQueue = asyncio.Queue()
         state.active_queue = event_queue
@@ -474,6 +568,15 @@ class AntigravityExecutor(Executor):
             yield TurnCancelled(reason="user_cancelled", phase="model")
             return
         usage = self._extract_usage(state.last_usage)
+        # Stamp the resolved model onto the usage dict so the scaffold can
+        # price the turn via the MLflow catalog (same pattern as the
+        # claude-sdk and openai-agents-sdk executors).
+        if usage is not None:
+            usage["model"] = model
+        # Notify in-process usage subscribers (and the auto-recorder) before the
+        # terminal event, matching the peer SDK executors so antigravity turns
+        # are not invisible to usage observers. No-op for an empty usage dict.
+        _notify_usage_from_dict(model=model, usage=usage)
         yield TurnComplete(response="".join(final_text_parts) or None, usage=usage)
 
     # ── SDK touchpoints (isolated; duck-typed; verified against v0.1.x) ──
@@ -674,7 +777,7 @@ class AntigravityExecutor(Executor):
         model: str,
         system_prompt: str,
         tools: list[ToolSpec],
-    ) -> _AntigravitySessionState:
+    ) -> tuple[_AntigravitySessionState, bool]:
         """Return the session state with a current SDK agent + conversation.
 
         Rebuilds the agent when the model, system prompt, or tool set changes;
@@ -686,17 +789,27 @@ class AntigravityExecutor(Executor):
         :param model: The resolved model id to pin, e.g. ``"gemini-3.5-flash"``.
         :param system_prompt: The agent's system instructions.
         :param tools: Omnigent tool specs to expose to the agent.
-        :returns: The session's :class:`_AntigravitySessionState`, with
-            ``agent`` and ``conversation`` populated.
+        :returns: ``(state, created)`` — the session's
+            :class:`_AntigravitySessionState` (with ``agent`` /
+            ``conversation`` populated) and ``created``, which is ``True``
+            when a FRESH SDK agent was opened (a brand-new session or a
+            signature-forced rebuild) and ``False`` when an existing live
+            agent was reused. A fresh agent's SDK conversation starts empty,
+            so the caller must seed prior history into it; a reused agent
+            already holds that history and must NOT be re-seeded.
         """
         signature = (model, system_prompt, self._tool_signature(tools))
         state = self._session_states.get(session_key)
         if state is None:
+            # A brand-new session's state is NOT registered until the agent is
+            # fully built below, so a construction failure (bad creds, a host
+            # without the SDK's required glibc, SDK drift) leaves no dead,
+            # agent-less entry accumulating in ``_session_states`` turn after
+            # turn. A reused session is already registered.
             state = _AntigravitySessionState()
-            self._session_states[session_key] = state
 
         if state.agent is not None and state.agent_signature == signature:
-            return state
+            return state, False
 
         if state.agent is not None:
             await self._close_agent(state.agent)
@@ -706,10 +819,24 @@ class AntigravityExecutor(Executor):
         agent = await self._open_agent(
             state, model=model, system_prompt=system_prompt, tools=tools
         )
+        # Record the opened agent on the state BEFORE the (failure-prone)
+        # conversation access: ``_open_agent`` has already entered the agent's
+        # async context, which spawns the native ``localharness`` subprocess, so
+        # if anything after this point raises, the agent must still be reachable
+        # by ``close()`` / ``close_session()`` for teardown — otherwise that
+        # subprocess orphans. If wiring the conversation fails, reap it here.
         state.agent = agent
-        state.conversation = agent.conversation
+        try:
+            state.conversation = agent.conversation
+        except Exception:
+            await self._close_agent(agent)
+            state.agent = None
+            state.conversation = None
+            raise
         state.agent_signature = signature
-        return state
+        # Register only once the agent is fully built (see the no-state branch).
+        self._session_states[session_key] = state
+        return state, True
 
     async def _open_agent(
         self,

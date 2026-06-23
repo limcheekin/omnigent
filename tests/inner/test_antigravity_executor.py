@@ -34,6 +34,7 @@ from omnigent.inner.executor import (
     TurnCancelled,
     TurnComplete,
 )
+from omnigent.llms._usage_observer import add_observer
 
 # ── Fakes mirroring the real SDK streaming shapes ───────────────────────
 
@@ -349,12 +350,14 @@ async def test_streaming_maps_text_reasoning_and_usage(monkeypatch: pytest.Monke
     assert len(completes) == 1
     # Final text is the accumulation of the streamed deltas.
     assert completes[0].response == "Hello world"
-    # Usage maps the SDK's UsageMetadata field names onto Omnigent's keys.
+    # Usage maps the SDK's UsageMetadata field names onto Omnigent's keys and
+    # stamps the resolved model so the scaffold can price the turn.
     assert completes[0].usage == {
         "input_tokens": 11,
         "output_tokens": 7,
         "total_tokens": 18,
         "cache_read_input_tokens": 2,
+        "model": "gemini-3-pro",
     }
 
 
@@ -768,6 +771,152 @@ async def test_agent_reused_across_turns_same_session(monkeypatch: pytest.Monkey
 
 
 @pytest.mark.asyncio
+async def test_fresh_session_replays_prior_history(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A FRESH agent seeds prior user/assistant turns into its first send().
+
+    Models a rebuilt/restarted session: the turn arrives with prior history but
+    the SDK conversation is brand new (and the SDK has no history-injection
+    API). The prior turns must ride into the single send() as a context prefix,
+    so the agent doesn't lose them. Without the seeding fix the agent would only
+    ever see the latest user text.
+    """
+    captured = _install_fake_sdk(monkeypatch, scripts=[[_text_step("reply")]])
+    executor = AntigravityExecutor()
+
+    messages = [
+        {"role": "user", "content": "what is 2+2?", "session_id": "s1"},
+        {"role": "assistant", "content": "4", "session_id": "s1"},
+        {"role": "user", "content": "and times 3?", "session_id": "s1"},
+    ]
+    await _drain(executor, messages)
+
+    # One agent, one send. That send must carry the prior turns AND the latest
+    # user text — not just the latest text (the pre-fix behavior).
+    sends = captured["agents"][0].conversation.sends
+    assert len(sends) == 1
+    seeded = sends[0]
+    assert "what is 2+2?" in seeded  # prior user turn replayed
+    assert "assistant: 4" in seeded  # prior assistant turn replayed
+    assert "and times 3?" in seeded  # latest user input still present
+    # The latest input is not the whole prompt — proves a prefix was prepended.
+    assert seeded != "and times 3?"
+
+
+@pytest.mark.asyncio
+async def test_rebuilt_session_replays_history_after_signature_change(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A model switch rebuilds the agent; the rebuild re-seeds prior history.
+
+    A signature change (model/system-prompt/tools) discards the live SDK
+    conversation, so the *rebuilt* agent is fresh and must be re-seeded with the
+    history it just lost — the same context-loss bug a server restart causes.
+    """
+    captured = _install_fake_sdk(monkeypatch, scripts=[[_text_step("a")], [_text_step("b")]])
+    executor = AntigravityExecutor(model="gemini-3-pro")
+
+    await _drain(executor, [{"role": "user", "content": "first", "session_id": "s1"}])
+    # Second turn carries the accumulated history AND switches model, forcing a
+    # rebuild of the (now fresh) agent.
+    second = [
+        {"role": "user", "content": "first", "session_id": "s1"},
+        {"role": "assistant", "content": "answer one", "session_id": "s1"},
+        {"role": "user", "content": "second", "session_id": "s1"},
+    ]
+    await _drain(executor, second, config=ExecutorConfig(model="gemini-3-flash"))
+
+    # Two agents (model changed). The rebuilt agent's first send must replay the
+    # prior turns, not just the latest "second".
+    assert len(captured["agents"]) == 2
+    rebuilt_sends = captured["agents"][1].conversation.sends
+    assert len(rebuilt_sends) == 1
+    assert "first" in rebuilt_sends[0]
+    assert "assistant: answer one" in rebuilt_sends[0]
+    assert "second" in rebuilt_sends[0]
+
+
+@pytest.mark.asyncio
+async def test_reused_session_does_not_reseed_history(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A REUSED agent must NOT re-seed history (it already holds it).
+
+    The live SDK conversation accumulated the prior turns itself, so re-seeding
+    on reuse would duplicate them. The second turn's send must be exactly the
+    latest user text, with no transcript prefix.
+    """
+    captured = _install_fake_sdk(
+        monkeypatch, scripts=[[_text_step("one-reply")], [_text_step("two-reply")]]
+    )
+    executor = AntigravityExecutor()
+
+    await _drain(executor, [{"role": "user", "content": "one", "session_id": "s1"}])
+    # Second turn on the same session/signature reuses the agent. It carries the
+    # prior turn in its messages, but the reused conversation already has it.
+    second = [
+        {"role": "user", "content": "one", "session_id": "s1"},
+        {"role": "assistant", "content": "one-reply", "session_id": "s1"},
+        {"role": "user", "content": "two", "session_id": "s1"},
+    ]
+    await _drain(executor, second)
+
+    assert len(captured["agents"]) == 1  # reused, not rebuilt
+    # The reused turn's send is the bare latest text — no "Conversation so far:"
+    # prefix and no duplicated prior turn.
+    sends = captured["agents"][0].conversation.sends
+    assert sends == ["one", "two"]
+
+
+@pytest.mark.asyncio
+async def test_usage_observer_notified_on_turn_complete(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The usage observer is notified with the turn's tokens before TurnComplete.
+
+    Peers notify in-process usage subscribers on every turn; without the fix,
+    antigravity turns fire nothing, so observers see no usage for them.
+    """
+    script: list[_TurnAction] = [
+        _text_step("hi"),
+        _YieldStep(
+            _FakeStep(
+                step_type=_StepType.FINISH, status=_StepStatus.DONE, usage_metadata=_FakeUsage()
+            )
+        ),
+    ]
+    _install_fake_sdk(monkeypatch, scripts=[script])
+    executor = AntigravityExecutor(model="gemini-3-pro")
+
+    seen: list[dict[str, Any]] = []
+
+    def _observer(
+        *, model: str | None, input_tokens: int, output_tokens: int, total_tokens: int
+    ) -> None:
+        seen.append(
+            {
+                "model": model,
+                "input_tokens": input_tokens,
+                "output_tokens": output_tokens,
+                "total_tokens": total_tokens,
+            }
+        )
+
+    remove = add_observer(_observer)
+    try:
+        events = await _drain(executor, [{"role": "user", "content": "go", "session_id": "s1"}])
+    finally:
+        remove()
+
+    # Exactly one notification, carrying the model and the mapped token counts
+    # from the turn's UsageMetadata (_FakeUsage: prompt=11, candidates=7, total=18).
+    assert len(seen) == 1
+    assert seen[0] == {
+        "model": "gemini-3-pro",
+        "input_tokens": 11,
+        "output_tokens": 7,
+        "total_tokens": 18,
+    }
+    # The notification accompanies a normal TurnComplete.
+    assert any(isinstance(e, TurnComplete) for e in events)
+
+
+@pytest.mark.asyncio
 async def test_model_switch_rebuilds_agent(monkeypatch: pytest.MonkeyPatch) -> None:
     """A per-turn model override changes the signature and rebuilds the agent."""
     captured = _install_fake_sdk(monkeypatch, scripts=[[_text_step("a")], [_text_step("b")]])
@@ -852,6 +1001,63 @@ async def test_close_session_closes_agent(monkeypatch: pytest.MonkeyPatch) -> No
     await executor.close_session("s1")
     # _close_agent awaited the agent's __aexit__, releasing the SDK connection.
     assert agent.closed is True
+
+
+@pytest.mark.asyncio
+async def test_open_agent_failure_leaves_no_session_state(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A failed agent build registers no dead, agent-less ``_session_states`` row.
+
+    Otherwise every turn on an un-buildable host (bad creds / missing glibc /
+    SDK drift) would accumulate a permanent empty entry that close_session never
+    reaps.
+    """
+    _install_fake_sdk(monkeypatch, scripts=[[_text_step("ok")]])
+    executor = AntigravityExecutor()
+
+    async def _boom(*_args: Any, **_kwargs: Any) -> Any:
+        raise RuntimeError("agent construction failed")
+
+    monkeypatch.setattr(executor, "_open_agent", _boom)
+
+    events = await _drain(executor, [{"role": "user", "content": "hi", "session_id": "s1"}])
+    assert any(isinstance(e, ExecutorError) for e in events)
+    assert executor._session_states == {}
+
+
+@pytest.mark.asyncio
+async def test_conversation_access_failure_reaps_agent(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """If ``agent.conversation`` raises after ``__aenter__``, the entered agent
+    (and its native subprocess) is torn down rather than orphaned, and no
+    session state is registered."""
+    _install_fake_sdk(monkeypatch, scripts=[[_text_step("ok")]])
+    executor = AntigravityExecutor()
+
+    class _BadConversationAgent:
+        def __init__(self) -> None:
+            self.closed = False
+
+        @property
+        def conversation(self) -> Any:
+            raise RuntimeError("conversation unavailable")
+
+        async def __aexit__(self, *_args: object) -> None:
+            self.closed = True
+
+    bad_agent = _BadConversationAgent()
+
+    async def _open(*_args: Any, **_kwargs: Any) -> Any:
+        return bad_agent
+
+    monkeypatch.setattr(executor, "_open_agent", _open)
+
+    events = await _drain(executor, [{"role": "user", "content": "hi", "session_id": "s1"}])
+    assert any(isinstance(e, ExecutorError) for e in events)
+    assert bad_agent.closed is True  # _close_agent reaped the entered agent
+    assert executor._session_states == {}
 
 
 # ── Interrupt (cancellation) tests — real deterministic sync gates ──────
@@ -987,3 +1193,138 @@ async def test_interrupt_session_unknown_returns_false(monkeypatch: pytest.Monke
     _install_fake_sdk(monkeypatch, scripts=[])
     executor = AntigravityExecutor()
     assert await executor.interrupt_session("never-started") is False
+
+
+class _RebuildConversation:
+    """Conversation that blocks-then-cancels on turn 1, then runs clean on turn 2.
+
+    The first conversation (``blocking=True``) streams one delta and parks on a
+    gate until ``cancel()`` releases it, then raises the SDK cancellation error
+    — modelling an interrupted in-flight turn. The second conversation
+    (``blocking=False``) is the fresh one a post-interrupt rebuild must open and
+    runs a normal turn to completion. Each records its own ``sends`` so a test
+    can prove the second turn went to the *new* conversation, not the cancelled
+    one.
+    """
+
+    def __init__(self, gate: asyncio.Event, *, blocking: bool) -> None:
+        self._gate = gate
+        self._blocking = blocking
+        self.sends: list[str] = []
+        self.cancel_called = 0
+
+    async def send(self, prompt: Any, **_kw: Any) -> None:
+        self.sends.append(prompt)
+
+    async def receive_steps(self) -> Any:
+        if self._blocking:
+            yield _FakeStep(
+                step_type=_StepType.TEXT_RESPONSE,
+                status=_StepStatus.ACTIVE,
+                content_delta="streaming",
+            )
+            await self._gate.wait()  # parked until cancel() releases us
+            raise _AntigravityCancelledError("cancelled")
+        yield _FakeStep(
+            step_type=_StepType.TEXT_RESPONSE,
+            status=_StepStatus.ACTIVE,
+            content_delta="second-reply",
+        )
+        yield _FakeStep(step_type=_StepType.FINISH, status=_StepStatus.DONE)
+
+    async def cancel(self) -> None:
+        self.cancel_called += 1
+        self._gate.set()
+
+
+def _install_rebuild_sdk(monkeypatch: pytest.MonkeyPatch, gate: asyncio.Event) -> dict[str, Any]:
+    """Install a fake SDK: first agent blocks-then-cancels, later agents run clean."""
+    captured: dict[str, Any] = {"agents": [], "conversations": []}
+
+    class _RebuildAgent:
+        def __init__(self, config: Any, *, blocking: bool) -> None:
+            self.config = config
+            self._conversation = _RebuildConversation(gate, blocking=blocking)
+            self.closed = False
+            captured["conversations"].append(self._conversation)
+
+        @property
+        def conversation(self) -> _RebuildConversation:
+            return self._conversation
+
+        async def __aenter__(self) -> _RebuildAgent:
+            return self
+
+        async def __aexit__(self, *_a: object) -> None:
+            self.closed = True
+
+    class _FakeHooks:
+        PostToolCallHook = _FakePostToolCallHook
+
+    class _FakeTypes:
+        AntigravityCancelledError = _AntigravityCancelledError
+
+    class _FakeModule:
+        LocalAgentConfig = _FakeLocalAgentConfig
+        hooks = _FakeHooks
+        types = _FakeTypes
+
+        @staticmethod
+        def Agent(config: Any) -> _RebuildAgent:
+            # Only the very first agent blocks (the turn we interrupt); the
+            # rebuilt agent runs a normal turn.
+            agent = _RebuildAgent(config, blocking=not captured["agents"])
+            captured["agents"].append(agent)
+            return agent
+
+    monkeypatch.setattr(ag, "_ensure_antigravity_sdk", lambda: _FakeModule())
+    return captured
+
+
+@pytest.mark.asyncio
+async def test_next_turn_rebuilds_after_interrupt(monkeypatch: pytest.MonkeyPatch) -> None:
+    """After an interrupt, the next turn rebuilds rather than reusing the cancelled convo.
+
+    Regression guard for F12: ``interrupt_session`` -> ``conversation.cancel()``
+    left the cancelled SDK conversation cached, so the next turn resumed from
+    aborted state. The fix invalidates the cached agent signature on interrupt
+    so the next ``run_turn`` closes the stale agent and opens a fresh
+    agent + conversation. Same model / system_prompt / tools across both turns,
+    so without the fix the agent would be reused (1 agent) and the second send
+    would land on the cancelled conversation.
+    """
+    gate = asyncio.Event()
+    first_text = asyncio.Event()
+    captured = _install_rebuild_sdk(monkeypatch, gate)
+    executor = AntigravityExecutor()
+
+    # Turn 1: drive until the first delta (provably mid-flight), then interrupt.
+    collected: list[Any] = []
+    task = asyncio.create_task(_drive_until_first_text(executor, collected, first_text))
+    await asyncio.wait_for(first_text.wait(), timeout=5)
+    assert await executor.interrupt_session("s1") is True
+    await asyncio.wait_for(task, timeout=5)
+
+    # The interrupt produced a clean cancel (not an error) and cancelled the
+    # live conversation.
+    assert any(isinstance(e, TurnCancelled) for e in collected)
+    assert not any(isinstance(e, ExecutorError) for e in collected)
+    cancelled_conv = captured["conversations"][0]
+    assert cancelled_conv.cancel_called == 1
+
+    # Turn 2 on the SAME session/signature must NOT reuse the cancelled agent.
+    events = await _drain(executor, [{"role": "user", "content": "next", "session_id": "s1"}])
+
+    # A fresh agent was built (2 total) and the stale one was torn down — the
+    # exact rebuild path a signature change uses. Reuse (the bug) would be 1.
+    assert len(captured["agents"]) == 2
+    assert captured["agents"][0].closed is True
+    # The second turn went to the NEW conversation; the cancelled one never saw
+    # the follow-up prompt (no stale-state reuse).
+    new_conv = captured["conversations"][1]
+    assert new_conv.sends == ["next"]
+    assert "next" not in cancelled_conv.sends
+    # And the fresh turn completed normally.
+    completes = [e for e in events if isinstance(e, TurnComplete)]
+    assert len(completes) == 1
+    assert completes[0].response == "second-reply"
