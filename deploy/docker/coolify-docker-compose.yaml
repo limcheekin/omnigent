@@ -116,8 +116,8 @@ services:
       OMNIGENT_ACCOUNTS_AUTO_OPEN: "${OMNIGENT_ACCOUNTS_AUTO_OPEN:-0}"
     volumes:
       - artifact-data:/data
-    ports:
-      - "${OMNIGENT_PORT:-8000}:8000"
+    #ports:
+    #  - "${OMNIGENT_PORT:-8000}:8000"
 
 volumes:
   artifact-data:
