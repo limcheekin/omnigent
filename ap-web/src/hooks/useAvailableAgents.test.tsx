@@ -90,6 +90,42 @@ describe("useAvailableAgents", () => {
     expect(urls).toContain(SCAN_URL);
   });
 
+  it("paginates built-ins so defaults pushed past fork rows are still listed", async () => {
+    routeFetch({
+      [BUILTINS_URL]: mockResponse({
+        object: "list",
+        data: [
+          { id: "ag_codex_fork", name: "codex-native-ui (fork ag_old)", harness: "codex-native" },
+        ],
+        has_more: true,
+        last_id: "ag_codex_fork",
+      }),
+      "/v1/agents?after=ag_codex_fork": mockResponse({
+        object: "list",
+        data: [{ id: "ag_codex", name: "codex-native-ui", harness: "codex-native" }],
+        has_more: false,
+      }),
+      [SCAN_URL]: EMPTY_SCAN,
+    });
+
+    const { result } = renderHook(() => useAvailableAgents(), { wrapper });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    expect(result.current.data).toEqual([
+      {
+        id: "ag_codex",
+        name: "codex-native-ui",
+        display_name: "Codex",
+        description: null,
+        harness: "codex-native",
+        skills: [],
+      },
+    ]);
+    const urls = fetchMock.mock.calls.map((c) => c[0] as string);
+    expect(urls).toContain("/v1/agents");
+    expect(urls).toContain("/v1/agents?after=ag_codex_fork");
+  });
+
   it("maps rows into AvailableAgent and applies native, nessie, and debby display names", async () => {
     routeFetch({
       [BUILTINS_URL]: mockResponse({
@@ -106,6 +142,24 @@ describe("useAvailableAgents", () => {
             name: "pi-native-ui",
             description: null,
             harness: "pi-native",
+          },
+          {
+            id: "ag_kiro_native",
+            name: "kiro-native-ui",
+            description: null,
+            harness: "kiro-native",
+          },
+          {
+            id: "ag_agy_native",
+            name: "antigravity-native-ui",
+            description: null,
+            harness: "antigravity-native",
+          },
+          {
+            id: "ag_opencode_native",
+            name: "opencode-native-ui",
+            description: null,
+            harness: "opencode-native",
           },
           {
             id: "ag_nessie",
@@ -160,6 +214,30 @@ describe("useAvailableAgents", () => {
         display_name: "Pi",
         description: null,
         harness: "pi-native",
+        skills: [],
+      },
+      {
+        id: "ag_kiro_native",
+        name: "kiro-native-ui",
+        display_name: "Kiro",
+        description: null,
+        harness: "kiro-native",
+        skills: [],
+      },
+      {
+        id: "ag_agy_native",
+        name: "antigravity-native-ui",
+        display_name: "Antigravity",
+        description: null,
+        harness: "antigravity-native",
+        skills: [],
+      },
+      {
+        id: "ag_opencode_native",
+        name: "opencode-native-ui",
+        display_name: "OpenCode",
+        description: null,
+        harness: "opencode-native",
         skills: [],
       },
       {
@@ -337,6 +415,77 @@ describe("useAvailableAgents", () => {
     expect(enrichCalls).toEqual(["/v1/sessions/conv_3/agent"]);
   });
 
+  it("dedupes native built-ins and hides session-discovered native shadows", async () => {
+    routeFetch({
+      [BUILTINS_URL]: mockResponse({
+        object: "list",
+        data: [
+          // Stale/non-canonical native rows from older local state; they
+          // resolve by harness but must not compete with the seeded rows.
+          { id: "ag_stale_codex", name: "codex-native-ui (fork ag_old)", harness: "codex-native" },
+          { id: "ag_codex", name: "codex-native-ui", harness: "codex-native" },
+          {
+            id: "ag_stale_claude",
+            name: "claude-native-ui (fork ag_old)",
+            harness: "claude-native",
+          },
+          { id: "ag_claude", name: "claude-native-ui", harness: "claude-native" },
+          { id: "ag_stale_kiro", name: "kiro-naitive", harness: "kiro-native" },
+          { id: "ag_kiro", name: "kiro-native-ui", harness: "kiro-native" },
+        ],
+        has_more: false,
+      }),
+      [SCAN_URL]: mockResponse({
+        object: "list",
+        data: [
+          // This distinct session-bound id used to enrich into a second
+          // Kiro row because it did not shadow the built-in by name/id.
+          { id: "conv_kiro", agent_id: "ag_session_kiro", agent_name: "kiro-naitive" },
+          // Legacy failed Kiro attempts used a plain "kiro" agent name and
+          // no harness; that row must not surface as a custom Kiro picker row.
+          { id: "conv_legacy", agent_id: "ag_legacy_kiro", agent_name: "kiro" },
+        ],
+        has_more: false,
+      }),
+      "/v1/sessions/conv_kiro/agent": mockResponse({
+        id: "ag_session_kiro",
+        object: "agent",
+        name: "kiro-naitive",
+        harness: "kiro-native",
+      }),
+    });
+
+    const { result } = renderHook(() => useAvailableAgents(), { wrapper });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    expect(result.current.data).toEqual([
+      {
+        id: "ag_codex",
+        name: "codex-native-ui",
+        display_name: "Codex",
+        description: null,
+        harness: "codex-native",
+        skills: [],
+      },
+      {
+        id: "ag_claude",
+        name: "claude-native-ui",
+        display_name: "Claude Code",
+        description: null,
+        harness: "claude-native",
+        skills: [],
+      },
+      {
+        id: "ag_kiro",
+        name: "kiro-native-ui",
+        display_name: "Kiro",
+        description: null,
+        harness: "kiro-native",
+        skills: [],
+      },
+    ]);
+  });
+
   it("collapses same-named custom agents with distinct agent_ids to the newest session's row", async () => {
     routeFetch({
       [BUILTINS_URL]: mockResponse({ object: "list", data: [], has_more: false }),
@@ -404,6 +553,137 @@ describe("useAvailableAgents", () => {
         skills: [],
       },
     ]);
+  });
+
+  it("lets a newer upload supersede a same-named user-registered template (builtin: false)", async () => {
+    // The regression this guards: a user registers agent A as a template
+    // (e.g. `omnigent server --agent`, builtin: false), then `omnigent run`s
+    // a NEWER agent A whose session-scoped row has a distinct agent_id. The
+    // picker must bind the newest (the upload), not the stale template.
+    routeFetch({
+      [BUILTINS_URL]: mockResponse({
+        object: "list",
+        data: [
+          // Seeded built-in — protected, always listed verbatim.
+          { id: "ag_debby", name: "debby", harness: "claude-sdk", builtin: true, created_at: 100 },
+          // User-registered template for "agent-a" (older).
+          {
+            id: "ag_template",
+            name: "agent-a",
+            harness: "claude-sdk",
+            builtin: false,
+            created_at: 200,
+          },
+        ],
+        has_more: false,
+      }),
+      [SCAN_URL]: mockResponse({
+        object: "list",
+        data: [
+          // A session that bound the template directly — dropped by id (the
+          // template already represents it as a candidate).
+          { id: "conv_a", agent_id: "ag_template", agent_name: "agent-a", created_at: 250 },
+          // The newer `omnigent run` upload: distinct agent_id, same name,
+          // created AFTER the template — must win.
+          { id: "conv_b", agent_id: "ag_upload_v2", agent_name: "agent-a", created_at: 300 },
+        ],
+        has_more: false,
+      }),
+      "/v1/sessions/conv_b/agent": mockResponse({
+        id: "ag_upload_v2",
+        object: "agent",
+        name: "agent-a",
+        description: "version 2",
+        harness: "claude-sdk",
+      }),
+    });
+
+    const { result } = renderHook(() => useAvailableAgents(), { wrapper });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    // Exactly one "agent-a", bound to the newer upload (ag_upload_v2). The
+    // seeded debby is untouched. ag_template winning would mean the stale
+    // template shadowed the upload (the original bug); two agent-a rows would
+    // mean the template and upload both leaked.
+    const ids = result.current.data?.map((a) => a.id);
+    expect(ids).toEqual(["ag_debby", "ag_upload_v2"]);
+    // The enrich ran against the upload's session, not the template-bound one.
+    const enrichCalls = fetchMock.mock.calls
+      .map((c) => c[0] as string)
+      .filter((u) => u.endsWith("/agent"));
+    expect(enrichCalls).toEqual(["/v1/sessions/conv_b/agent"]);
+  });
+
+  it("keeps a user-registered template when no newer upload exists", async () => {
+    // Mirror image of the supersede case: the template is the only agent-a,
+    // and a same-named session that simply bound it must not duplicate it.
+    routeFetch({
+      [BUILTINS_URL]: mockResponse({
+        object: "list",
+        data: [
+          {
+            id: "ag_template",
+            name: "agent-a",
+            description: "the template",
+            harness: "claude-sdk",
+            builtin: false,
+            created_at: 200,
+          },
+        ],
+        has_more: false,
+      }),
+      [SCAN_URL]: mockResponse({
+        object: "list",
+        data: [{ id: "conv_a", agent_id: "ag_template", agent_name: "agent-a", created_at: 250 }],
+        has_more: false,
+      }),
+    });
+
+    const { result } = renderHook(() => useAvailableAgents(), { wrapper });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    // One agent-a (the template), carried with its full catalog info. No
+    // enrich fetch — the only session bound the template directly.
+    expect(result.current.data?.map((a) => ({ id: a.id, description: a.description }))).toEqual([
+      { id: "ag_template", description: "the template" },
+    ]);
+    const enrichCalls = fetchMock.mock.calls
+      .map((c) => c[0] as string)
+      .filter((u) => u.endsWith("/agent"));
+    expect(enrichCalls).toEqual([]);
+  });
+
+  it("protects a seeded built-in from a same-named upload (builtin: true)", async () => {
+    // Option-1 half of the policy: a same-named upload must NOT shadow a
+    // SEEDED built-in (unlike a user-registered template). debby stays canonical.
+    routeFetch({
+      [BUILTINS_URL]: mockResponse({
+        object: "list",
+        data: [
+          { id: "ag_debby", name: "debby", harness: "claude-sdk", builtin: true, created_at: 100 },
+        ],
+        has_more: false,
+      }),
+      [SCAN_URL]: mockResponse({
+        object: "list",
+        data: [
+          // A newer upload named "debby" — must be dropped, not surfaced.
+          { id: "conv_x", agent_id: "ag_fake_debby", agent_name: "debby", created_at: 999 },
+        ],
+        has_more: false,
+      }),
+    });
+
+    const { result } = renderHook(() => useAvailableAgents(), { wrapper });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    // Only the seeded debby; the same-named upload is shadowed (Option 1) and
+    // never enriched, even though it is newer than the built-in.
+    expect(result.current.data?.map((a) => a.id)).toEqual(["ag_debby"]);
+    const enrichCalls = fetchMock.mock.calls
+      .map((c) => c[0] as string)
+      .filter((u) => u.endsWith("/agent"));
+    expect(enrichCalls).toEqual([]);
   });
 
   it("degrades to built-ins when the sessions scan fails", async () => {

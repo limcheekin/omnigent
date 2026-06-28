@@ -1,6 +1,7 @@
 // Tests for the sidebar conversation-row quick actions:
-//   1. A pin/unpin button (the sole pin affordance — no longer in the kebab
-//      menu) that toggles the pin (ConversationRow's `quick-pin-conversation`).
+//   1. A desktop quick pin/unpin button (`quick-pin-conversation`) and a
+//      mobile-only kebab Pin item (`pin-conversation`) — two affordances for
+//      the same pin toggle, split by viewport (responsive Tailwind classes).
 //   2. Double-clicking a row to enter inline rename (ConversationRow's
 //      `onDoubleClick`), gated on edit permission.
 // See ConversationRow / ConversationEditRow in Sidebar.tsx.
@@ -35,6 +36,11 @@ vi.mock("@/hooks/useConversations", () => ({
   useBulkDeleteConversations: () => ({ mutate: vi.fn(), isPending: false, isError: false }),
   useBulkStopSessions: () => ({ mutate: vi.fn(), isPending: false, isError: false }),
   useStopSession: () => ({ mutate: vi.fn() }),
+  useProjects: () => ({ data: [] }),
+  useMoveToProject: () => ({ mutate: vi.fn() }),
+  useDeleteProject: () => ({ mutate: vi.fn(), isPending: false, isError: false }),
+  fetchProjectSessionIds: () => Promise.resolve([]),
+  PROJECT_LABEL_KEY: "omni_project",
 }));
 
 // Heavy sibling widgets pull their own hooks/providers; stub them so this
@@ -42,7 +48,6 @@ vi.mock("@/hooks/useConversations", () => ({
 vi.mock("./AgentTypeFilter", () => ({ AgentTypeFilter: () => null }));
 vi.mock("./ReportIssueButton", () => ({ ReportIssueButton: () => null }));
 vi.mock("@/components/PermissionsModal", () => ({ PermissionsModal: () => null }));
-vi.mock("@/components/theme/ThemeModeMenu", () => ({ ThemeModeMenu: () => null }));
 
 import { type Conversation, useConversations } from "@/hooks/useConversations";
 import { Sidebar } from "./Sidebar";
@@ -136,16 +141,64 @@ describe("quick pin/unpin hover button", () => {
     expect(screen.queryByText("Pinned")).toBeNull();
   });
 
-  it("no longer offers Pin in the kebab menu (the quick button replaced it)", () => {
+  it("also offers Pin in the kebab menu (mobile affordance) and toggles the same pin state", () => {
     renderSidebar();
+
+    expect(screen.queryByText("Pinned")).toBeNull();
 
     // Radix DropdownMenu opens on pointerdown, not click.
     fireEvent.pointerDown(screen.getByTestId("conversation-actions"), { button: 0 });
 
-    // The menu opened (a sibling item is present) but the old Pin item is gone
-    // — pinning now lives only on the hover/quick button.
-    expect(screen.getByTestId("rename-conversation")).toBeInTheDocument();
-    expect(screen.queryByTestId("pin-conversation")).toBeNull();
+    // The kebab carries a Pin item (mobile-only via `md:hidden`, but always in
+    // the DOM since jsdom doesn't evaluate media queries). Clicking it drives
+    // the same pin state as the quick button — the row moves under "Pinned".
+    const pinItem = screen.getByTestId("pin-conversation");
+    expect(pinItem).toHaveTextContent("Pin");
+    fireEvent.click(pinItem);
+
+    const pinnedHeader = screen.getByText("Pinned");
+    const pinnedSection = pinnedHeader.closest("section")!;
+    expect(within(pinnedSection).getByText("My Session")).toBeInTheDocument();
+    expect(localStorage.getItem("omnigent:pinned-conversation-ids")).toContain("conv_1");
+  });
+
+  it("splits the two pin affordances by viewport via Tailwind responsive classes", () => {
+    // jsdom doesn't evaluate CSS media queries, so both affordances live in the
+    // DOM regardless of viewport — the mobile/desktop split is purely the
+    // responsive classes. Assert those classes directly: the kebab Pin item is
+    // hidden from `md` up (desktop), and the quick button is hidden below `md`
+    // (mobile) but shown from `md` up. Together they guarantee exactly one pin
+    // affordance is visible at any breakpoint.
+    renderSidebar();
+
+    // Desktop quick button: hidden on mobile, revealed from `md` up. The reveal
+    // uses `md:inline-flex` (not `md:block`) so the button stays a flex
+    // container — see the centering regression test below.
+    const quickButton = screen.getByTestId("quick-pin-conversation");
+    expect(quickButton).toHaveClass("hidden", "md:inline-flex");
+
+    // Kebab Pin item: present in the menu but hidden from `md` up, so it only
+    // surfaces on mobile.
+    fireEvent.pointerDown(screen.getByTestId("conversation-actions"), { button: 0 });
+    expect(screen.getByTestId("pin-conversation")).toHaveClass("md:hidden");
+  });
+
+  it("reveals the quick-pin button without breaking icon centering (regression for #1226)", () => {
+    // The Button base centers its icon with `inline-flex` + `items-center
+    // justify-center`. The desktop reveal MUST keep a flex display: PR #1226
+    // revealed it with `md:block`, which overrode `inline-flex`, made the
+    // centering classes inert, and shoved the pin glyph to the button's
+    // top-left corner (~6px off-center). Guard the display so the reveal
+    // stays flex and the glyph stays centered.
+    renderSidebar();
+
+    const quickButton = screen.getByTestId("quick-pin-conversation");
+    // The centering classes are present...
+    expect(quickButton).toHaveClass("items-center", "justify-center");
+    // ...and the desktop reveal makes the button a flex container (so those
+    // classes actually take effect), rather than a block (which would not).
+    expect(quickButton).toHaveClass("md:inline-flex");
+    expect(quickButton).not.toHaveClass("md:block");
   });
 });
 
@@ -180,5 +233,30 @@ describe("double-click to rename", () => {
 
     expect(screen.queryByTestId("rename-conversation-input")).toBeNull();
     expect(mocks.rename.mutate).not.toHaveBeenCalled();
+  });
+});
+
+describe("right-click context menu", () => {
+  it("opens the same action items as the kebab and drives the same handlers", () => {
+    renderSidebar();
+
+    // Nothing in the DOM until the row is right-clicked (the kebab menu is
+    // closed, so its items aren't rendered either).
+    expect(screen.queryByTestId("rename-conversation")).toBeNull();
+
+    fireEvent.contextMenu(screen.getByRole("link", { name: /My Session/ }));
+
+    // The context menu carries the full set of kebab actions — same testids,
+    // so it renders from the shared ConversationMenuItems body.
+    expect(screen.getByTestId("share-conversation")).toBeInTheDocument();
+    expect(screen.getByTestId("rename-conversation")).toBeInTheDocument();
+    expect(screen.getByTestId("move-to-project")).toBeInTheDocument();
+    expect(screen.getByTestId("archive-conversation")).toBeInTheDocument();
+    expect(screen.getByTestId("delete-conversation")).toBeInTheDocument();
+
+    // Selecting Rename runs the same path as the kebab / double-click: the
+    // inline rename input appears.
+    fireEvent.click(screen.getByTestId("rename-conversation"));
+    expect(screen.getByTestId("rename-conversation-input")).toBeInTheDocument();
   });
 });

@@ -948,33 +948,43 @@ describe("chatStore — switchTo", () => {
   // whether to clear the optimistic bubble on idle (see that handler's
   // test). It must be true for every registered native wrapper and false otherwise,
   // or the host-restart "bubble disappears" fix mis-fires.
+  // ``isNativeTerminalSession`` gates the optimistic-bubble clear; the companion
+  // ``nativeVendorOwnsModel`` hides the composer model/effort chip for native
+  // wrappers whose model is chosen inside the vendor TUI (qwen/goose/pi/cursor/
+  // opencode) — claude/codex keep it (they expose an Omnigent model picker).
   it.each([
-    ["claude-code-native-ui", true],
-    ["codex-native-ui", true],
-    ["pi-native-ui", true],
-    ["some-other-wrapper", false],
-    [null, false],
-  ])("switchTo derives isNativeTerminalSession from wrapper=%s", async (wrapper, expected) => {
-    seedSession("conv_wrap", []);
-    fetchMock.mockImplementation((input: RequestInfo | URL, init?: RequestInit) => {
-      const url = typeof input === "string" ? input : input.toString();
-      if (url.split("?")[0] === "/v1/sessions/conv_wrap" && (init?.method ?? "GET") === "GET") {
-        return mockResponse({
-          id: "conv_wrap",
-          agent_id: "agent_xyz",
-          status: "idle",
-          created_at: 0,
-          items: [],
-          labels: wrapper === null ? {} : { "omnigent.wrapper": wrapper },
-        });
-      }
-      return defaultFetchHandler(input, init);
-    });
+    ["claude-code-native-ui", true, false],
+    ["codex-native-ui", true, false],
+    ["pi-native-ui", true, true],
+    ["qwen-native-ui", true, true],
+    ["goose-native-ui", true, true],
+    ["some-other-wrapper", false, false],
+    [null, false, false],
+  ])(
+    "switchTo derives native flags from wrapper=%s",
+    async (wrapper, expectedNative, expectedVendorOwnsModel) => {
+      seedSession("conv_wrap", []);
+      fetchMock.mockImplementation((input: RequestInfo | URL, init?: RequestInit) => {
+        const url = typeof input === "string" ? input : input.toString();
+        if (url.split("?")[0] === "/v1/sessions/conv_wrap" && (init?.method ?? "GET") === "GET") {
+          return mockResponse({
+            id: "conv_wrap",
+            agent_id: "agent_xyz",
+            status: "idle",
+            created_at: 0,
+            items: [],
+            labels: wrapper === null ? {} : { "omnigent.wrapper": wrapper },
+          });
+        }
+        return defaultFetchHandler(input, init);
+      });
 
-    await useChatStore.getState().switchTo("conv_wrap");
+      await useChatStore.getState().switchTo("conv_wrap");
 
-    expect(useChatStore.getState().isNativeTerminalSession).toBe(expected);
-  });
+      expect(useChatStore.getState().isNativeTerminalSession).toBe(expectedNative);
+      expect(useChatStore.getState().nativeVendorOwnsModel).toBe(expectedVendorOwnsModel);
+    },
+  );
 
   it("refetches the session snapshot even when a stale cached session exists", async () => {
     client.setQueryData(["session", "conv_abc"], {
@@ -2681,6 +2691,71 @@ describe("chatStore — handleSessionEvent (session.* events)", () => {
       // A late frame from the previous session's still-draining stream
       // must not paint the new session's header with foreign viewers.
       expect(useChatStore.getState().viewers).toEqual([]);
+    });
+  });
+
+  describe("session.superseded", () => {
+    it("records the redirect target for the bound conversation", () => {
+      useChatStore.setState({ conversationId: "conv_old", redirectToConversationId: null });
+      handleSessionEvent({
+        type: "session_superseded",
+        conversationId: "conv_old",
+        targetConversationId: "conv_new",
+        reason: "clear",
+      });
+      expect(useChatStore.getState().redirectToConversationId).toBe("conv_new");
+    });
+
+    it("clears the superseded conversation's lingering optimistic bubble", () => {
+      useChatStore.setState({
+        conversationId: "conv_old",
+        redirectToConversationId: null,
+        pendingUserMessages: [
+          { tempId: "pend_clear", content: [{ type: "input_text", text: "/clear" }] },
+        ],
+        pendingByConversation: {
+          conv_old: {
+            messages: [{ tempId: "pend_clear", content: [{ type: "input_text", text: "/clear" }] }],
+            committedTexts: [],
+          },
+        },
+      });
+      handleSessionEvent({
+        type: "session_superseded",
+        conversationId: "conv_old",
+        targetConversationId: "conv_new",
+        reason: "clear",
+      });
+      const state = useChatStore.getState();
+      // The `/clear` never gets a session.input.consumed on conv_old (the
+      // runner rotated away), so its bubble must be dropped here rather than
+      // spinning forever — both the live list and the navigate-back stash.
+      expect(state.pendingUserMessages).toEqual([]);
+      expect(state.pendingByConversation.conv_old).toBeUndefined();
+    });
+
+    it("ignores a superseded frame from a switched-away conversation", () => {
+      useChatStore.setState({ conversationId: "conv_current", redirectToConversationId: null });
+      handleSessionEvent({
+        type: "session_superseded",
+        conversationId: "conv_other",
+        targetConversationId: "conv_new",
+        reason: "clear",
+      });
+      // A late frame from the previous session's still-draining stream must
+      // not yank the user out of the conversation they're now viewing.
+      expect(useChatStore.getState().redirectToConversationId).toBeNull();
+    });
+
+    it("ignores a self-target no-op", () => {
+      useChatStore.setState({ conversationId: "conv_old", redirectToConversationId: null });
+      handleSessionEvent({
+        type: "session_superseded",
+        conversationId: "conv_old",
+        targetConversationId: "conv_old",
+        reason: "clear",
+      });
+      expect(useChatStore.getState().redirectToConversationId).toBeNull();
     });
   });
 

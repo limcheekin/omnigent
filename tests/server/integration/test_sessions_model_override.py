@@ -238,6 +238,58 @@ async def test_create_session_rejects_malformed_model_override(
     )
 
 
+async def test_create_session_with_reasoning_effort_persists(
+    client: httpx.AsyncClient,
+) -> None:
+    """Create-time ``reasoning_effort`` lands on the row and the snapshot.
+
+    This is the seam the ap-web new-session model/effort picker relies on:
+    the value must be persisted before the runner fetches the session
+    snapshot (native Claude Code reads it as ``--effort`` at terminal
+    launch).
+    """
+    agent = await create_test_agent(client)
+    resp = await client.post(
+        "/v1/sessions",
+        json={
+            "agent_id": agent["id"],
+            "initial_items": [],
+            "reasoning_effort": "high",
+        },
+    )
+    assert resp.status_code == 201, resp.text
+    created = resp.json()
+    # The create response itself must carry the effort — the runner's
+    # launch-config fetch consumes this exact snapshot shape.
+    assert created["reasoning_effort"] == "high"
+
+    get = await client.get(f"/v1/sessions/{created['id']}")
+    assert get.status_code == 200
+    assert get.json()["reasoning_effort"] == "high"
+
+
+async def test_create_session_rejects_invalid_reasoning_effort(
+    client: httpx.AsyncClient,
+) -> None:
+    """Create-time ``reasoning_effort`` outside the effort vocabulary 400s.
+
+    Validated before any row exists so a bad value never creates an orphan
+    session, mirroring the ``model_override`` charset guard.
+    """
+    agent = await create_test_agent(client)
+    resp = await client.post(
+        "/v1/sessions",
+        json={
+            "agent_id": agent["id"],
+            "initial_items": [],
+            "reasoning_effort": "turbo",
+        },
+    )
+    assert resp.status_code == 400, (
+        f"reasoning_effort 'turbo' should 400, got {resp.status_code}: {resp.text}"
+    )
+
+
 class _CaptureClient:
     """Stub runner client that records the POSTed body for inspection."""
 
@@ -417,6 +469,63 @@ async def test_context_window_uses_effective_model(
         f"{lookup_calls!r}. The snapshot is still sizing the context "
         f"ring against the spec model {baseline_lookup!r}."
     )
+
+
+async def test_context_window_override_bypasses_declared_window(
+    client: httpx.AsyncClient,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A spec-declared ``executor.context_window`` is bypassed by an override.
+
+    Anti-drift guarantee for the shared resolver: the ring and the runner's
+    compaction budget are now computed by the SAME
+    ``resolve_effective_context_window``, so a declared 1M window can't mask a
+    small override model. With no override the declared window wins (no catalog
+    lookup); with an override active the ring sizes against the override
+    model's real window instead. Before the shared resolver these two paths
+    drifted (PR #769).
+    """
+    from omnigent.llms import context_window as context_window_mod
+
+    lookup_calls: list[str] = []
+
+    def _stub(model: str) -> int:
+        lookup_calls.append(model)
+        return 200_000
+
+    monkeypatch.setattr(context_window_mod, "get_model_context_window", _stub)
+
+    agent = await create_test_agent(
+        client,
+        name="declared-window-agent",
+        executor={"type": "omnigent", "context_window": 1_000_000},
+    )
+    session = await _create_session(client, agent["id"])
+    sid = session["id"]
+
+    # No override: the declared 1M window wins and short-circuits the catalog.
+    lookup_calls.clear()
+    baseline = await client.get(f"/v1/sessions/{sid}")
+    assert baseline.status_code == 200
+    assert baseline.json()["context_window"] == 1_000_000
+    assert lookup_calls == [], (
+        f"A declared window must short-circuit the catalog lookup; got {lookup_calls!r}."
+    )
+
+    # Override active: the declared 1M is bypassed; the ring sizes against the
+    # override model's real (stubbed 200K) window.
+    await client.patch(
+        f"/v1/sessions/{sid}",
+        json={"model_override": "claude-opus-4-7"},
+    )
+    lookup_calls.clear()
+    after = await client.get(f"/v1/sessions/{sid}")
+    assert after.status_code == 200
+    assert after.json()["context_window"] == 200_000, (
+        "An active override must bypass the declared 1M window and size the "
+        "ring against the override model's real window."
+    )
+    assert "claude-opus-4-7" in lookup_calls
 
 
 async def test_silent_patch_skips_claude_native_forward(

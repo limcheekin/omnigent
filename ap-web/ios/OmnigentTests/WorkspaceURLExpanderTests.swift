@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+
 @testable import Omnigent
 
 final class WorkspaceURLExpanderTests: XCTestCase {
@@ -49,6 +50,18 @@ final class WorkspaceURLExpanderTests: XCTestCase {
     let expanded = await WorkspaceURLExpander.expandIfNeeded(original, session: stubbedSession())
 
     XCTAssertEqual(expanded, original)
+    XCTAssertNil(URLProtocolStub.handler)
+  }
+
+  func testLeavesDatabricksAppsHostUnchangedWithoutProbe() async {
+    let app = URL(string: "https://my-app-123.aws.databricksapps.com")!
+    let expandedApp = await WorkspaceURLExpander.expandIfNeeded(app, session: stubbedSession())
+    XCTAssertEqual(expandedApp, app)
+
+    let apex = URL(string: "https://databricksapps.com")!
+    let expandedApex = await WorkspaceURLExpander.expandIfNeeded(apex, session: stubbedSession())
+    XCTAssertEqual(expandedApex, apex)
+
     XCTAssertNil(URLProtocolStub.handler)
   }
 

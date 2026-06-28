@@ -31,6 +31,7 @@ import {
   Columns2Icon,
   DownloadIcon,
   EyeIcon,
+  EyeOffIcon,
   FileDiffIcon,
   Link2Icon,
   Loader2Icon,
@@ -277,6 +278,8 @@ interface FileViewerProps {
    * when the viewer is embedded inside the inline right panel.
    */
   frameless?: boolean;
+  /** Called when the user presses Escape to close the active file tab. */
+  onCloseTab?: () => void;
   /** Called when the comments panel opens or closes inside the viewer. */
   onCommentsOpenChange?: (open: boolean) => void;
   /**
@@ -311,6 +314,7 @@ function FileViewerBody({
   conversationId,
   path,
   onClose,
+  onCloseTab,
   onNavigateTo,
   permissionLevel,
   frameless,
@@ -572,6 +576,26 @@ function FileViewerBody({
     return () => window.removeEventListener("keydown", handler);
   }, [open, onNavigateTo, currentNavIdx, prevPath, nextPath, guardDirty]);
 
+  // Escape closes the active file tab (when search is not open).
+  useEffect(() => {
+    if (!open || !onCloseTab) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || e.defaultPrevented) return;
+      if (searchOpen) return;
+      const target = e.target;
+      if (
+        target instanceof HTMLElement &&
+        target.closest('textarea, input, [contenteditable="true"]')
+      ) {
+        return;
+      }
+      e.preventDefault();
+      guardDirty(onCloseTab);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [open, onCloseTab, searchOpen, guardDirty]);
+
   // View mode toggle — preview is the default for md/html, source for everything else.
   const lang = detectLang(path);
   const isPreviewable = lang === "markdown" || lang === "html";
@@ -602,6 +626,9 @@ function FileViewerBody({
   const [diffLayout, setDiffLayout] = useState<"unified" | "split">(
     () => persistedPrefsRef.current.diffLayout,
   );
+  const [hideWhitespace, setHideWhitespace] = useState(
+    () => persistedPrefsRef.current.hideWhitespace,
+  );
   const [previewableViewMode, setPreviewableViewMode] = useState<"editor" | "preview" | "source">(
     () => persistedPrefsRef.current.previewableViewMode,
   );
@@ -610,8 +637,8 @@ function FileViewerBody({
   // is intentionally excluded — it's contextual (per-open), not a sticky
   // preference. Idempotent on mount (writes back the seeded values).
   useEffect(() => {
-    writeFileViewPreferences({ diffActive, diffLayout, previewableViewMode });
-  }, [diffActive, diffLayout, previewableViewMode]);
+    writeFileViewPreferences({ diffActive, diffLayout, previewableViewMode, hideWhitespace });
+  }, [diffActive, diffLayout, previewableViewMode, hideWhitespace]);
   // Non-markdown previewable (HTML): "editor" falls back to "preview" — no rich-text mode.
   // Markdown: "preview" is removed; treat as "source" if somehow set (e.g. shared state from an HTML file).
   const fileViewMode: "editor" | "preview" | "source" = isPreviewable
@@ -766,6 +793,15 @@ function FileViewerBody({
           <RowsIcon className="size-4" />
         ),
       onSelect: () => setDiffLayout((l) => (l === "unified" ? "split" : "unified")),
+    });
+  }
+  if (viewMode === "diff") {
+    toolbarActions.push({
+      key: "hide-whitespace",
+      label: hideWhitespace ? "Show whitespace changes" : "Hide whitespace changes",
+      icon: hideWhitespace ? <EyeIcon className="size-4" /> : <EyeOffIcon className="size-4" />,
+      active: hideWhitespace,
+      onSelect: () => setHideWhitespace((prev) => !prev),
     });
   }
   toolbarActions.push({
@@ -1049,6 +1085,7 @@ function FileViewerBody({
                   after={diffQuery.data.after}
                   path={path}
                   layout={diffLayout}
+                  hideWhitespace={hideWhitespace}
                   conversationId={conversationId}
                   comments={openComments}
                   activeSelection={activeSelection}

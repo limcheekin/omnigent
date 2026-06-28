@@ -8,6 +8,8 @@ import {
   getConversationIconKind,
   getConversationAgentType,
   normalizePinnedConversationIds,
+  orderByPinnedSequence,
+  resolveSidebarDrop,
   togglePinnedConversationId,
 } from "./sidebarNav";
 
@@ -116,6 +118,46 @@ describe("pin helpers", () => {
   });
 });
 
+describe("orderByPinnedSequence", () => {
+  it("puts the newest pin last, ignoring updated_at", () => {
+    // conv_a leads the ids list (the most recent pin) AND has the newest
+    // updated_at, yet it must render LAST: pinned order is oldest-pin-first
+    // (newest pin at the bottom) and never follows updated_at.
+    const convA = conversation("conv_a", "A", new Date(2026, 4, 14, 9), {
+      updatedAt: new Date(2026, 4, 14, 23),
+    });
+    const convB = conversation("conv_b", "B", new Date(2026, 4, 14, 8), {
+      updatedAt: new Date(2026, 4, 14, 9),
+    });
+
+    // ids are most-recently-pinned-first: conv_a pinned last, conv_b earlier.
+    expect(orderByPinnedSequence([convA, convB], ["conv_a", "conv_b"]).map((c) => c.id)).toEqual([
+      "conv_b",
+      "conv_a",
+    ]);
+  });
+
+  it("holds a pinned row's slot when its updated_at is bumped", () => {
+    const convA = conversation("conv_a", "A", new Date(2026, 4, 14, 9));
+    const convB = conversation("conv_b", "B", new Date(2026, 4, 14, 8));
+    const ids = ["conv_a", "conv_b"];
+
+    const before = orderByPinnedSequence([convA, convB], ids).map((c) => c.id);
+    // conv_b gets a new message (latest updated_at) — its slot must not move.
+    const bumped = { ...convB, updated_at: Math.floor(new Date(2026, 4, 14, 23).getTime() / 1000) };
+    const after = orderByPinnedSequence([convA, bumped], ids).map((c) => c.id);
+    expect(after).toEqual(before);
+  });
+
+  it("does not mutate the input array", () => {
+    const convA = conversation("conv_a", "A", new Date(2026, 4, 14, 9));
+    const convB = conversation("conv_b", "B", new Date(2026, 4, 14, 8));
+    const input = [convB, convA];
+    orderByPinnedSequence(input, ["conv_a", "conv_b"]);
+    expect(input.map((c) => c.id)).toEqual(["conv_b", "conv_a"]);
+  });
+});
+
 describe("getConversationAgentType", () => {
   it("returns 'Claude Code' for claude-native-ui sessions", () => {
     const conv = conversation("conv_native", null, new Date(2026, 4, 14, 9), {
@@ -140,6 +182,23 @@ describe("getConversationAgentType", () => {
       labels: { "omnigent.wrapper": "pi-native-ui" },
     });
     expect(getConversationAgentType(conv)).toBe("Pi");
+  });
+
+  it("returns 'Kiro' for kiro-native-ui sessions", () => {
+    const conv = conversation("conv_kiro", null, new Date(2026, 4, 14, 9), {
+      labels: { "omnigent.wrapper": "kiro-native-ui" },
+    });
+    expect(getConversationAgentType(conv)).toBe("Kiro");
+  });
+
+  it("returns 'Antigravity' for antigravity-native-ui sessions", () => {
+    const conv = conversation("conv_agy", null, new Date(2026, 4, 14, 9), {
+      labels: { "omnigent.wrapper": "antigravity-native-ui" },
+    });
+    // antigravity-native-ui is the wrapper label assigned to sessions started
+    // via `omnigent antigravity` or the web-UI Antigravity picker. It gets its
+    // own filter bucket and friendly sidebar name.
+    expect(getConversationAgentType(conv)).toBe("Antigravity");
   });
 
   it("returns agent_name for YAML-based sessions", () => {
@@ -213,11 +272,32 @@ describe("getConversationIconKind", () => {
     ).toBe("codex");
     expect(
       getConversationIconKind(
+        conversation("conv_opencode", null, new Date(2026, 4, 14, 9), {
+          labels: { "omnigent.wrapper": "opencode-native-ui" },
+        }),
+      ),
+    ).toBe("opencode");
+    expect(
+      getConversationIconKind(
         conversation("conv_pi", null, new Date(2026, 4, 14, 9), {
           labels: { "omnigent.wrapper": "pi-native-ui" },
         }),
       ),
     ).toBe("pi");
+    expect(
+      getConversationIconKind(
+        conversation("conv_kiro", null, new Date(2026, 4, 14, 9), {
+          labels: { "omnigent.wrapper": "kiro-native-ui" },
+        }),
+      ),
+    ).toBe("kiro");
+    expect(
+      getConversationIconKind(
+        conversation("conv_agy", null, new Date(2026, 4, 14, 9), {
+          labels: { "omnigent.wrapper": "antigravity-native-ui" },
+        }),
+      ),
+    ).toBe("antigravity");
     expect(
       getConversationIconKind({
         ...conversation("conv_nessie", null, new Date(2026, 4, 14, 9)),
@@ -285,5 +365,105 @@ describe("conversationDisplayLabel", () => {
         ),
       ),
     ).toBe("investigate the regression");
+  });
+});
+
+// Drag-and-drop routing: dropping a session onto a project folder files it
+// there; onto the "Chats" / remove-from-project zone unfiles it; onto "Pinned"
+// pins it. "Shared with me" is never a drop target, so dropping there yields a
+// null target → no-op.
+describe("resolveSidebarDrop", () => {
+  // Source builder — defaults to an unfiled, unpinned session.
+  const src = (over: Partial<{ project: string | null; isPinned: boolean }> = {}) => ({
+    id: "c1",
+    project: null,
+    isPinned: false,
+    ...over,
+  });
+
+  it("files an unfiled session into the project it's dropped on", () => {
+    expect(resolveSidebarDrop(src(), { type: "project", name: "Sprint 42" })).toEqual({
+      kind: "move",
+      project: "Sprint 42",
+      unpin: false,
+    });
+  });
+
+  it("moves a filed session into a different project", () => {
+    expect(
+      resolveSidebarDrop(src({ project: "Backlog" }), { type: "project", name: "Sprint 42" }),
+    ).toEqual({ kind: "move", project: "Sprint 42", unpin: false });
+  });
+
+  it("is a no-op when dropped on its own project folder (no pointless PATCH)", () => {
+    expect(
+      resolveSidebarDrop(src({ project: "Sprint 42" }), { type: "project", name: "Sprint 42" }),
+    ).toEqual({ kind: "none" });
+  });
+
+  it("ungroups a filed session dropped on the remove-from-project zone", () => {
+    expect(resolveSidebarDrop(src({ project: "Sprint 42" }), { type: "ungroup" })).toEqual({
+      kind: "ungroup",
+      project: "Sprint 42",
+      unpin: false,
+    });
+  });
+
+  it("is a no-op when an already-unfiled session is dropped on the ungroup zone", () => {
+    expect(resolveSidebarDrop(src(), { type: "ungroup" })).toEqual({ kind: "none" });
+  });
+
+  it("pins an unpinned session dropped on the Pinned zone", () => {
+    expect(resolveSidebarDrop(src({ project: "Sprint 42" }), { type: "pin" })).toEqual({
+      kind: "pin",
+    });
+    // Also pins an unfiled session (pinning is independent of project membership).
+    expect(resolveSidebarDrop(src(), { type: "pin" })).toEqual({ kind: "pin" });
+  });
+
+  it("is a no-op when an already-pinned session is dropped on the Pinned zone", () => {
+    expect(
+      resolveSidebarDrop(src({ project: "Sprint 42", isPinned: true }), { type: "pin" }),
+    ).toEqual({ kind: "none" });
+  });
+
+  // Pinned sessions float into the Pinned section regardless of project label,
+  // so moving/unfiling one must ALSO unpin it or it appears stuck in Pinned.
+  it("moves AND unpins a pinned session dropped on a different project", () => {
+    expect(
+      resolveSidebarDrop(src({ project: "Backlog", isPinned: true }), {
+        type: "project",
+        name: "Sprint 42",
+      }),
+    ).toEqual({ kind: "move", project: "Sprint 42", unpin: true });
+  });
+
+  it("unpins a pinned session dropped on its OWN project folder so it lands there", () => {
+    // Not a no-op when pinned: the session is hidden up in Pinned, so re-file
+    // (harmless same-label write) and unpin to reveal it in the folder.
+    expect(
+      resolveSidebarDrop(src({ project: "Sprint 42", isPinned: true }), {
+        type: "project",
+        name: "Sprint 42",
+      }),
+    ).toEqual({ kind: "move", project: "Sprint 42", unpin: true });
+  });
+
+  it("ungroups AND unpins a pinned, filed session dropped on Chats", () => {
+    expect(
+      resolveSidebarDrop(src({ project: "Sprint 42", isPinned: true }), { type: "ungroup" }),
+    ).toEqual({ kind: "ungroup", project: "Sprint 42", unpin: true });
+  });
+
+  it("unpins a pinned, unfiled session dropped on Chats (drops it into the flat list)", () => {
+    expect(resolveSidebarDrop(src({ isPinned: true }), { type: "ungroup" })).toEqual({
+      kind: "unpin",
+    });
+  });
+
+  it("is a no-op when dropped on nothing droppable (e.g. Shared with me)", () => {
+    expect(resolveSidebarDrop(src({ project: "Sprint 42" }), null)).toEqual({ kind: "none" });
+    expect(resolveSidebarDrop(src(), null)).toEqual({ kind: "none" });
+    expect(resolveSidebarDrop(src({ isPinned: true }), null)).toEqual({ kind: "none" });
   });
 });

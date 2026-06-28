@@ -1,7 +1,7 @@
 {
   "name": "omnigent-desktop-electron",
   "productName": "Omnigent",
-  "version": "0.1.1",
+  "version": "0.3.0",
   "description": "Omnigent desktop shell (Electron edition) — a thin native wrapper around the server-served web UI.",
   "private": true,
   "main": "src/main.js",
@@ -9,6 +9,7 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron .",
+    "test": "node --test",
     "build": "electron-builder",
     "build:mac": "electron-builder --mac",
     "build:mac:release": "electron-builder --mac -c.mac.notarize=true",
@@ -95,5 +96,8 @@
         "nsis"
       ]
     }
+  },
+  "dependencies": {
+    "js-yaml": "^4.2.0"
   }
 }

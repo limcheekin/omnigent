@@ -18,12 +18,20 @@
 # and server-launched managed hosts. It bakes the full omnigent
 # install plus the tools a host needs at runtime — git (workspaces /
 # worktrees), tmux (terminal sessions spawned by native harnesses),
-# and the coding-harness CLIs (claude / codex / pi, via Node) — and
+# and the coding-harness CLIs (claude / codex / pi, via Node; kiro-cli via
+# Kiro's installer) — and
 # skips everything server-only: no SPA bundle, no psycopg, no
 # uvicorn entrypoint. Modal's `Image.from_registry` requirements shape
-# it: built for linux/amd64, `python` + `pip` on $PATH, and CMD-only
-# (an ENTRYPOINT that doesn't exec its args would block Modal's own
-# runtime from running).
+# it: `python` + `pip` on $PATH, and CMD-only (an ENTRYPOINT that
+# doesn't exec its args would block Modal's own runtime from running).
+#
+# Both images publish multi-arch (linux/amd64 + linux/arm64) — see
+# .github/workflows/oss-publish-images.yml — so they run natively on
+# arm64 hosts (Apple Silicon laptops, arm64 clusters) as well as amd64.
+# Nothing below is arch-specific: the python/node base images are
+# multi-arch and apt/pip/npm/COPY-from-node all resolve per-arch under
+# buildx. Amd64-only consumers (Modal, Daytona, CoreWeave) keep pulling
+# the amd64 variant from the manifest list, unchanged.
 #
 # Build (from repo root):
 #
@@ -137,6 +145,15 @@ RUN test -f ./omnigent/server/static/web-ui/index.html \
 # [databricks] extra in pyproject — so add it explicitly here.
 RUN uv pip install --no-cache-dir --index-url ${PYPI_INDEX_URL} 'psycopg[binary]>=3.1,<4'
 
+# Optional managed-sandbox provider extras for the SERVER (the launcher imports
+# the provider SDK — e.g. the kubernetes client for `sandbox.provider:
+# kubernetes`). Off by default; the runner host image needs none of these. Build
+# with `--build-arg OMNIGENT_EXTRAS=kubernetes` (comma-separate for several).
+ARG OMNIGENT_EXTRAS=
+RUN if [ -n "${OMNIGENT_EXTRAS}" ]; then \
+        uv pip install --no-cache-dir --index-url ${PYPI_INDEX_URL} -e ".[${OMNIGENT_EXTRAS}]"; \
+    fi
+
 # ── Node alias stage ─────────────────────────────────────
 # Pure alias so the host stage can COPY node out of a version-pinned
 # image; contributes no layers of its own.
@@ -144,12 +161,18 @@ FROM node:${NODE_VERSION}-slim AS node-runtime
 
 # ── Host runtime (`--target host`) ──────────────────────
 # Prebaked Omnigent host for remote sandboxes: full omnigent install,
-# git + tmux for harness runtime needs, bubblewrap to OS-sandbox the
+# git + tmux for harness runtime needs, procps + lsof so the antigravity-native
+# executor can discover agy's connect-RPC port (antigravity_native_rpc.py uses
+# `pgrep` in _list_agy_pids to find agy processes — with a /proc-scan fallback if
+# pgrep is absent — then `lsof` in resolve_language_server_port to read their
+# loopback ports; lsof has NO fallback, so a missing lsof silently yields "no
+# port" and breaks web-turn injection), bubblewrap to OS-sandbox the
 # native harness terminals (mandatory and fail-loud on Linux), curl + CA
 # certificates for outbound HTTPS and in-sandbox downloads, plus the
-# coding-harness CLIs (claude / codex / pi) so claude-sdk, claude-native,
-# codex, and pi agents can run in managed sandboxes without an in-sandbox
-# install. No SPA, no psycopg, no server entrypoint.
+# coding-harness CLIs (claude / codex / pi / kiro-cli) so claude-sdk,
+# claude-native, codex, pi, and kiro-native agents can run in managed
+# sandboxes without an in-sandbox install. No SPA, no psycopg, no server
+# entrypoint.
 #
 # Also carries two additions required only by the NVIDIA OpenShell provider
 # (deploy/openshell/README.md) and inert for the root-based providers
@@ -178,7 +201,8 @@ ENV PYTHONUNBUFFERED=1 \
     IS_SANDBOX=1
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git tmux bubblewrap curl ca-certificates \
+ && apt-get install -y --no-install-recommends \
+      git tmux procps lsof bubblewrap curl ca-certificates unzip \
       iproute2 nftables \
  && rm -rf /var/lib/apt/lists/*
 
@@ -221,6 +245,59 @@ RUN npm install -g --no-audit --no-fund \
       @openai/codex \
       @earendil-works/pi-coding-agent \
  && npm cache clean --force
+
+# Kiro CLI is not published as an npm package; use its official installer and
+# copy the resulting root-local binaries onto the global PATH for all sandbox
+# users.
+RUN curl -fsSL https://cli.kiro.dev/install | bash \
+ && install -m 0755 /root/.local/bin/kiro-cli /usr/local/bin/kiro-cli \
+ && if [ -f /root/.local/bin/kiro-cli-chat ]; then \
+      install -m 0755 /root/.local/bin/kiro-cli-chat /usr/local/bin/kiro-cli-chat; \
+    fi
+# Antigravity CLI (`agy`) — the antigravity-native harness shells out to `agy`
+# on the host, launching it in a tmux pane (see omnigent/antigravity_native*.py),
+# so a managed host image must carry it. It is NOT an npm package
+# (harness_install.py lists agy as a non-npm, installer-script harness), so it
+# can't join the `npm install -g` set above. The tarball holds a single
+# self-contained ``antigravity`` binary; install it as ``agy`` on a system PATH
+# dir every user shares (its bootstrapper default ~/.local/bin is per-user and
+# off the venv PATH). ``test -x`` fails the build loudly if the layout changes.
+#
+# Version + integrity pin: the native harness is behaviorally coupled to a
+# specific agy build (out-of-order transcript writes, connect-RPC quirks, and TUI
+# injection are all verified against 1.0.10 — grep ``agy 1.0.10`` under
+# omnigent/antigravity_native*). The official ``install.sh`` bootstrapper has NO
+# version flag — it always fetches the LATEST build from an auto-updater manifest
+# and old builds are not retained at any stable, reconstructable URL — so it
+# cannot pin anything. Instead we fetch the exact, immutable per-arch release
+# asset from GitHub and verify its SHA256: this both holds the verified version
+# AND fails the build if the bytes ever change underneath us, which is the actual
+# supply-chain control (a version-string check alone is not). To adopt a new agy:
+# re-verify the coupled behavior, then bump AGY_VERSION and both SHA256s (from
+# https://github.com/google-antigravity/antigravity-cli/releases).
+ARG AGY_VERSION=1.0.10
+ARG AGY_SHA256_AMD64=6547cf9a37227f26004fa4b805418b1df96f54c57b9723ca7d10864d2610bb0f
+ARG AGY_SHA256_ARM64=4674fabc3681221e54c90d15077c9a97a25ea71222001dabe44bf1576e888593
+RUN set -eu; \
+    arch="$(dpkg --print-architecture)"; \
+    case "$arch" in \
+      amd64) asset="agy_cli_linux_x64.tar.gz"; sha="$AGY_SHA256_AMD64" ;; \
+      arm64) asset="agy_cli_linux_arm64.tar.gz"; sha="$AGY_SHA256_ARM64" ;; \
+      *) echo "ERROR: unsupported arch '$arch' for agy" >&2; exit 1 ;; \
+    esac; \
+    url="https://github.com/google-antigravity/antigravity-cli/releases/download/${AGY_VERSION}/${asset}"; \
+    curl -fsSL -o /tmp/agy.tar.gz "$url"; \
+    echo "${sha}  /tmp/agy.tar.gz" | sha256sum -c -; \
+    tar -xzf /tmp/agy.tar.gz -C /tmp antigravity; \
+    install -m 0755 /tmp/antigravity /usr/local/bin/agy; \
+    rm -f /tmp/agy.tar.gz /tmp/antigravity; \
+    test -x /usr/local/bin/agy; \
+    installed="$(/usr/local/bin/agy --version 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -n1)"; \
+    if [ "$installed" != "$AGY_VERSION" ]; then \
+      echo "ERROR: agy reports '${installed:-<unparseable>}', expected '$AGY_VERSION'." >&2; \
+      exit 1; \
+    fi; \
+    echo "agy ${AGY_VERSION} pinned (sha256 verified)"
 
 # Preserve /build/ — the venv's editable install .pth files reference
 # /build/omnigent and /build/sdks/* by absolute path. Copying these to
