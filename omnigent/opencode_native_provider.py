@@ -301,3 +301,207 @@ def _gateway_endpoint_for_model(model_id: str | None) -> str | None:
         return None
     candidate = model_id.split("/", 1)[1] if model_id.startswith("databricks/") else model_id
     return candidate if candidate.startswith("databricks-") else None
+
+
+def _strip_jsonc_comments(text: str) -> str:
+    """
+    Strip ``//`` line comments and ``/* */`` block comments from JSONC text.
+
+    Uses a character-level state machine to track string boundaries, so
+    ``//`` inside string literals (e.g. URLs like ``"https://example.com"``)
+    are never mistaken for comments.
+    """
+    result: list[str] = []
+    i = 0
+    length = len(text)
+    in_string = False
+    string_char: str | None = None
+
+    while i < length:
+        ch = text[i]
+
+        if in_string:
+            if ch == "\\":
+                result.append(ch)
+                i += 1
+                if i < length:
+                    result.append(text[i])
+                    i += 1
+            elif ch == string_char:
+                in_string = False
+                result.append(ch)
+                i += 1
+            else:
+                result.append(ch)
+                i += 1
+        elif ch in ('"', "'"):
+            in_string = True
+            string_char = ch
+            result.append(ch)
+            i += 1
+        elif ch == "/" and i + 1 < length:
+            next_ch = text[i + 1]
+            if next_ch == "/":
+                i += 2
+                while i < length and text[i] != "\n":
+                    i += 1
+            elif next_ch == "*":
+                i += 2
+                while i + 1 < length:
+                    if text[i] == "*" and text[i + 1] == "/":
+                        i += 2
+                        break
+                    i += 1
+            else:
+                result.append(ch)
+                i += 1
+        else:
+            result.append(ch)
+            i += 1
+
+    return "".join(result)
+
+
+def _strip_trailing_commas(text: str) -> str:
+    """Remove trailing commas before ``}`` or ``]`` (valid in JSONC, invalid in JSON).
+
+    Operates on text that has already had its JSONC comments stripped, so the
+    only commas present are real JSON commas.  Uses a character-level state
+    machine that tracks string boundaries so that ``, }`` or ``, ]`` inside
+    quoted values are never mistaken for trailing commas — preventing silent
+    corruption of provider options like ``"note": "a, }"``.
+    """
+    result: list[str] = []
+    i = 0
+    length = len(text)
+    in_string = False
+    string_char: str | None = None
+
+    while i < length:
+        ch = text[i]
+
+        if in_string:
+            if ch == "\\":
+                result.append(ch)
+                i += 1
+                if i < length:
+                    result.append(text[i])
+                    i += 1
+            elif ch == string_char:
+                in_string = False
+                result.append(ch)
+                i += 1
+            else:
+                result.append(ch)
+                i += 1
+        elif ch in ('"', "'"):
+            in_string = True
+            string_char = ch
+            result.append(ch)
+            i += 1
+        elif ch == ",":
+            j = i + 1
+            while j < length and text[j] in (" ", "\t", "\n", "\r"):
+                j += 1
+            if j < length and text[j] in ("}", "]"):
+                i = j
+            else:
+                result.append(ch)
+                i += 1
+        else:
+            result.append(ch)
+            i += 1
+
+    return "".join(result)
+
+
+def maybe_merge_user_provider_config(config: dict[str, object]) -> dict[str, object]:
+    """
+    Merge the user's global OpenCode provider definitions into *config*.
+
+    OpenCode reads ``XDG_CONFIG_HOME/opencode/opencode.json(c)`` for custom
+    provider definitions (e.g. OpenAI-compatible endpoints with custom base
+    URLs). When running under Omnigent, the per-session ``XDG_CONFIG_HOME``
+    override hides this global config. This function reads the user's real
+    config and merges any ``provider`` block into *config* so the spawned
+    server sees both the user's providers (with their custom base URLs) and
+    any Omnigent-synthesized providers (e.g. Databricks gateway).
+
+    ``provider`` entries are merged, and the user config's top-level ``model``
+    default is adopted **only when the synthesized config pins none** — the
+    synthesized config still takes precedence for all keys it sets (model, mcp,
+    plugin, permission, etc.). The ``model`` carry-over matters because when
+    neither a gateway nor a spec-supplied ``model_override`` is present, the
+    synthesized config has no ``model`` key, and opencode-native would otherwise
+    pick its own default over the merged models map (e.g. landing on a served
+    Gemini endpoint even though the user's config defaults to Claude).
+
+    :param config: The synthesized config dict (may be empty).
+    :returns: *config* with user's ``provider`` entries (and, if unset, the
+        user's default ``model``) merged in.
+    """
+    from omnigent.opencode_native_bridge import user_opencode_config_path
+
+    user_path = user_opencode_config_path()
+    if user_path is None:
+        return config
+
+    try:
+        raw = user_path.read_text(encoding="utf-8")
+        # Try plain JSON first (handles .json files without comments).
+        # If that fails, strip JSONC comments and trailing commas, then
+        # retry (handles .jsonc).
+        try:
+            user_config = json.loads(raw)
+        except json.JSONDecodeError:
+            cleaned = _strip_jsonc_comments(raw)
+            cleaned = _strip_trailing_commas(cleaned)
+            user_config = json.loads(cleaned)
+    except (OSError, UnicodeDecodeError):
+        return config
+    except json.JSONDecodeError:
+        _logger.warning(
+            "Failed to parse user OpenCode config at %s — ignoring user providers",
+            user_path,
+        )
+        return config
+
+    if not isinstance(user_config, dict):
+        return config
+
+    # Adopt the user's default ``model`` when the synthesized config pins none.
+    # ``setdefault`` keeps the synthesized value authoritative (gateway /
+    # spec-supplied ``model_override`` win); it only fills the gap where both
+    # were absent, so opencode-native launches on the user's chosen default
+    # instead of picking its own over the merged models map.
+    def _carry_model(target: dict[str, object]) -> None:
+        user_model = user_config.get("model")
+        if isinstance(user_model, str) and user_model:
+            target.setdefault("model", user_model)
+
+    user_providers = user_config.get("provider")
+    if not isinstance(user_providers, dict) or not user_providers:
+        # No custom providers to merge, but the user's default model still
+        # applies when the synthesized config didn't pin one.
+        result = dict(config)
+        _carry_model(result)
+        return result
+
+    result = dict(config)
+    existing = result.get("provider")
+    if isinstance(existing, dict):
+        # Merge user's providers alongside existing ones; don't clobber
+        # synthesized providers (Omnigent's keys like "databricks-gateway"
+        # take priority).
+        merged = dict(existing)
+        for key, value in user_providers.items():
+            if key not in merged:
+                merged[key] = value
+        result["provider"] = merged
+    else:
+        result["provider"] = dict(user_providers)
+
+    _carry_model(result)
+    result.setdefault("$schema", "https://opencode.ai/config.json")
+
+    return result

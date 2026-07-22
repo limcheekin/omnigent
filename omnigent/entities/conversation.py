@@ -101,7 +101,7 @@ class Conversation:
         default from the spec's ``llm.model``. Mutable via
         ``PATCH /v1/sessions/{id}`` and the REPL's ``/model``
         command. Mirrors the persistence shape of
-        ``reasoning_effort`` so the ap-web UI and the TUI stay
+        ``reasoning_effort`` so the web UI and the TUI stay
         in sync — both read it from the session snapshot and
         write it through the same PATCH endpoint.
     :param cost_control_mode_override: Per-session cost-control
@@ -109,7 +109,7 @@ class Conversation:
         mode, ``"off"`` disables cost control for this session, and
         ``None`` (unset) defers to the spec default. Set at session
         creation via ``POST /v1/sessions`` and mutable via
-        ``PATCH /v1/sessions/{id}`` (the ap-web "Cost Optimized"
+        ``PATCH /v1/sessions/{id}`` (the web "Cost Optimized"
         toggle). Read by the cost-control advisor pipeline at turn
         start; mirrors the persistence shape of ``model_override``.
     :param harness_override: Per-session harness override for the
@@ -180,6 +180,12 @@ class Conversation:
         listing (and the sidebar), surfacing only when the caller
         passes ``include_archived=True``. ``False`` for normal
         sessions; toggled via ``PATCH /v1/sessions/{id}``.
+    :param search_snippet: Transient, list-only excerpt of the chat
+        content that matched a ``search_query`` — set by
+        ``list_conversations`` whenever the query hit an item's body (even
+        if the title also matched), so the search UI can show *where* the
+        session matched. Never persisted (not a DB column) and ``None`` on
+        every non-search read path and title-only matches.
     """
 
     id: str
@@ -205,6 +211,16 @@ class Conversation:
     workspace: str | None = None
     git_branch: str | None = None
     archived: bool = False
+    # Live-state fields written by the replica holding the runner tunnel
+    # so any replica's session list can serve them. ``live_status`` is the
+    # last relay-observed turn status ("idle"/"running"/"waiting"/"failed",
+    # None = never reported); ``pending_elicitation_count`` is the
+    # outstanding approval-prompt count (None = never written).
+    live_status: str | None = None
+    pending_elicitation_count: int | None = None
+    # Transient: populated only by list_conversations on a content search;
+    # never read from or written to the DB.
+    search_snippet: str | None = None
 
 
 # ── Conversation item data types ───────────────────────
@@ -407,6 +423,7 @@ class CompactionData(BaseModel):
     model: str | None = None
     token_count: int
     compacted_messages: list[dict[str, Any]] | None = None
+    window_id: int | None = None
 
 
 class NativeToolData(BaseModel):
@@ -486,8 +503,8 @@ class RoutingDecisionData(BaseModel):
     """
     Data payload for an intelligent model-router decision item.
 
-    Emitted by the runner's per-turn cost advisor at the START of an
-    advised turn (see :func:`omnigent.runner.cost_advisor`) and persisted
+    Emitted by the server-side smart routing path at the START of an
+    advised turn and persisted
     as a display-only transcript item so the model the router chose shows
     in the conversation flow the moment the turn begins. Listed in
     :data:`NON_CONTENT_ITEM_TYPES` so the agent loop's history filter
@@ -498,9 +515,6 @@ class RoutingDecisionData(BaseModel):
 
     :param model: The concrete brain model the router chose, e.g.
         ``"databricks-claude-opus-4-8"``.
-    :param tier: The difficulty tier the router assigned, one of
-        ``"cheap"`` / ``"medium"`` / ``"expensive"``, e.g.
-        ``"expensive"``.
     :param applied: ``True`` when the brain actually ran on
         :attr:`model` this turn (optimize mode, no user pin); ``False``
         when the router only WOULD have picked it (advise/shadow mode, or
@@ -511,9 +525,12 @@ class RoutingDecisionData(BaseModel):
     """
 
     model: str
-    tier: Literal["cheap", "medium", "expensive"]
     applied: bool
     rationale: str
+    #: Sub-agent name when this decision was made for a child session and the
+    #: item is being mirrored into the parent's transcript, e.g. ``"claude_code"``.
+    #: ``None`` for session-local routing decisions (the usual case).
+    agent: str | None = None
 
     @field_validator("model")
     @classmethod

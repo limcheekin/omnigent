@@ -21,6 +21,10 @@ the child boots as the intended ``max_iterations=5`` curl helper instead.
 
 from __future__ import annotations
 
+import shutil
+
+import pytest
+
 from omnigent.runtime.workflow import _find_spec_by_name
 from omnigent.spec.types import (
     AgentSpec,
@@ -30,6 +34,21 @@ from omnigent.spec.types import (
     ToolsConfig,
 )
 from omnigent.tools.builtins.web_fetch import RESEARCHER_NAME, build_researcher_spec
+
+
+@pytest.fixture(autouse=True)
+def _default_sandbox_binary_present(monkeypatch: pytest.MonkeyPatch) -> None:
+    """
+    Keep the seed-time sandbox probe host-independent for the suite.
+
+    ``build_researcher_spec`` calls ``shutil.which`` against the real host
+    PATH for a no-``os_env`` parent (``_ensure_default_sandbox_runnable``).
+    These tests exercise resolution, not the probe, so default it to
+    "binary present" (same fixture as
+    ``tests/tools/builtins/test_web_fetch.py``, which owns the
+    probe-specific coverage).
+    """
+    monkeypatch.setattr(shutil, "which", lambda cmd: f"/usr/bin/{cmd}")
 
 
 def _coordinator_parent(*, web_fetch: bool = True) -> AgentSpec:
@@ -53,9 +72,74 @@ def _coordinator_parent(*, web_fetch: bool = True) -> AgentSpec:
         spec_version=1,
         name="concordia",
         llm=LLMConfig(model="openai/gpt-5.4"),
-        executor=ExecutorSpec(max_iterations=40),
+        # A real bootable omnigent-executor coordinator carries a harness; the
+        # researcher inherits it so the reconstructed child is spawnable.
+        executor=ExecutorSpec(max_iterations=40, config={"harness": "claude-sdk"}),
         tools=ToolsConfig(builtins=builtins),
         sub_agents=[panelist],
+    )
+
+
+def _nested_web_fetch_parent() -> AgentSpec:
+    """A root whose ``web_fetch`` owner is a NESTED sub-agent, not the root.
+
+    The root declares no ``web_fetch`` builtin; a nested child does. This is
+    the topology #817 missed: the resolver gate inspected only the root's
+    builtins, so a nested owner failed the gate and the resolve fell back to a
+    parent clone. The root and the nested owner use DIFFERENT LLM models so a
+    test can prove reconstruction walks to the owner rather than lazily
+    building from the root.
+
+    :returns: A root :class:`AgentSpec` without ``web_fetch``, whose nested
+        ``researcher_host`` child owns it.
+    """
+    host = AgentSpec(
+        spec_version=1,
+        name="researcher_host",
+        llm=LLMConfig(model="anthropic/claude-nested-7"),
+        # The web_fetch owner needs a real harness so the reconstructed
+        # researcher (built from THIS owner) is bootable.
+        executor=ExecutorSpec(max_iterations=40, config={"harness": "claude-sdk"}),
+        tools=ToolsConfig(builtins=[BuiltinToolConfig(name="web_fetch")]),
+    )
+    return AgentSpec(
+        spec_version=1,
+        name="concordia",
+        llm=LLMConfig(model="openai/gpt-5.4"),
+        executor=ExecutorSpec(max_iterations=40),
+        tools=ToolsConfig(builtins=[]),
+        sub_agents=[host],
+    )
+
+
+def test_web_researcher_resolves_when_nested_subagent_owns_web_fetch() -> None:
+    """A nested ``web_fetch`` owner must still synthesize the lean researcher.
+
+    Fails before the fix: the gate inspected only the root's builtins, so a
+    nested owner failed the gate and the resolver returned ``None``. The
+    researcher must be rebuilt from the OWNER node, inheriting the owner's LLM
+    (not the root's).
+    """
+    root = _nested_web_fetch_parent()
+    # Precondition: the root itself neither declares web_fetch nor carries the
+    # researcher; only the nested child owns web_fetch.
+    assert "web_fetch" not in [b.name for b in root.tools.builtins]
+    assert RESEARCHER_NAME not in [s.name for s in root.sub_agents]
+
+    resolved = _find_spec_by_name(root, RESEARCHER_NAME)
+
+    assert resolved is not None, (
+        "nested web_fetch owner failed the gate; resolver returned None and "
+        "every swap site falls back to a parent clone."
+    )
+    assert resolved.name == RESEARCHER_NAME
+    assert resolved.executor.max_iterations == 5
+    assert resolved.interaction.conversational is False
+    # Built from the nested OWNER, not the root → inherits the owner's LLM.
+    assert resolved.llm is not None
+    assert resolved.llm.model == "anthropic/claude-nested-7", (
+        "researcher inherited the root's LLM, not the nested owner's; the gate "
+        "rebuilt from root instead of walking to the web_fetch owner."
     )
 
 
