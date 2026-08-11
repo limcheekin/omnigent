@@ -196,6 +196,13 @@ contextBridge.exposeInMainWorld("omnigentDesktop", {
   browserSetActive: (conversationId) =>
     ipcRenderer.invoke("omnigent:browser-set-active", { conversationId }),
   /**
+   * Hide (true) or show (false) the active browser view while a DOM overlay is
+   * open, so the native layer doesn't cover dialogs/menus/tooltips/toasts.
+   * @param {boolean} suppressed
+   */
+  browserSetSuppressed: (suppressed) =>
+    ipcRenderer.invoke("omnigent:browser-set-suppressed", { suppressed }),
+  /**
    * Reposition the conversation's view to freshly-measured placeholder bounds.
    * @param {string} conversationId
    * @param {{x:number,y:number,width:number,height:number,devicePixelRatio?:number}} bounds
@@ -406,6 +413,8 @@ contextBridge.exposeInMainWorld("omnigentSetup", {
   setServerUrl: (url) => ipcRenderer.invoke("omnigent:set-server-url", url),
   /** Recently-connected server URLs, most recent first. */
   getRecentServers: () => ipcRenderer.invoke("omnigent:get-recent-servers"),
+  /** Copy text from the bundled setup page to the native clipboard. */
+  copyText: (text) => ipcRenderer.invoke("omnigent:copy-setup-text", text),
   /**
    * Whether the `omnigent` CLI is installed/runnable, e.g.
    * `{installed, path, version, source, installCommand}`.

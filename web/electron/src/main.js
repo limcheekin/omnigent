@@ -37,7 +37,12 @@ const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 const { execFile } = require("node:child_process");
 const { registerLocalhostCors } = require("./localhost_cors");
-const { normalizeUrl, expandDatabricksWorkspaceUrl } = require("./url");
+const {
+  normalizeUrl,
+  expandDatabricksWorkspaceUrl,
+  fetchServerManifest,
+  PRE_MANIFEST_BASELINE,
+} = require("./url");
 const { parseOmnigentDeepLink, chooseDeepLinkStrategy } = require("./deepLink");
 const { registerWorkspaceChromeHide } = require("./workspace-chrome");
 const { createBrowserViewRegistry } = require("./browserViewRegistry");
@@ -84,6 +89,15 @@ const POPUP_PRELOAD = path.join(__dirname, "popup_preload.js");
 
 /** Absolute path to the app icon (PNG works for the macOS dock at runtime). */
 const ICON_PNG = path.join(__dirname, "..", "icons", "icon.png");
+
+/**
+ * Quit-safety timeouts (see the before-quit handler near the end of this
+ * file). `let` (not const) so tests can shrink them via testApi.setQuitTimeouts
+ * to exercise the force-exit safety nets without waiting seconds in real
+ * time. Production code never writes them.
+ */
+let quitCleanupTimeoutMs = 10000;
+let quitInstallFallbackMs = 3000;
 
 /**
  * Permissions the SPA legitimately needs and we auto-grant. The dictation
@@ -361,8 +375,8 @@ function registerLocalhostAccess() {
 // never a tight loop. In the normal case the gate full-page-redirects the
 // reload's top-level navigation to its login page, so no further API calls
 // (hence no further redirects) fire anyway.
-const _lastExpiryReloadAt = new WeakMap();
-const _EXPIRY_RELOAD_MIN_INTERVAL_MS = 15_000;
+const lastExpiryReloadAt = new WeakMap();
+const EXPIRY_RELOAD_MIN_INTERVAL_MS = 15_000;
 
 /**
  * Recover the desktop window when the workspace SSO session expires.
@@ -377,9 +391,9 @@ function registerSessionExpiryAccess() {
     const now = Date.now();
     for (const [win, state] of windows) {
       if (state.origin !== origin || win.isDestroyed()) continue;
-      const last = _lastExpiryReloadAt.get(win) ?? 0;
-      if (now - last < _EXPIRY_RELOAD_MIN_INTERVAL_MS) continue;
-      _lastExpiryReloadAt.set(win, now);
+      const last = lastExpiryReloadAt.get(win) ?? 0;
+      if (now - last < EXPIRY_RELOAD_MIN_INTERVAL_MS) continue;
+      lastExpiryReloadAt.set(win, now);
       win.webContents.reload();
     }
   });
@@ -548,6 +562,18 @@ function pinWindow(win, origin) {
     // Leaving a server: this window's unread contribution goes with it.
     state.badgeCount = 0;
     updateBadge();
+    // Destroy the window's embedded-browser views. They belong to sessions on
+    // the origin we're leaving, and the navigation tears down the renderer
+    // (setup page / new server) WITHOUT running BrowserPane's unmount detach —
+    // so without this the native WebContentsView keeps painting over the new
+    // page. Skip the initial pin (no prior origin: cold connect, nothing open).
+    if (state.origin != null) {
+      try {
+        state.browserRegistry?.closeAll("server-changed");
+      } catch {
+        /* registry already torn down */
+      }
+    }
   }
   state.origin = origin;
 }
@@ -564,6 +590,34 @@ function pinWindow(win, origin) {
 function setWindowServerUrl(win, serverUrl) {
   const state = windows.get(win);
   if (state) state.serverUrl = serverUrl;
+}
+
+/**
+ * Record the version manifest of the server a window connected to (see
+ * `fetchServerManifest` in src/url.js). Stored per-window because different
+ * windows can be pinned to different servers — and therefore to servers of
+ * different versions — at the same time.
+ *
+ * @param {Electron.BrowserWindow} win
+ * @param {object} manifest A manifest from `fetchServerManifest`.
+ */
+function setWindowServerManifest(win, manifest) {
+  const state = windows.get(win);
+  if (state) state.serverManifest = manifest;
+}
+
+/**
+ * The server manifest for a window, or the pre-manifest baseline when the
+ * window has none yet (no connect has completed, or the server predates the
+ * manifest route). Never null, so callers can read `.manifestVersion`
+ * unconditionally and gate with `>=`.
+ *
+ * @param {Electron.BrowserWindow | null} win
+ * @returns {object} A manifest-shaped object.
+ */
+function windowServerManifest(win) {
+  const state = win ? windows.get(win) : undefined;
+  return state?.serverManifest ?? PRE_MANIFEST_BASELINE;
 }
 
 /**
@@ -607,8 +661,7 @@ function broadcastHostStatus() {
 function activeWindow() {
   const focused = BrowserWindow.getFocusedWindow();
   if (focused && windows.has(focused)) return focused;
-  for (const win of windows.keys()) return win;
-  return null;
+  return windows.keys().next().value ?? null;
 }
 
 // Desktop auto-update orchestration lives in its own module; the main process
@@ -932,11 +985,11 @@ function hardenOauthPopup(child) {
  * (re-pointing an existing window) so the mount-aware join is in one place.
  *
  * @param {string} serverUrl A normalized server URL (origin or origin+mount).
- * @param {string} path An absolute in-app path beginning with ``/``.
+ * @param {string} routePath An absolute in-app path beginning with ``/``.
  * @returns {string}
  */
-function resolveServerPath(serverUrl, path) {
-  return serverUrl.replace(/\/+$/, "") + (path.startsWith("/") ? path : "/" + path);
+function resolveServerPath(serverUrl, routePath) {
+  return serverUrl.replace(/\/+$/, "") + (routePath.startsWith("/") ? routePath : "/" + routePath);
 }
 
 /**
@@ -948,13 +1001,13 @@ function resolveServerPath(serverUrl, path) {
  *
  * @param {BrowserWindow} win
  * @param {string} serverUrl Clean server URL (origin or origin+mount).
- * @param {string} [path] Optional basename-less in-app path (e.g. ``/c/<id>``).
+ * @param {string} [routePath] Optional basename-less in-app path (e.g. ``/c/<id>``).
  * @returns {Promise<void>}
  */
-function loadServerUrl(win, serverUrl, path) {
+function loadServerUrl(win, serverUrl, routePath) {
   pinWindow(win, originOf(serverUrl));
   setWindowServerUrl(win, serverUrl);
-  return win.loadURL(path ? resolveServerPath(serverUrl, path) : serverUrl);
+  return win.loadURL(routePath ? resolveServerPath(serverUrl, routePath) : serverUrl);
 }
 
 /**
@@ -1056,6 +1109,16 @@ function createWindow(targetUrl, opts = {}) {
     browserRegistry: createBrowserRegistryForWindow(win),
   });
   if (destination) {
+    // Learn the server's version alongside the load. Every window that opens
+    // straight onto a server (normal app launch with a saved URL, a deep link,
+    // a new window) comes through here — without this the manifest would only
+    // exist after a fresh setup-page connect. Never awaited and never throws
+    // (see fetchServerManifest), so it cannot delay or fail the load.
+    if (serverUrl) {
+      void fetchServerManifest(serverUrl).then((manifest) => {
+        if (!win.isDestroyed()) setWindowServerManifest(win, manifest);
+      });
+    }
     void win.loadURL(destination);
   } else {
     // ?ephemeral=1 only changes the setup page's copy (the window's
@@ -2053,6 +2116,14 @@ function registerIpc() {
       // trusted origin for privileged IPC and permission grants.
       pinWindow(win, new URL(target).origin);
       setWindowServerUrl(win, target);
+      // Learn what this server is before deciding anything version-dependent
+      // about the window. Deliberately NOT awaited ahead of loadURL: the
+      // manifest is advisory, and a slow/absent one must not delay (or block)
+      // connecting. fetchServerManifest never rejects — it resolves to the
+      // pre-manifest baseline — so no catch is needed here.
+      void fetchServerManifest(target).then((manifest) => {
+        if (!win.isDestroyed()) setWindowServerManifest(win, manifest);
+      });
       win
         .loadURL(target)
         .then(() => {
@@ -2093,9 +2164,19 @@ function registerIpc() {
     return Array.isArray(recents) ? recents.filter((u) => typeof u === "string") : [];
   });
 
-  // SPA title-bar server picker → the sender window's pinned origin plus the
-  // persisted recent-servers list, so the picker can render "current server"
-  // and the switch targets. Foreign pages get null (nothing to fingerprint).
+  ipcMain.handle("omnigent:copy-setup-text", (event, text) => {
+    if (!isSetupPageSender(event)) {
+      throw new Error("copy-setup-text is only available to the setup page");
+    }
+    if (typeof text !== "string") {
+      throw new TypeError("copy-setup-text requires a string");
+    }
+    clipboard.writeText(text);
+  });
+
+  // SPA server picker → the sender window's pinned origin plus the persisted
+  // recent-servers list, so the picker can render "current server" and the
+  // switch targets. Foreign pages get null (nothing to fingerprint).
   ipcMain.handle("omnigent:get-server-picker", (event) => {
     if (!isPinnedOriginSender(event)) {
       console.warn("[omnigent] get-server-picker from untrusted sender dropped");
@@ -2107,6 +2188,11 @@ function registerIpc() {
       // isPinnedOriginSender guarantees the sender window is tracked.
       currentOrigin: windows.get(win).origin,
       recentServers: Array.isArray(recents) ? recents.filter((u) => typeof u === "string") : [],
+      // The connected server's manifest, forwarded so the SPA branches on the
+      // same document the shell did rather than re-fetching it (and so an
+      // older shell, which simply omits this field, is detectable as absent —
+      // see nativeBridge's `serverManifest` handling).
+      serverManifest: windowServerManifest(win),
     };
   });
 
@@ -2135,6 +2221,14 @@ function registerIpc() {
     if (win) {
       pinWindow(win, new URL(url).origin);
       setWindowServerUrl(win, url);
+      // Switching servers means a possibly DIFFERENT version: re-read the
+      // manifest so the window never keeps the previous server's answer. Reset
+      // to the baseline first — until the new fetch lands, "unknown" is the
+      // honest state, and stale-but-plausible would be worse than absent.
+      setWindowServerManifest(win, PRE_MANIFEST_BASELINE);
+      void fetchServerManifest(url).then((manifest) => {
+        if (!win.isDestroyed()) setWindowServerManifest(win, manifest);
+      });
       win
         .loadURL(url)
         .then(() => {
@@ -2554,13 +2648,13 @@ function focusAndRestore(win) {
  * defense-in-depth on top of that.
  *
  * @param {BrowserWindow | null | undefined} win
- * @param {string} path
+ * @param {string} routePath
  */
-function sendOpenPath(win, path) {
+function sendOpenPath(win, routePath) {
   if (!win || win.isDestroyed()) return;
-  console.log(`[omnigent] deep-link: send open-path ${path}`);
+  console.log(`[omnigent] deep-link: send open-path ${routePath}`);
   try {
-    win.webContents.send("omnigent:open-path", path);
+    win.webContents.send("omnigent:open-path", routePath);
   } catch {
     // Window torn down between the check and the send; ignore.
   }
@@ -2829,9 +2923,9 @@ if (!gotLock) {
     // subsequent spawn/execFile call inherits it. Runs before resolvedCliPath()
     // (a PATH consumer) and any host spawn, so the ordering guarantee is implicit.
     const { resolveLoginShellPath, mergePath } = require("./loginShellPath");
-    const _loginPath = resolveLoginShellPath();
-    if (_loginPath) {
-      process.env.PATH = mergePath(process.env.PATH, _loginPath);
+    const loginPath = resolveLoginShellPath();
+    if (loginPath) {
+      process.env.PATH = mergePath(process.env.PATH, loginPath);
     }
     // Resolve the CLI path once at startup so the first status/control call is
     // instant (primes the in-memory cache in resolvedCliPath); also lets the
@@ -2877,6 +2971,20 @@ if (!gotLock) {
   // stop a local server it owns. The desktop owns its host connections (the
   // confirmed lifecycle), so quitting disconnects this machine. We defer the
   // quit until cleanup finishes, then re-issue it.
+  //
+  // Hard safety cap: the only thing that ever lets the quit proceed is the
+  // re-issued app.quit() in .finally — and re-issuing app.quit() after
+  // before-quit's preventDefault() is a known intermittently-unreliable
+  // Electron behavior (electron/electron#4994, #33643, #39094). If that re-issue
+  // is a no-op, or shutdown hangs (a stuck `omnigent server stop`), the app
+  // would otherwise stay up with its window still open — looking exactly like
+  // "refuses to quit". So if graceful cleanup + the re-issued quit haven't
+  // terminated the process within quitCleanupTimeoutMs, force-exit. Host
+  // children are SIGKILL'd at 4s and a normal `omnigent server stop` is sub-
+  // second, so a normal quit completes well under the cap; the cap only trips
+  // when something is genuinely stuck, and force-exiting then is strictly
+  // better than a hung app. A cut-off server stop only leaves a daemon with a
+  // pidfile that the next launch reuses or `omnigent server stop` reclaims.
   let quitCleanupDone = false;
   let quitCleanupStarted = false;
   app.on("before-quit", (event) => {
@@ -2887,14 +2995,45 @@ if (!gotLock) {
     event.preventDefault();
     if (quitCleanupStarted) return;
     quitCleanupStarted = true;
-    serverManager
-      .shutdown(resolvedCliPath())
+
+    // unref'd so the cap itself can't hold the event loop open; app.exit()
+    // bypasses before-quit/will-quit, so it's the guaranteed way out when
+    // app.quit() proves unreliable.
+    const cap = setTimeout(() => {
+      if (quitCleanupDone) return;
+      quitCleanupDone = true;
+      app.exit(0);
+    }, quitCleanupTimeoutMs);
+    if (typeof cap.unref === "function") cap.unref();
+
+    // resolvedCliPath() is evaluated inside the async IIFE so a throw (a future
+    // change to settings/CLI resolution) becomes a rejection caught below,
+    // never stranding the quit. shutdown() always settles: host children are
+    // SIGKILL'd within 4s and `omnigent server stop` has its own exec timeout.
+    (async () => {
+      const cliPath = resolvedCliPath();
+      await serverManager.shutdown(cliPath);
+    })()
       .catch(() => {})
       .finally(() => {
+        if (quitCleanupDone) return; // the hard cap already forced the exit
         quitCleanupDone = true;
+        clearTimeout(cap);
         // Hand off to a user-approved install if one is pending; otherwise
-        // complete the deferred quit.
-        if (!updater.quitAndInstallIfPending()) app.quit();
+        // complete the deferred quit. quitAndInstall() re-issues app.quit()
+        // (via setImmediate) only when it can actually install — so if the
+        // staged update is gone and install() returns false, fall back to a
+        // plain quit and then a forced exit after a short grace, rather than
+        // leave the app up waiting for an update that won't install. The
+        // installer is spawned synchronously inside quitAndInstall(), so by
+        // the time the fallback fires the update is already underway (or was
+        // never going to install) — force-exiting only ensures we quit.
+        if (updater.quitAndInstallIfPending()) {
+          const fallback = setTimeout(() => app.exit(0), quitInstallFallbackMs);
+          if (typeof fallback.unref === "function") fallback.unref();
+        } else {
+          app.quit();
+        }
       });
   });
 }

@@ -154,14 +154,16 @@ class Uuid16(TypeDecorator[str]):
             return dialect.type_descriptor(MySQLBinary(16))
         return dialect.type_descriptor(LargeBinary(16))
 
-    def process_bind_param(self, value: str | uuid.UUID | None, _dialect: object) -> bytes | None:
+    def process_bind_param(self, value: str | uuid.UUID | None, dialect: object) -> bytes | None:
+        del dialect
         if value is None:
             return None
         return uuid_to_bytes(value)
 
     def process_result_value(
-        self, value: bytes | memoryview | str | None, _dialect: object
+        self, value: bytes | memoryview | str | None, dialect: object
     ) -> str | None:
+        del dialect
         if value is None:
             return None
         if isinstance(value, str):
@@ -642,6 +644,10 @@ class SqlConversationMetadata(OmnigentBase):
     live_status: Mapped[int | None] = mapped_column(SmallInteger, nullable=True)
     # Outstanding elicitation (approval-prompt) count; NULL = never written.
     pending_elicitation_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # First-class project membership. Relates to projects.id; no DB FK
+    # (Rule R032). NULL = unfiled. Coexists with the implicit ``omni_project``
+    # label via the store's dual-read until labels are consolidated.
+    project_id: Mapped[str | None] = mapped_column(Uuid16(), nullable=True)
 
     __table_args__ = (
         CheckConstraint("kind IN (1, 2)", name="ck_conversation_metadata_kind"),
@@ -651,6 +657,88 @@ class SqlConversationMetadata(OmnigentBase):
         ),
         # Supports list_conversations_by_runner_id and get_runner_ids.
         Index("ix_conversation_metadata_runner_id", "workspace_id", "runner_id", "id"),
+        # "list sessions in project X" + per-project counts (GROUP BY project_id).
+        Index("ix_conversation_metadata_project_id", "workspace_id", "project_id", "id"),
+    )
+
+
+class SqlProject(OmnigentBase):
+    """
+    SQLAlchemy model for the ``projects`` table.
+
+    A user-defined, owner-private container that groups sessions (see
+    ``designs/PROJECTS_PRD.md``). A project row exists independently of its
+    member sessions, so it can be empty, renamed, and carry its own config —
+    the things the implicit ``omni_project`` label could not. Session
+    membership lives on ``omnigent_conversation_metadata.project_id``, not
+    here; there is no DB foreign key (Rule R032).
+
+    Ownership is stamped on the row via ``user_id`` (like ``scheduled_tasks``),
+    not derived from a permission table the way session ownership is — projects
+    have no ACL of their own and are never shared.
+
+    :param id: Uuid16 primary key (bare 32-char hex in Python).
+    :param name: Human-readable project name; unique per owner, enforced in the
+        store (``_name_taken``) rather than by a DB constraint — see
+        ``__table_args__``.
+    :param user_id: Owning user, or ``None`` in single-user mode.
+    :param created_at: Unix epoch seconds at row creation.
+    :param updated_at: Unix epoch seconds of the last write, or ``None``.
+    """
+
+    __tablename__ = "projects"
+
+    # Tenant partition key: Databricks workspace id owning this row (0 = default). Part of the PK.
+    workspace_id: Mapped[int] = mapped_column(
+        BigInteger,
+        primary_key=True,
+        nullable=False,
+        server_default="0",
+        default=current_workspace_id,
+    )
+    id: Mapped[str] = mapped_column(Uuid16(), primary_key=True)
+    name: Mapped[str] = mapped_column(String(256), nullable=False)
+    # Owning user identity. String(128) matches session_permissions.user_id and
+    # every other user-identity column in this schema.
+    user_id: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    created_at: Mapped[int] = mapped_column(Integer, nullable=False)
+    updated_at: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # Default session settings as a compact JSON object (host/workspace/harness/
+    # model/reasoning_effort/git base-branch, …), or NULL for "no defaults". The
+    # keys are an opaque, client-owned vocabulary: the value is read and written
+    # whole with the row and never filtered in SQL, so new keys need no schema
+    # change. Stored values are hints the new-chat dialog pre-fills and the user
+    # can always override. Opaque and never SQL-filtered — stored compressed
+    # (CompressedText).
+    config: Mapped[str | None] = mapped_column(CompressedText, nullable=True)
+
+    __table_args__ = (
+        # "list my projects" — prefix scan on (workspace_id, user_id) with
+        # created_at in the key so the ORDER BY created_at, id is served by the
+        # index (no filesort). Server returns a stable order; reorder, if ever
+        # added, is a client-only concern, so there is no ``position`` column.
+        #
+        # Also covers the two name lookups via its (workspace_id, user_id)
+        # prefix: the store's ``_name_taken`` probe and the ``?project=<name>``
+        # member join. Both then filter ``name`` over the owner's handful of
+        # rows, so neither needs a name-leading index of its own.
+        #
+        # There is deliberately NO unique index on (workspace_id, user_id, name).
+        # Per-owner name uniqueness is a store-level check (``_name_taken``), not
+        # a DB constraint: it never held for single-user mode anyway (``user_id``
+        # is NULL there and SQL treats NULLs as distinct), and ``name`` is
+        # mutable, so a unique key over it is maintained on every rename. The
+        # cost is that two concurrent creates/renames to the same name can both
+        # land; the member join already tolerates duplicate names by
+        # construction, since it unions first-class members with label-projects
+        # matched on the same string.
+        Index(
+            "ix_projects_user_id",
+            "workspace_id",
+            "user_id",
+            "created_at",
+            "id",
+        ),
     )
 
 
@@ -1398,8 +1486,16 @@ class SqlScheduledTask(OmnigentBase):
     __table_args__ = (
         CheckConstraint("state IN (1, 2, 3)", name="ck_scheduled_tasks_state"),
         CheckConstraint("execution_target IN (1, 2)", name="ck_scheduled_tasks_execution_target"),
-        Index("ix_scheduled_tasks_created_at", "workspace_id", "created_at", "id"),
-        Index("ix_scheduled_tasks_user_id", "workspace_id", "user_id", "id"),
+        # One user-scoped listing index. Covers "a user's tasks ordered by
+        # created_at" (GET /scheduled-tasks) as a covered seek; the scheduler's
+        # state scan reads whole rows regardless of any index.
+        Index(
+            "ix_scheduled_tasks_user_scope",
+            "workspace_id",
+            "user_id",
+            "created_at",
+            "id",
+        ),
     )
 
 
