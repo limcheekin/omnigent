@@ -114,8 +114,11 @@ services:
       # so the operator's logs aren't cluttered with a URL they
       # can't click.
       OMNIGENT_ACCOUNTS_AUTO_OPEN: "${OMNIGENT_ACCOUNTS_AUTO_OPEN:-0}"
+      OMNIGENT_SANDBOX_IMAGE: "${OMNIGENT_SANDBOX_IMAGE:-ghcr.io/limcheekin/omnigent-host:custom}"
     volumes:
       - artifact-data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/autonomy-workspaces:/tmp/autonomy-workspaces
     #ports:
     #  - "${OMNIGENT_PORT:-8000}:8000"
 
